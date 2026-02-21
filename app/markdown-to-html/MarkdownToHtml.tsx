@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Eye, Code, FileText, Maximize2, Zap } from "lucide-react";
+import { EXAMPLE_MD } from "@/lib/const";
 
 import "@/app/css/main.css";
 import "./main.css";
@@ -196,39 +197,6 @@ function MarkdownEditor({ value, onChange }: { value: string; onChange: (v: stri
     </div>
   );
 }
-
-// ── Example content ────────────────────────────────────────────
-const EXAMPLE_MD = `# Hello, Markdown!
-
-This is a **Markdown → HTML** converter with *live preview* and syntax highlighting.
-
-## Features
-
-- **Bold**, *italic*, ~~strikethrough~~
-- \`inline code\` and fenced code blocks
-- Links, images, tables, and more
-
-## Code example
-
-\`\`\`typescript
-function greet(name: string): string {
-  return \`Hello, \${name}!\`;
-}
-\`\`\`
-
-## Table
-
-| Name     | Type   | Description       |
-|----------|--------|-------------------|
-| input    | string | Markdown source   |
-| output   | string | HTML result       |
-
-> Blockquotes work too. Try editing this!
-
----
-
-Visit [Anthropic](https://anthropic.com) for more.
-`;
 
 // ── Main component ─────────────────────────────────────────────
 export default function MarkdownToHtml() {

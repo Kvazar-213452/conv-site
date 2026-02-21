@@ -3,18 +3,9 @@
 import { useState, useCallback } from "react";
 import { stringToBase64, base64ToString } from "./utils";
 import { KeyRound, Globe, ArrowRight, ArrowLeft } from "lucide-react";
+import { EXAMPLE_STRING, EXAMPLE_BASE64 } from "@/lib/const";
 
 import "@/app/css/main.css";
-
-// ── Examples ──────────────────────────────────────────────────
-
-const EXAMPLE_STRING = `Hello, World!
-Привіт, Світе!
-{"token":"abc123","expires":3600}`;
-
-const EXAMPLE_BASE64 = `SGVsbG8sIFdvcmxkIQ==
-0J/RgNC40LLRltGCLCDQodCy0ZbRgtC1IQ==
-eyJ0b2tlbiI6ImFiYzEyMyIsImV4cGlyZXMiOjM2MDB9`;
 
 type Mode = "str2b64" | "b642str";
 

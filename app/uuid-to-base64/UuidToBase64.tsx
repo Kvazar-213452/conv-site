@@ -3,18 +3,9 @@
 import { useState, useCallback } from "react";
 import { uuidsToBase64, base64sToUuid } from "./utils";
 import { Hash, ShieldCheck, ArrowRight, ArrowLeft } from "lucide-react";
+import { EXAMPLE_UUID, EXAMPLE_BASE641 as EXAMPLE_BASE64 } from "@/lib/const";
 
 import "@/app/css/main.css";
-
-// ── Examples ──────────────────────────────────────────────────
-
-const EXAMPLE_UUID = `550e8400-e29b-41d4-a716-446655440000
-6ba7b810-9dad-11d1-80b4-00c04fd430c8
-6ba7b811-9dad-11d1-80b4-00c04fd430c8`;
-
-const EXAMPLE_BASE64 = `VQ6EAOKbQdSnFkRmVUQAAA==
-a6e4EMna0R2AtEAAwE/UMIg=
-a6e4EZ3a0R2AtEAAwE/UMIg=`;
 
 type Mode = "uuid2b64" | "b642uuid";
 

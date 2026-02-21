@@ -3,32 +3,12 @@
 import { useState, useCallback } from "react";
 import { parseEnv, envToJson, jsonToEnv, serializeEnv, type EnvEntry } from "./utils";
 import { Table, Braces, ArrowRight, ArrowLeft, Plus, Trash2, AlertCircle } from "lucide-react";
+import { EXAMPLE_ENV } from "@/lib/const";
 
 import "@/app/css/main.css";
 import "./main.css";
 
 // ── Examples ──────────────────────────────────────────────────
-
-const EXAMPLE_ENV = `# Application
-APP_NAME="My App"
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://example.com
-
-# Database
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=myapp_db
-DB_USER=postgres
-DB_PASSWORD="p@ssw0rd#secret" # keep this safe!
-
-# Auth
-JWT_SECRET=super_long_secret_key_here
-JWT_EXPIRES_IN=3600
-
-# Feature flags
-FEATURE_DARK_MODE=true
-FEATURE_BETA=false`;
 
 const EXAMPLE_JSON = `{
   "APP_NAME": "My App",

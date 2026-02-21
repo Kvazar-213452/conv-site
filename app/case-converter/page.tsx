@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "client-side",
     "free tool"
   ],
-  authors: [{ name: NAME_MAKE }],
+  authors: [{ name: `${NAME_MAKE}` }],
   robots: { index: true, follow: true },
   openGraph: {
     title: "Case Converter Online",

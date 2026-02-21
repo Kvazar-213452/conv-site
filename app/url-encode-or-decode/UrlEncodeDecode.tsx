@@ -3,18 +3,9 @@
 import { useState, useCallback } from "react";
 import { encodeUrl, decodeUrl } from "./utils";
 import { Link, ShieldCheck, ArrowRight, ArrowLeft } from "lucide-react";
+import { EXAMPLE_PLAIN, EXAMPLE_ENCODED } from "@/lib/const";
 
 import "@/app/css/main.css";
-
-// ── Examples ──────────────────────────────────────────────────
-
-const EXAMPLE_PLAIN = `https://example.com/search?q=hello world&lang=uk&tag=привіт
-user@example.com
-price=100$&discount=20%`;
-
-const EXAMPLE_ENCODED = `https://example.com/search?q=hello%20world&lang=uk&tag=%D0%BF%D1%80%D0%B8%D0%B2%D1%96%D1%82
-user%40example.com
-price%3D100%24%26discount%3D20%25`;
 
 type Mode = "encode" | "decode";
 type EncodeMode = "component" | "full" | "form";

@@ -6,21 +6,9 @@ import {
   FORMAT_OPTIONS, type TimestampUnit, type DateFormat,
 } from "./utils";
 import { Clock, RefreshCw, ArrowRight, ArrowLeft, Timer } from "lucide-react";
+import { EXAMPLE_DATES, EXAMPLE_TIMESTAMPS } from "@/lib/const";
 
 import "@/app/css/main.css";
-
-// ── Examples ──────────────────────────────────────────────────
-
-const EXAMPLE_DATES = `2024-01-15
-2024-01-15T08:00:00Z
-2024-01-15T10:00:00+02:00
-Jan 15 2024
-December 31, 2024 23:59:59`;
-
-const EXAMPLE_TIMESTAMPS = `1705305600
-1705305600000
-0
--62135596800`;
 
 type Mode = "date2ts" | "ts2date";
 
