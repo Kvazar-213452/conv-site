@@ -2,6 +2,7 @@ export const dynamic = "force-static";
 
 import type { Metadata } from "next";
 import MarkdownToHtml from "./MarkdownToHtml";
+import { MAIN_DOMEN } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Markdown to HTML Converter & Live Preview",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Markdown → HTML Converter",
     description: "Instantly convert Markdown to HTML with live preview and syntax highlighting.",
-    url: "https://yoursite.com/markdown-to-html",
+    url: `${MAIN_DOMEN}markdown-to-html`,
     type: "website",
   },
   robots: { index: true, follow: true }

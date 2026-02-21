@@ -2,6 +2,7 @@ export const dynamic = "force-static";
 
 import type { Metadata } from "next";
 import UuidToBase64 from "./UuidToBase64";
+import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "UUID ↔ Base64 Converter – Free Online Tool",
@@ -18,16 +19,16 @@ export const metadata: Metadata = {
     "batch conversion",
     "UUID tool"
   ],
-  authors: [{ name: "Your Name" }],
+  authors: [{ name: NAME_MAKE }],
   robots: { index: true, follow: true },
   openGraph: {
     title: "UUID ↔ Base64 Converter Online",
     description: "Instantly encode UUIDs to Base64 or decode Base64 back to UUID. Supports URL-safe Base64 and batch processing. Runs entirely in your browser.",
-    url: "https://yoursite.com/uuid-base64",
+    url: `${MAIN_DOMEN}uuid-to-base64`,
     type: "website",
     images: [
       {
-        url: "https://yoursite.com/og-image-uuid.png",
+        url: `${MAIN_DOMEN}icon.png`,
         width: 1200,
         height: 630,
         alt: "UUID to Base64 Converter"
@@ -37,9 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "UUID ↔ Base64 Converter Online",
-    description: "Encode UUIDs to Base64 and decode them back with full privacy. Supports URL-safe Base64 and batch conversion.",
-    images: ["https://yoursite.com/og-image-uuid.png"],
-    creator: "@YourTwitterHandle"
+    description: "Encode UUIDs to Base64 and decode them back with full privacy. Supports URL-safe Base64 and batch conversion."
   },
 };
 

@@ -2,6 +2,7 @@ export const dynamic = "force-static";
 
 import type { Metadata } from "next";
 import JSON_CSV_CONVERTER from "./JSON_CSV_CONVERTER";
+import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "JSON to CSV Converter & CSV to JSON (Free Online Tool)",
@@ -17,16 +18,16 @@ export const metadata: Metadata = {
     "json formatter",
     "data conversion tool"
   ],
-  metadataBase: new URL("https://yoursite.com"),
+  metadataBase: new URL(MAIN_DOMEN),
   alternates: {
-    canonical: "/json-csv-converter",
+    canonical: "/json-to-csv",
   },
   openGraph: {
     title: "JSON ⇄ CSV Converter (Instant & Private)",
     description:
       "Convert JSON to CSV and CSV back to JSON instantly. No uploads, no server processing, fully private.",
-    url: "https://yoursite.com/json-csv-converter",
-    siteName: "YourSiteName",
+    url: `${MAIN_DOMEN}json-to-csv`,
+    siteName: NAME_MAKE,
     locale: "en_US",
     type: "website",
   },

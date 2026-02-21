@@ -2,12 +2,14 @@ export const dynamic = "force-static";
 
 import type { Metadata } from "next";
 import JsonToTypescript from "./JsonToTypescript";
+import { MAIN_DOMEN } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "JSON to TypeScript Interfaces Converter & TS to JSON (Free Online)",
   description:
     "Convert JSON to TypeScript interfaces and back to JSON skeletons instantly. Free online tool. Infers types, optional fields, nested structures. 100% client-side.",
   keywords: [
+    "json to typescript interface",
     "json to typescript",
     "typescript interface generator",
     "json to ts interface",
@@ -16,13 +18,13 @@ export const metadata: Metadata = {
     "typescript converter"
   ],
   alternates: {
-    canonical: "https://yoursite.com/json-to-ts"
+    canonical: `${MAIN_DOMEN}json-to-typescript-interface`
   },
   openGraph: {
     title: "JSON ⇄ TypeScript Interface Converter",
     description:
       "Generate TypeScript interfaces from JSON objects or convert interfaces back to JSON skeleton instantly.",
-    url: "https://yoursite.com/json-to-ts",
+    url: `${MAIN_DOMEN}json-to-typescript-interface`,
     type: "website"
   },
   robots: {

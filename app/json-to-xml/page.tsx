@@ -2,6 +2,7 @@ export const dynamic = "force-static";
 
 import type { Metadata } from "next";
 import JSON_TO_XML from "./JSON_TO_XML";
+import { MAIN_DOMEN } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "JSON to XML Converter & XML to JSON Online Tool",
@@ -15,11 +16,11 @@ export const metadata: Metadata = {
     "json converter",
     "xml parser"
   ],
-  alternates: { canonical: "https://yoursite.com/json-to-xml" },
+  alternates: { canonical: `${MAIN_DOMEN}json-to-xml` },
   openGraph: {
     title: "JSON ⇄ XML Converter",
     description: "Convert JSON objects to XML or XML to JSON instantly, with proper indentation and attributes.",
-    url: "https://yoursite.com/json-to-xml",
+    url: `${MAIN_DOMEN}json-to-xml`,
     type: "website"
   },
   robots: { index: true, follow: true }

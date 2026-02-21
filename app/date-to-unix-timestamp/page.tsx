@@ -2,6 +2,7 @@ export const dynamic = "force-static";
 
 import type { Metadata } from "next";
 import DateToTimestamp from "./DateToTimestamp";
+import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Date to Unix Timestamp Converter (Seconds & Milliseconds)",
@@ -16,18 +17,18 @@ export const metadata: Metadata = {
     "milliseconds to date",
     "iso 8601 converter",
   ],
-  authors: [{ name: "YourSiteName" }],
-  creator: "YourSiteName",
-  metadataBase: new URL("https://yoursite.com"),
+  authors: [{ name: NAME_MAKE }],
+  creator: NAME_MAKE,
+  metadataBase: new URL(MAIN_DOMEN),
   alternates: {
-    canonical: "/date-to-timestamp",
+    canonical: "/date-to-unix-timestamp",
   },
   openGraph: {
     title: "Date ↔ Unix Timestamp Converter",
     description:
       "Convert dates to Unix timestamps and timestamps back to readable dates. Supports seconds & milliseconds. Free and instant.",
-    url: "https://yoursite.com/date-to-timestamp",
-    siteName: "YourSiteName",
+    url: `${MAIN_DOMEN}date-to-unix-timestamp`,
+    siteName: NAME_MAKE,
     locale: "en_US",
     type: "website",
   },

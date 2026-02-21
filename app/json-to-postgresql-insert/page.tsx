@@ -2,6 +2,7 @@ export const dynamic = "force-static";
 
 import type { Metadata } from "next";
 import JSON_TO_POSTGRES from "./JSON_TO_POSTGRES";
+import { MAIN_DOMEN } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "JSON to PostgreSQL INSERT Converter & SQL to JSON (Free Online)",
@@ -18,13 +19,13 @@ export const metadata: Metadata = {
     "postgres json converter"
   ],
   alternates: {
-    canonical: "https://yoursite.com/json-to-postgres"
+    canonical: `${MAIN_DOMEN}json-to-postgresql-insert`
   },
   openGraph: {
     title: "JSON ⇄ PostgreSQL INSERT Converter",
     description:
       "Generate multi-row PostgreSQL INSERT statements from JSON or convert INSERT back to JSON instantly.",
-    url: "https://yoursite.com/json-to-postgres",
+    url: `${MAIN_DOMEN}json-to-postgresql-insert`,
     type: "website"
   },
   robots: {

@@ -2,6 +2,7 @@ export const dynamic = "force-static";
 
 import type { Metadata } from "next";
 import EnvParser from "./EnvParser";
+import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: ".env Parser & JSON Converter (Free Online Tool)",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     "environment variables tool",
     "env file editor"
   ],
-  metadataBase: new URL("https://yoursite.com"),
+  metadataBase: new URL(MAIN_DOMEN),
   alternates: {
     canonical: "/env-parser",
   },
@@ -25,8 +26,8 @@ export const metadata: Metadata = {
     title: ".env Parser & JSON Converter",
     description:
       "Parse and convert .env files to JSON or edit them visually. Secure, fast, and runs entirely in your browser.",
-    url: "https://yoursite.com/env-parser",
-    siteName: "YourSiteName",
+    url: `${MAIN_DOMEN}env-parser`,
+    siteName: NAME_MAKE,
     locale: "en_US",
     type: "website",
   },

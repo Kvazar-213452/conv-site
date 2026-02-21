@@ -2,6 +2,7 @@ export const dynamic = "force-static";
 
 import type { Metadata } from "next";
 import SlugGenerator from "./SlugGenerator";
+import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Slug Generator – Free & Private",
@@ -17,16 +18,16 @@ export const metadata: Metadata = {
     "private tool",
     "no sign-up"
   ],
-  authors: [{ name: "Your Name" }],
+  authors: [{ name: NAME_MAKE }],
   robots: { index: true, follow: true },
   openGraph: {
     title: "Slug Generator Online",
     description: "Generate clean URL slugs from any text instantly with flexible options. Fully client-side and private.",
-    url: "https://yoursite.com/slug-generator",
+    url: `${MAIN_DOMEN}slug-generator`,
     type: "website",
     images: [
       {
-        url: "https://yoursite.com/og-image-slug-generator.png",
+        url: `${MAIN_DOMEN}icon.png`,
         width: 1200,
         height: 630,
         alt: "Slug Generator Online"
@@ -36,9 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Slug Generator Online",
-    description: "Generate URL-friendly slugs instantly with options for separators, transliteration, stop-word removal, and max length. Private and free.",
-    images: ["https://yoursite.com/og-image-slug-generator.png"],
-    creator: "@YourTwitterHandle"
+    description: "Generate URL-friendly slugs instantly with options for separators, transliteration, stop-word removal, and max length. Private and free."
   },
 };
 
