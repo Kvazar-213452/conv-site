@@ -104,3 +104,24 @@ VALUES
 //                another
 // ===============     ===============
 
+export const EXAMPLE_TS = `interface Address {
+  street: string;
+  city: string;
+  zipCode: string;
+}
+
+interface User {
+  userId: number;
+  fullName: string;
+  email: string;
+  age: number;
+  isActive: boolean;
+  createdAt: Date;
+  address: Address;
+  tags: string[];
+}`;
+
+// ===============     ===============
+//                another
+// ===============     ===============
+
