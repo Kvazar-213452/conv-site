@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500;600;700&display=swap');
+
+/* ── DARK (default) ──────────────────────────────────────────── */
+:root,
+:root[data-theme="dark"] {
+    --color-bg: #000000;
+    --color-bg-header: rgba(0, 0, 0, 0.88);
+    --color-surface: #0a0a0a;
+    --color-border: #1a1a1a;
+    --color-border-bright: #2e2e2e;
+
+    --color-text: #ededed;
+    --color-text-muted: #888888;
+    --color-text-dim: #444444;
+    --color-text-inverse: #000000;
+
+    --color-accent: #ededed;
+    --color-accent-soft: rgba(255, 255, 255, 0.05);
+    --color-accent-soft-hover: rgba(255, 255, 255, 0.09);
+
+    --color-success: #00c96f;
+    --color-success-bg: rgba(0, 201, 111, 0.08);
+    --color-success-border: rgba(0, 201, 111, 0.22);
+
+    --color-error: #ff4040;
+    --color-error-bg: rgba(255, 64, 64, 0.06);
+    --color-error-border: rgba(255, 64, 64, 0.22);
+
+    --color-code-json: #f7e272;
+    --color-code-yaml: #7dd3fc;
+    --color-dot-json: #f7e272;
+    --color-dot-json-glow: rgba(247, 226, 114, 0.35);
+    --color-dot-yaml: #7dd3fc;
+    --color-dot-yaml-glow: rgba(125, 211, 252, 0.35);
+
+    --color-panel-output-border: rgba(125, 211, 252, 0.2);
+    --color-panel-output-glow: rgba(125, 211, 252, 0.04);
+
+    --color-shimmer-a: #ededed;
+    --color-shimmer-b: #aaaaaa;
+}
+
+/* ── LIGHT ───────────────────────────────────────────────────── */
+:root[data-theme="light"] {
+    --color-bg: #ffffff;
+    --color-bg-header: rgba(255, 255, 255, 0.88);
+    --color-surface: #fafafa;
+    --color-border: #e5e5e5;
+    --color-border-bright: #d0d0d0;
+
+    --color-text: #111111;
+    --color-text-muted: #666666;
+    --color-text-dim: #aaaaaa;
+    --color-text-inverse: #ffffff;
+
+    --color-accent: #111111;
+    --color-accent-soft: rgba(0, 0, 0, 0.04);
+    --color-accent-soft-hover: rgba(0, 0, 0, 0.08);
+
+    --color-success: #008a4b;
+    --color-success-bg: rgba(0, 138, 75, 0.07);
+    --color-success-border: rgba(0, 138, 75, 0.22);
+
+    --color-error: #cc2200;
+    --color-error-bg: rgba(204, 34, 0, 0.06);
+    --color-error-border: rgba(204, 34, 0, 0.20);
+
+    --color-code-json: #a16207;
+    --color-code-yaml: #1d4ed8;
+    --color-dot-json: #ca8a04;
+    --color-dot-json-glow: rgba(202, 138, 4, 0.30);
+    --color-dot-yaml: #3b82f6;
+    --color-dot-yaml-glow: rgba(59, 130, 246, 0.30);
+
+    --color-panel-output-border: rgba(59, 130, 246, 0.2);
+    --color-panel-output-glow: rgba(59, 130, 246, 0.04);
+
+    --color-shimmer-a: #111111;
+    --color-shimmer-b: #555555;
+}
+
+/* ── NORD ────────────────────────────────────────────────────── */
+:root[data-theme="nord"] {
+    --color-bg: #2e3440;
+    --color-bg-header: rgba(46, 52, 64, 0.92);
+    --color-surface: #3b4252;
+    --color-border: #434c5e;
+    --color-border-bright: #4c566a;
+
+    --color-text: #eceff4;
+    --color-text-muted: #9199aa;
+    --color-text-dim: #616d82;
+    --color-text-inverse: #2e3440;
+
+    --color-accent: #eceff4;
+    --color-accent-soft: rgba(236, 239, 244, 0.06);
+    --color-accent-soft-hover: rgba(236, 239, 244, 0.11);
+
+    --color-success: #a3be8c;
+    --color-success-bg: rgba(163, 190, 140, 0.10);
+    --color-success-border: rgba(163, 190, 140, 0.30);
+
+    --color-error: #bf616a;
+    --color-error-bg: rgba(191, 97, 106, 0.10);
+    --color-error-border: rgba(191, 97, 106, 0.30);
+
+    --color-code-json: #ebcb8b;
+    --color-code-yaml: #88c0d0;
+    --color-dot-json: #ebcb8b;
+    --color-dot-json-glow: rgba(235, 203, 139, 0.35);
+    --color-dot-yaml: #88c0d0;
+    --color-dot-yaml-glow: rgba(136, 192, 208, 0.35);
+
+    --color-panel-output-border: rgba(136, 192, 208, 0.25);
+    --color-panel-output-glow: rgba(136, 192, 208, 0.06);
+
+    --color-shimmer-a: #eceff4;
+    --color-shimmer-b: #81a1c1;
+}
+
+/* ── ROSE ────────────────────────────────────────────────────── */
+:root[data-theme="rose"] {
+    --color-bg: #0d0608;
+    --color-bg-header: rgba(13, 6, 8, 0.90);
+    --color-surface: #130a0d;
+    --color-border: #2a1520;
+    --color-border-bright: #3d1f2d;
+
+    --color-text: #f5dde4;
+    --color-text-muted: #9d7585;
+    --color-text-dim: #5a3d47;
+    --color-text-inverse: #0d0608;
+
+    --color-accent: #f5dde4;
+    --color-accent-soft: rgba(245, 221, 228, 0.06);
+    --color-accent-soft-hover: rgba(245, 221, 228, 0.10);
+
+    --color-success: #c084a0;
+    --color-success-bg: rgba(192, 132, 160, 0.10);
+    --color-success-border: rgba(192, 132, 160, 0.28);
+
+    --color-error: #ff6b7a;
+    --color-error-bg: rgba(255, 107, 122, 0.08);
+    --color-error-border: rgba(255, 107, 122, 0.25);
+
+    --color-code-json: #f0a896;
+    --color-code-yaml: #e8a2bc;
+    --color-dot-json: #f0a896;
+    --color-dot-json-glow: rgba(240, 168, 150, 0.35);
+    --color-dot-yaml: #e8a2bc;
+    --color-dot-yaml-glow: rgba(232, 162, 188, 0.35);
+
+    --color-panel-output-border: rgba(232, 162, 188, 0.22);
+    --color-panel-output-glow: rgba(232, 162, 188, 0.05);
+
+    --color-shimmer-a: #f5dde4;
+    --color-shimmer-b: #c084a0;
+}
+
+/* ── MATRIX ──────────────────────────────────────────────────── */
+:root[data-theme="matrix"] {
+    --color-bg: #000d00;
+    --color-bg-header: rgba(0, 13, 0, 0.92);
+    --color-surface: #010f01;
+    --color-border: #0a2a0a;
+    --color-border-bright: #0f3d0f;
+
+    --color-text: #b3ffb3;
+    --color-text-muted: #52a352;
+    --color-text-dim: #2a5a2a;
+    --color-text-inverse: #000d00;
+
+    --color-accent: #00ff41;
+    --color-accent-soft: rgba(0, 255, 65, 0.05);
+    --color-accent-soft-hover: rgba(0, 255, 65, 0.09);
+
+    --color-success: #00ff41;
+    --color-success-bg: rgba(0, 255, 65, 0.07);
+    --color-success-border: rgba(0, 255, 65, 0.25);
+
+    --color-error: #ff4141;
+    --color-error-bg: rgba(255, 65, 65, 0.07);
+    --color-error-border: rgba(255, 65, 65, 0.22);
+
+    --color-code-json: #aaff44;
+    --color-code-yaml: #00e5ff;
+    --color-dot-json: #aaff44;
+    --color-dot-json-glow: rgba(170, 255, 68, 0.40);
+    --color-dot-yaml: #00e5ff;
+    --color-dot-yaml-glow: rgba(0, 229, 255, 0.40);
+
+    --color-panel-output-border: rgba(0, 229, 255, 0.20);
+    --color-panel-output-glow: rgba(0, 229, 255, 0.05);
+
+    --color-shimmer-a: #b3ffb3;
+    --color-shimmer-b: #00ff41;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+    БАЗОВІ СТИЛІ  —  не містять жодних жорстко заданих кольорів.
+    Всі кольори — тільки через var(--color-*)
+═══════════════════════════════════════════════════════════════════ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Geist', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background 0.35s ease, color 0.35s ease;
+}
+
+/* ── KEYFRAMES ───────────────────────────────────────────────── */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.35;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes wipe {
+    from {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    to {
+        clip-path: inset(0 0% 0 0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+@keyframes errorShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-5px);
+    }
+
+    40% {
+        transform: translateX(5px);
+    }
+
+    60% {
+        transform: translateX(-3px);
+    }
+
+    80% {
+        transform: translateX(3px);
+    }
+}
+
+@keyframes successPop {
+    0% {
+        transform: scale(.85);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.06);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes menuSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scaleY(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+    }
+}
+
+@keyframes dropIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────────── */
+.page-wrapper {
+    animation: fadeIn .35s ease;
+}
+
