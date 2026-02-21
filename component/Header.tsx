@@ -8,11 +8,20 @@ import { Sun, Moon, Snowflake, Flower, Command } from "lucide-react";
 import "@/app/css/header.css";
 
 export default function Header() {
-  const [theme, setTheme] = useState<ThemeKey>("dark");
+  // спробуємо взяти тему з localStorage або дефолт
+  const [theme, setTheme] = useState<ThemeKey>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("theme") as ThemeKey | null;
+      return stored ?? "dark";
+    }
+    return "dark";
+  });
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [themeOpen, setThemeOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // закриття дропдауну при кліку поза ним
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -23,8 +32,10 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  // застосування теми на document + збереження в localStorage
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const pickTheme = (t: ThemeKey) => {
@@ -46,7 +57,9 @@ export default function Header() {
       <div className="header-inner">
         <a href="/" className="logo">
           <div className="logo-icon">
-            <Moon size={16} />
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM11.5 9v2.5H9v2h2.5V16h2v-2.5H16v-2h-2.5V9z" />
+            </svg>
           </div>
           <span className="logo-name">DevTools</span>
           <span className="logo-badge">BETA</span>

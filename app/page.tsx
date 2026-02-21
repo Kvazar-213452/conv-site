@@ -9,6 +9,15 @@ import {
   Code2,
   Database,
   FileJson,
+  Hash,
+  KeyRound,
+  Link2,
+  Type,
+  Layers,
+  FileText,
+  RefreshCw,
+  Clock,
+  FileType2,
 } from "lucide-react";
 
 import "@/app/css/main.css";
@@ -52,14 +61,76 @@ const CONVERTERS = [
     badge: "Bidirectional",
     href: "/json-to-postgresql-insert",
   },
-  // ── add more converters below ────────────────────────────────
-  // {
-  //   icon: <FileJson size={22} />,
-  //   label: "JSON → ...",
-  //   desc: "...",
-  //   badge: "Bidirectional",
-  //   href: "/json-to-...",
-  // },
+  {
+    icon: <Hash size={22} />,
+    label: "Word Counter",
+    desc: "Count words, characters, sentences, and paragraphs in any text. Great for essays and content writing.",
+    badge: "Options",
+    href: "/word-counter",
+  },
+  {
+    icon: <KeyRound size={22} />,
+    label: "UUID to Base64",
+    desc: "Encode UUIDs to compact Base64 strings and decode Base64 back to standard UUID format.",
+    badge: "Bidirectional",
+    href: "/uuid-to-base64",
+  },
+  {
+    icon: <Link2 size={22} />,
+    label: "URL Encode / Decode",
+    desc: "Percent-encode special characters in URLs and decode encoded strings back to plain text.",
+    badge: "Options",
+    href: "/url-encode-or-decode",
+  },
+  {
+    icon: <Layers size={22} />,
+    label: "String to Base64",
+    desc: "Encode any string to Base64 and decode Base64 back to its original text instantly.",
+    badge: "Bidirectional",
+    href: "/string-to-base64",
+  },
+  {
+    icon: <Layers size={22} />,
+    label: "Remove Duplicate Lines",
+    desc: "Paste any text and instantly strip duplicate lines, keeping only unique entries.",
+    badge: "Options",
+    href: "/remove-duplicate-lines",
+  },
+  {
+    icon: <FileText size={22} />,
+    label: "Markdown to HTML",
+    desc: "Render Markdown to clean HTML and convert HTML tags back to Markdown syntax.",
+    badge: "Bidirectional",
+    href: "/markdown-to-html",
+  },
+  {
+    icon: <Type size={22} />,
+    label: "Case Converter",
+    desc: "Transform text between camelCase, snake_case, PascalCase, kebab-case, and more.",
+    badge: "Bidirectional",
+    href: "/case-converter",
+  },
+  {
+    icon: <Clock size={22} />,
+    label: "Date to Unix Timestamp",
+    desc: "Convert human-readable dates to Unix timestamps and timestamps back to readable dates.",
+    badge: "Bidirectional",
+    href: "/date-to-unix-timestamp",
+  },
+  {
+    icon: <Braces size={22} />,
+    label: "JSON to Prisma Schema",
+    desc: "Generate a full Prisma schema file from a JSON object with inferred field types and models.",
+    badge: "Bidirectional",
+    href: "/json-to-prisma-schema",
+  },
+  {
+    icon: <FileType2 size={22} />,
+    label: "JSON to TypeScript Interface",
+    desc: "Instantly generate TypeScript interfaces from any JSON payload with nested type support.",
+    badge: "Bidirectional",
+    href: "/json-to-typescript-interface",
+  },
 ];
 
 const STATS = [
