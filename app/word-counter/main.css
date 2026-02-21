@@ -1,0 +1,125 @@
+/* ── Word Counter — additional styles ──────────────────────── */
+
+/* Full-width single panel */
+.panel--full {
+  width: 100%;
+}
+
+/* Stats grid */
+.wc-stats {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.wc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.75rem;
+}
+
+.wc-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border, #2a2a2a);
+  background: var(--surface, #141414);
+  gap: 0.25rem;
+  transition: border-color 0.15s ease;
+}
+
+.wc-card:hover {
+  border-color: var(--border-hover, #444);
+}
+
+.wc-card--accent {
+  border-color: var(--accent, #7c6af7);
+  background: color-mix(in srgb, var(--accent, #7c6af7) 10%, transparent);
+}
+
+.wc-card-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary, #fff);
+  font-variant-numeric: tabular-nums;
+}
+
+.wc-card--accent .wc-card-value {
+  color: var(--accent, #7c6af7);
+}
+
+.wc-card-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted, #666);
+}
+
+/* Top words bar chart */
+.wc-top {
+  padding: 1.25rem;
+  border-radius: 10px;
+  border: 1px solid var(--border, #2a2a2a);
+  background: var(--surface, #141414);
+}
+
+.wc-top-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted, #666);
+  margin: 0 0 1rem;
+}
+
+.wc-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.wc-bar-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 36px;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.wc-bar-word {
+  font-size: 0.82rem;
+  font-family: var(--font-mono, monospace);
+  color: var(--text-secondary, #ccc);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wc-bar-track {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--surface-hover, #222);
+  overflow: hidden;
+}
+
+.wc-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent, #7c6af7);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 4px;
+}
+
+.wc-bar-count {
+  font-size: 0.78rem;
+  font-family: var(--font-mono, monospace);
+  color: var(--text-muted, #666);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

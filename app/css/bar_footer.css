@@ -1,0 +1,63 @@
+/* ── STATS BAR ───────────────────────────────────────────────── */
+.stats-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    margin-top: 16px;
+    font-family: 'Geist Mono', monospace;
+    animation: fadeUp .3s ease both;
+    transition: background .35s, border-color .35s;
+}
+
+.stat {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.5px;
+    line-height: 1;
+    transition: color .35s;
+}
+
+.stat-value--unique {
+    color: var(--color-success);
+}
+
+.stat-value--removed {
+    color: var(--color-error);
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    transition: color .35s;
+}
+
+.stat-divider {
+    font-size: 14px;
+    color: var(--color-text-dim);
+    user-select: none;
+}
+
+@media (max-width: 640px) {
+    .stats-bar {
+        gap: 12px;
+        padding: 10px 14px;
+        flex-wrap: wrap;
+    }
+
+    .stat-value {
+        font-size: 16px;
+    }
+}

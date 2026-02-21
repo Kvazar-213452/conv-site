@@ -1,0 +1,57 @@
+/* ── Case Converter — additional styles ────────────────────── */
+
+.case-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.case-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.case-group-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted, #888);
+  min-width: 3.5rem;
+  flex-shrink: 0;
+}
+
+.case-group-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.case-btn {
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--border, #333);
+  background: var(--surface, #1a1a1a);
+  color: var(--text-secondary, #aaa);
+  font-size: 0.8rem;
+  font-family: var(--font-mono, monospace);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.case-btn:hover {
+  border-color: var(--accent, #7c6af7);
+  color: var(--text-primary, #fff);
+  background: var(--surface-hover, #222);
+}
+
+.case-btn.active {
+  border-color: var(--accent, #7c6af7);
+  background: color-mix(in srgb, var(--accent, #7c6af7) 15%, transparent);
+  color: var(--accent, #7c6af7);
+  font-weight: 600;
+}
