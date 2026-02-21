@@ -1,0 +1,202 @@
+.output-tabs {
+  display: flex;
+  gap: 2px;
+}
+
+.output-tab {
+  font-size: 11px;
+  font-family: 'Geist Mono', monospace;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  letter-spacing: .04em;
+  transition: all .15s;
+}
+
+.output-tab:hover {
+  background: var(--color-accent-soft-hover);
+  color: var(--color-text);
+}
+
+.output-tab.active {
+  background: var(--color-accent-soft);
+  color: var(--color-accent, var(--color-text));
+  border-color: var(--color-border-bright);
+}
+
+/* ── MARKDOWN PREVIEW ────────────────────────────────────────── */
+.md-preview {
+  flex: 1;
+  min-height: 320px;
+  padding: 20px 24px;
+  overflow: auto;
+  color: var(--color-text);
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  line-height: 1.75;
+  transition: color .35s;
+}
+
+.md-preview.empty {
+  color: var(--color-text-dim);
+  font-style: italic;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+}
+
+.md-preview.loading {
+  animation: pulse .9s ease infinite;
+  color: var(--color-text-dim);
+}
+
+.md-preview h1,
+.md-preview h2,
+.md-preview h3,
+.md-preview h4,
+.md-preview h5,
+.md-preview h6 {
+  color: var(--color-text);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 1.4em 0 .5em;
+  letter-spacing: -.5px;
+}
+
+.md-preview h1 { font-size: 1.75em; border-bottom: 1px solid var(--color-border); padding-bottom: .3em; }
+.md-preview h2 { font-size: 1.35em; border-bottom: 1px solid var(--color-border); padding-bottom: .25em; }
+.md-preview h3 { font-size: 1.15em; }
+.md-preview h4 { font-size: 1em; }
+
+.md-preview p { margin: .75em 0; }
+
+.md-preview a {
+  color: var(--color-accent, #60a5fa);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.md-preview a:hover { opacity: .8; }
+
+.md-preview strong { font-weight: 700; color: var(--color-text); }
+.md-preview em { font-style: italic; color: var(--color-text-muted); }
+.md-preview del { text-decoration: line-through; color: var(--color-text-muted); opacity: .6; }
+
+.md-preview ul,
+.md-preview ol {
+  padding-left: 1.5em;
+  margin: .6em 0;
+}
+
+.md-preview li { margin: .3em 0; }
+
+.md-preview blockquote {
+  border-left: 3px solid var(--color-accent, #60a5fa);
+  margin: .75em 0;
+  padding: .4em .9em;
+  color: var(--color-text-muted);
+  background: var(--color-accent-soft);
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+}
+
+.md-preview code {
+  font-family: 'Geist Mono', monospace;
+  font-size: .85em;
+  background: var(--color-accent-soft);
+  border: 1px solid var(--color-border-bright);
+  padding: .15em .4em;
+  border-radius: 4px;
+  color: var(--color-code-json);
+}
+
+.md-preview pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  margin: .9em 0;
+}
+
+.md-preview pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12.5px;
+  color: var(--color-code-yaml);
+  line-height: 1.7;
+}
+
+.md-preview table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: .9em 0;
+  font-size: 13px;
+}
+
+.md-preview th,
+.md-preview td {
+  border: 1px solid var(--color-border);
+  padding: 7px 12px;
+  text-align: left;
+}
+
+.md-preview th {
+  background: var(--color-accent-soft);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.md-preview td { color: var(--color-text-muted); }
+.md-preview tr:hover td { background: var(--color-accent-soft); }
+
+.md-preview hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 1.5em 0;
+}
+
+.md-preview img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin: .5em 0;
+}
+
+/* ── FULLSCREEN OVERLAY ──────────────────────────────────────── */
+.fullscreen-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: var(--color-surface, #0d0d0d);
+  display: flex;
+  flex-direction: column;
+  animation: fadeUp .2s ease;
+}
+
+.fullscreen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-accent-soft);
+  flex-shrink: 0;
+}
+
+.fullscreen-content {
+  flex: 1;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: unset;
+  padding: 40px 32px;
+}
+
+/* ── MOBILE ADJUSTMENTS ──────────────────────────────────────── */
+@media (max-width: 640px) {
+  .md-preview { min-height: 220px; padding: 14px 16px; font-size: 13px; }
+  .output-tab { font-size: 10px; padding: 3px 8px; }
+}
