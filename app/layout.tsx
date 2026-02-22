@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 import Header from "@/component/Header";
 import Footer from "@/component/Footer";
+import { Analytics } from "@vercel/analytics/next";
 
 import "./css/global.css";
 
@@ -84,6 +85,7 @@ export default function RootLayout({
           <main>{children}</main>
         </div>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
