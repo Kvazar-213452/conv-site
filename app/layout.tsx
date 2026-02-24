@@ -5,7 +5,7 @@ import Footer from "@/component/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-import "./css/global.css";
+import "@/style/global.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(MAIN_DOMEN),

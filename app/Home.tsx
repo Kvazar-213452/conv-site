@@ -8,20 +8,18 @@ import {
   Table2,
   Code2,
   Database,
-  FileJson,
   Hash,
   KeyRound,
   Link2,
   Type,
   Layers,
   FileText,
-  RefreshCw,
   Clock,
   FileType2,
 } from "lucide-react";
 
-import "@/app/css/main.css";
-import "@/app/css/home.css";
+import "@/style/main.css";
+import "@/style/home.css";
 
 // ── Converter registry ────────────────────────────────────────
 // Add or remove converters here — the UI updates automatically.

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Mail, MessageSquare, Github, ArrowRight, Globe, Bug, Lightbulb, Shield } from "lucide-react";
 import { GMAIL } from "@/lib/config";
 
-import "@/app/css/main.css";
-import "@/app/css/home.css";
+import "@/style/main.css";
+import "@/style/home.css";
 
 export default function ContactPage() {
   return (

@@ -6,7 +6,7 @@ import type { ThemeKey } from "@/lib/type";
 import { Sun, Moon, Snowflake, Flower, Command } from "lucide-react";
 import Link from "next/link";
 
-import "@/app/css/header.css";
+import "@/style/header.css";
 
 export default function Header() {
   const [theme, setTheme] = useState<ThemeKey>(() => {

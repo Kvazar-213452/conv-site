@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Shield, Lock, Code, ArrowRight } from "lucide-react";
 import { MAIN_DOMEN, GMAIL } from "@/lib/config";
 
-import "@/app/css/main.css";
-import "@/app/css/home.css";
+import "@/style/main.css";
+import "@/style/home.css";
 
 export default function PrivacyPolicyPage() {
   return (
