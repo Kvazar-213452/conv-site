@@ -4,11 +4,11 @@ import { useState, useEffect, useRef } from "react";
 import { THEMES } from "@/lib/const";
 import type { ThemeKey } from "@/lib/type";
 import { Sun, Moon, Snowflake, Flower, Command } from "lucide-react";
+import Link from "next/link";
 
 import "@/app/css/header.css";
 
 export default function Header() {
-  // спробуємо взяти тему з localStorage або дефолт
   const [theme, setTheme] = useState<ThemeKey>(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("theme") as ThemeKey | null;
@@ -19,9 +19,13 @@ export default function Header() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [themeOpen, setThemeOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
-  // закриття дропдауну при кліку поза ним
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const lastScrollY = useRef(0);
+
+  // Close theme dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -32,7 +36,25 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // застосування теми на document + збереження в localStorage
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      setScrolled(currentScrollY > 10);
+
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
@@ -53,107 +75,110 @@ export default function Header() {
   };
 
   return (
-    <header className="header">
-      <div className="header-inner">
-        <a href="/" className="logo">
-          <div className="logo-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16">
-              <path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM11.5 9v2.5H9v2h2.5V16h2v-2.5H16v-2h-2.5V9z" />
-            </svg>
-          </div>
-          <span className="logo-name">DevTools</span>
-          <span className="logo-badge">BETA</span>
-        </a>
+    <>
+      <br />
+      <header className={`header${scrolled ? " scrolled" : ""}${hidden ? " hidden" : ""}`}>
+        <div className="header-inner">
+          <Link href="/" className="logo">
+            <div className="logo-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                <path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM11.5 9v2.5H9v2h2.5V16h2v-2.5H16v-2h-2.5V9z" />
+              </svg>
+            </div>
+            <span className="logo-name">DevTools</span>
+            <span className="logo-badge">BETA</span>
+          </Link>
 
-        {/* Desktop nav */}
-        <nav className="nav-desktop" aria-label="Main navigation">
-          <a href="#">Converters</a>
-          <a href="#">Formatters</a>
-          <a href="#">Validators</a>
+          {/* Desktop nav */}
+          <nav className="nav-desktop" aria-label="Main navigation">
+            <Link href="/privacy-policy">Privacy policy</Link>
+            <Link href="/terms-of-service">Terms of service</Link>
+            <Link href="/contacts">Contacts</Link>
 
-          {/* Theme switcher */}
-          <div className="theme-switcher" ref={dropdownRef}>
-            <button
-              className={`btn-theme${themeOpen ? " open" : ""}`}
-              onClick={() => setThemeOpen((v) => !v)}
-              aria-haspopup="listbox"
-              aria-expanded={themeOpen}
-              aria-label="Switch theme"
-            >
-              <span>{ICONS[theme]}</span>
-              {THEMES[theme].label}
-              <span className="btn-theme-chevron">▾</span>
-            </button>
+            {/* Theme switcher */}
+            <div className="theme-switcher" ref={dropdownRef}>
+              <button
+                className={`btn-theme${themeOpen ? " open" : ""}`}
+                onClick={() => setThemeOpen((v) => !v)}
+                aria-haspopup="listbox"
+                aria-expanded={themeOpen}
+                aria-label="Switch theme"
+              >
+                <span>{ICONS[theme]}</span>
+                {THEMES[theme].label}
+                <span className="btn-theme-chevron">▾</span>
+              </button>
 
-            {themeOpen && (
-              <div className="theme-dropdown" role="listbox" aria-label="Choose theme">
+              {themeOpen && (
+                <div className="theme-dropdown" role="listbox" aria-label="Choose theme">
+                  {(Object.keys(THEMES) as ThemeKey[]).map((t) => (
+                    <button
+                      key={t}
+                      className={`theme-option${theme === t ? " active" : ""}`}
+                      onClick={() => pickTheme(t)}
+                      role="option"
+                      aria-selected={theme === t}
+                    >
+                      <span className="theme-option-icon">{ICONS[t]}</span>
+                      {THEMES[t].label}
+                      {theme === t && <span className="theme-option-check">✓</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </nav>
+
+          {/* Hamburger */}
+          <button
+            className={`burger${menuOpen ? " open" : ""}`}
+            onClick={() => {
+              setMenuOpen((v) => !v);
+              setThemeOpen(false);
+            }}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+          >
+            <span className="burger-line" />
+            <span className="burger-line" />
+            <span className="burger-line" />
+          </button>
+        </div>
+
+        {/* Mobile menu */}
+        {menuOpen && (
+          <nav id="mobile-nav" className="mobile-menu open" aria-label="Mobile navigation">
+            <Link href="/privacy-policy" onClick={() => setMenuOpen(false)}>
+              Privacy policy
+            </Link>
+            <Link href="/terms-of-service" onClick={() => setMenuOpen(false)}>
+              Terms of service
+            </Link>
+            <Link href="/contacts" onClick={() => setMenuOpen(false)}>
+              Contacts
+            </Link>
+
+            {/* Mobile theme picker */}
+            <div className="mobile-theme-section">
+              <div className="mobile-theme-label">Theme</div>
+              <div className="mobile-theme-grid">
                 {(Object.keys(THEMES) as ThemeKey[]).map((t) => (
                   <button
                     key={t}
-                    className={`theme-option${theme === t ? " active" : ""}`}
+                    className={`mobile-theme-btn${theme === t ? " active" : ""}`}
                     onClick={() => pickTheme(t)}
-                    role="option"
-                    aria-selected={theme === t}
+                    aria-label={`Switch to ${THEMES[t].label} theme`}
                   >
-                    <span className="theme-option-icon">{ICONS[t]}</span>
+                    <span className="mobile-theme-btn-icon">{ICONS[t]}</span>
                     {THEMES[t].label}
-                    {theme === t && <span className="theme-option-check">✓</span>}
                   </button>
                 ))}
               </div>
-            )}
-          </div>
-        </nav>
-
-        {/* Hamburger */}
-        <button
-          className={`burger${menuOpen ? " open" : ""}`}
-          onClick={() => {
-            setMenuOpen((v) => !v);
-            setThemeOpen(false);
-          }}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-nav"
-        >
-          <span className="burger-line" />
-          <span className="burger-line" />
-          <span className="burger-line" />
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <nav id="mobile-nav" className="mobile-menu open" aria-label="Mobile navigation">
-          <a href="#" onClick={() => setMenuOpen(false)}>
-            Converters
-          </a>
-          <a href="#" onClick={() => setMenuOpen(false)}>
-            Formatters
-          </a>
-          <a href="#" onClick={() => setMenuOpen(false)}>
-            Validators
-          </a>
-
-          {/* Mobile theme picker */}
-          <div className="mobile-theme-section">
-            <div className="mobile-theme-label">Theme</div>
-            <div className="mobile-theme-grid">
-              {(Object.keys(THEMES) as ThemeKey[]).map((t) => (
-                <button
-                  key={t}
-                  className={`mobile-theme-btn${theme === t ? " active" : ""}`}
-                  onClick={() => pickTheme(t)}
-                  aria-label={`Switch to ${THEMES[t].label} theme`}
-                >
-                  <span className="mobile-theme-btn-icon">{ICONS[t]}</span>
-                  {THEMES[t].label}
-                </button>
-              ))}
             </div>
-          </div>
-        </nav>
-      )}
-    </header>
+          </nav>
+        )}
+      </header>
+    </>
   );
 }

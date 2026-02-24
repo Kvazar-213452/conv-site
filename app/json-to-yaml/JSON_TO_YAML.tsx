@@ -78,11 +78,11 @@ export default function JSON_TO_YAML() {
     setError("");
   };
 
-  const inputLabel        = isJson2Yaml ? "JSON Input" : "YAML Input";
-  const outputLabel       = isJson2Yaml ? "YAML Output" : "JSON Output";
-  const errorPrefix       = isJson2Yaml ? "JSON Parse Error" : "YAML Parse Error";
+  const inputLabel = isJson2Yaml ? "JSON Input" : "YAML Input";
+  const outputLabel = isJson2Yaml ? "YAML Output" : "JSON Output";
+  const errorPrefix = isJson2Yaml ? "JSON Parse Error" : "YAML Parse Error";
   const outputPlaceholder = isJson2Yaml ? "# Your YAML will appear here…" : "// Your JSON will appear here…";
-  const inputPlaceholder  = isJson2Yaml
+  const inputPlaceholder = isJson2Yaml
     ? '{\n  "key": "value"\n}'
     : "key: value\nlist:\n  - item1\n  - item2";
 
@@ -218,6 +218,92 @@ export default function JSON_TO_YAML() {
           </button>
           <button className="btn-secondary" onClick={clearAll}>Clear All</button>
         </div>
+      </section>
+
+      <section className="seo-content" aria-labelledby="about-heading">
+        <h2 id="about-heading">About JSON to YAML Converter</h2>
+        <p>
+          This free online JSON to YAML converter tool allows you to transform data between JSON and YAML formats instantly.
+          Whether you're a developer working with configuration files, Kubernetes manifests, Docker Compose files, CI/CD
+          pipelines, or API definitions, our bidirectional converter handles the transformation seamlessly. Convert JSON
+          to human-readable YAML or parse YAML back to JSON with proper type preservation for booleans, numbers, nulls,
+          arrays, and nested objects. Everything runs 100% in your browser with no server uploads.
+        </p>
+
+        <h3>Why Convert Between JSON and YAML?</h3>
+        <p>
+          JSON (JavaScript Object Notation) and YAML (YAML Ain't Markup Language) serve different purposes in modern
+          development. JSON is compact, widely supported, and perfect for APIs and data interchange, while YAML is
+          human-readable, supports comments, and is the standard for configuration files in Kubernetes, Docker, Ansible,
+          GitHub Actions, and CI/CD tools. Converting between them is essential for migrating configurations, integrating
+          systems with different format requirements, editing complex configs in your preferred format, validating syntax,
+          and generating documentation. Manual conversion is tedious and error-prone, especially with deeply nested structures,
+          special characters, and type preservation requirements.
+        </p>
+
+        <h3>How to Use This Converter</h3>
+        <p>
+          Choose your conversion direction using the toggle: JSON → YAML converts JSON objects and arrays into clean,
+          indented YAML with proper spacing and readability. YAML → JSON parses YAML syntax (including lists, nested mappings,
+          scalars, booleans, numbers, nulls) and generates properly formatted JSON. Paste your data into the input field,
+          click Convert, and get instant results. Download as .yaml or .json files, copy to clipboard, or use the swap
+          button to reverse the conversion and transform the output back for roundtrip testing.
+        </p>
+
+        <h3>Key Benefits</h3>
+        <ul>
+          <li><strong>No installation required:</strong> Works directly in your browser without any software downloads</li>
+          <li><strong>Completely free:</strong> No registration, credit card, or hidden fees</li>
+          <li><strong>Secure and private:</strong> All conversion happens locally - your data never reaches our servers</li>
+          <li><strong>Fast processing:</strong> Instant conversion with no waiting time or rate limits</li>
+          <li><strong>Bidirectional:</strong> Convert JSON ↔ YAML with full roundtrip support</li>
+          <li><strong>Type preservation:</strong> Correctly handles strings, numbers, booleans, null, arrays, objects</li>
+          <li><strong>Clean formatting:</strong> Generates properly indented, readable YAML and formatted JSON</li>
+          <li><strong>Nested structure support:</strong> Handles deeply nested objects and arrays correctly</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <p>
+          Developers use JSON to YAML converters for converting Kubernetes manifests between formats for different tools,
+          transforming Docker Compose files to/from JSON for programmatic editing, converting GitHub Actions workflows,
+          CI/CD pipeline configurations (GitLab CI, CircleCI, Travis), Ansible playbooks and inventory files, AWS
+          CloudFormation templates, Swagger/OpenAPI specifications, converting API responses to YAML for configuration,
+          editing complex YAML configs in JSON format with better tooling support, migrating configuration files between
+          systems with different format requirements. DevOps engineers convert infrastructure-as-code templates, Helm charts,
+          and deployment configurations. Backend developers transform application configs, database connection strings, and
+          feature flags between JSON and YAML formats for different environments.
+        </p>
+
+        <h3>Supported Format Features</h3>
+        <p>
+          JSON to YAML conversion generates clean, properly indented YAML with 2-space indentation, preserves data types
+          (strings, numbers, booleans, null), handles nested objects and arrays with correct list syntax (- item), maintains
+          key order, escapes special characters appropriately, and produces human-readable output. YAML to JSON parsing
+          supports standard YAML syntax including mappings (key: value), sequences (lists with -), scalars (strings, numbers,
+          booleans), null values, nested structures, multi-line strings, flow style (inline) arrays and objects, anchors
+          and aliases for repeated data, and generates properly formatted JSON with consistent indentation. Both directions
+          handle edge cases like empty arrays, null values, special characters, and deeply nested structures.
+        </p>
+
+        <h3>Technical Features</h3>
+        <p>
+          The converter processes data entirely client-side with zero latency, validates syntax and reports detailed parse
+          errors with line numbers, preserves data types accurately during conversion (no type coercion), handles UTF-8
+          and special characters correctly, generates consistent formatting with proper indentation, supports large files
+          and complex nested structures efficiently, provides clear error messages for malformed input, and includes quick
+          actions for copy, download (.yaml or .json), and swap functionality. The tool follows YAML 1.2 specification and
+          JSON RFC 8259 standards for maximum compatibility.
+        </p>
+
+        <h3>Privacy and Security</h3>
+        <p>
+          Unlike online converters that upload your files to remote servers, this tool processes everything locally in your
+          browser using JavaScript. Your Kubernetes secrets, Docker environment variables, API keys in config files, database
+          credentials, CI/CD pipeline configurations, or any sensitive YAML/JSON data never leave your computer, making it
+          completely safe for converting production configurations and confidential settings. No cookies, tracking, data
+          storage, or server communication. Perfect for working with infrastructure secrets, application configs, deployment
+          manifests, or any sensitive configuration files that require strict privacy and security controls.
+        </p>
       </section>
 
       {/* Features */}

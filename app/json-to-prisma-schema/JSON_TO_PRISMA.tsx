@@ -77,13 +77,13 @@ export default function JSON_TO_PRISMA() {
     setError("");
   };
 
-  const inputLabel        = isJson2Prisma ? "JSON Input" : "Prisma Schema Input";
-  const outputLabel       = isJson2Prisma ? "Prisma Schema Output" : "JSON Output";
-  const errorPrefix       = isJson2Prisma ? "JSON Parse Error" : "Prisma Parse Error";
+  const inputLabel = isJson2Prisma ? "JSON Input" : "Prisma Schema Input";
+  const outputLabel = isJson2Prisma ? "Prisma Schema Output" : "JSON Output";
+  const errorPrefix = isJson2Prisma ? "JSON Parse Error" : "Prisma Parse Error";
   const outputPlaceholder = isJson2Prisma
     ? "// Your Prisma schema will appear here…"
     : "// Your JSON will appear here…";
-  const inputPlaceholder  = isJson2Prisma
+  const inputPlaceholder = isJson2Prisma
     ? '{\n  "User": {\n    "name": "Alice",\n    "age": 30,\n    "email": "alice@example.com"\n  }\n}'
     : 'model User {\n  id   Int    @id @default(autoincrement())\n  name String\n}';
 
@@ -222,6 +222,93 @@ export default function JSON_TO_PRISMA() {
           </button>
           <button className="btn-secondary" onClick={clearAll}>Clear All</button>
         </div>
+      </section>
+
+      <section className="seo-content" aria-labelledby="about-heading">
+        <h2 id="about-heading">About JSON to Prisma Schema Converter</h2>
+        <p>
+          This free online JSON to Prisma schema converter tool allows you to transform JSON data into ready-to-use Prisma
+          ORM schemas and vice versa. Whether you're a developer prototyping database models, migrating from NoSQL to SQL,
+          or converting existing data structures to Prisma format, our bidirectional converter intelligently infers types,
+          generates model relations, adds appropriate decorators (@id, @default, @unique), and creates production-ready
+          schema.prisma files. Everything runs 100% in your browser with no server uploads.
+        </p>
+
+        <h3>Why Convert Between JSON and Prisma Schema?</h3>
+        <p>
+          Prisma ORM is the modern database toolkit for TypeScript and Node.js, providing type-safe database access through
+          schema.prisma files. Converting JSON to Prisma schemas accelerates development by transforming API responses,
+          sample data, or existing JSON structures into proper database models instantly. This eliminates manual schema
+          writing, reduces type definition errors, speeds up prototyping, and ensures consistency between data shapes and
+          database schemas. Reverse conversion (Prisma to JSON) helps document database structures, generate API contracts,
+          create mock data templates, and analyze schema relationships programmatically.
+        </p>
+
+        <h3>How to Use This Converter</h3>
+        <p>
+          Choose your conversion direction: JSON → Prisma mode analyzes JSON objects or arrays, infers field types (String,
+          Int, Float, Boolean, DateTime), detects nested objects as related models, recognizes arrays as one-to-many
+          relationships, and generates a complete Prisma schema with model definitions, decorators, and relations. Prisma →
+          JSON mode parses schema.prisma files and extracts model structures into clean JSON format for documentation or
+          analysis. Paste your data, click Generate Schema or Convert to JSON, and get instant results ready to use in your
+          Prisma project or download as schema.prisma files.
+        </p>
+
+        <h3>Key Benefits</h3>
+        <ul>
+          <li><strong>No installation required:</strong> Works directly in your browser without any software downloads</li>
+          <li><strong>Completely free:</strong> No registration, credit card, or hidden fees</li>
+          <li><strong>Secure and private:</strong> All conversion happens locally - your data never reaches our servers</li>
+          <li><strong>Fast processing:</strong> Instant schema generation with no waiting time</li>
+          <li><strong>Bidirectional:</strong> Convert JSON ↔ Prisma schema with full roundtrip support</li>
+          <li><strong>Smart type inference:</strong> Automatically detects String, Int, Float, Boolean, DateTime types</li>
+          <li><strong>Relation detection:</strong> Identifies nested objects and arrays as model relationships</li>
+          <li><strong>Decorator generation:</strong> Adds @id, @default, @unique, @relation where appropriate</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <p>
+          Developers use JSON to Prisma converters for rapid prototyping database schemas from API response examples,
+          migrating from MongoDB or other NoSQL databases to SQL with Prisma ORM, generating Prisma models from existing
+          JSON data structures or TypeScript interfaces, creating database schemas from GraphQL query results, converting
+          sample data into proper Prisma models for testing, bootstrapping new projects with schema.prisma from JSON configs.
+          Backend engineers use it to document API contracts by converting Prisma schemas to JSON, generate mock data
+          templates from database models, analyze schema relationships programmatically, create data migration scripts,
+          validate schema consistency across microservices. Full-stack developers prototype quickly, maintain type safety
+          between frontend and backend, and keep schemas synchronized with data shapes.
+        </p>
+
+        <h3>Supported Prisma Features</h3>
+        <p>
+          JSON to Prisma conversion generates proper model definitions with field types (String, Int, Float, Boolean,
+          DateTime, Json), detects required vs optional fields, adds @id decorators for primary keys, includes @default
+          for default values (autoincrement, now, uuid), recognizes unique fields with @unique, infers one-to-many and
+          many-to-many relationships from nested arrays, creates relation fields with @relation decorators, and handles
+          enum definitions. Prisma to JSON parsing extracts model names, field definitions with types and modifiers,
+          relationship mappings, decorator metadata, and preserves schema structure. Both directions support Prisma 4+
+          syntax and conventions.
+        </p>
+
+        <h3>Technical Features</h3>
+        <p>
+          The converter intelligently analyzes JSON structure and applies Prisma best practices: string fields become String
+          type, numbers map to Int or Float based on decimals, booleans become Boolean, ISO date strings convert to DateTime
+          with @default(now), null values mark fields as optional with ?, nested objects generate related models with proper
+          @relation syntax, arrays indicate one-to-many relationships, and id/uuid fields automatically get @id decorator.
+          The generated schema is ready to use with prisma migrate, prisma generate, and Prisma Client. Error messages help
+          debug invalid JSON or Prisma syntax. Quick actions include copy, download (schema.prisma or .json), and swap for
+          roundtrip testing.
+        </p>
+
+        <h3>Privacy and Security</h3>
+        <p>
+          Unlike online converters that upload your data to remote servers, this tool processes everything locally in your
+          browser using JavaScript. Your database schemas, model definitions, API structures, user data examples, or any
+          sensitive information never leave your computer, making it completely safe for converting production schemas and
+          real data samples. No cookies, tracking, data storage, or server communication. Perfect for working with proprietary
+          database structures, confidential API contracts, internal data models, or any sensitive schema information that
+          requires privacy. Your Prisma configuration and database credentials remain secure.
+        </p>
       </section>
 
       {/* Features */}

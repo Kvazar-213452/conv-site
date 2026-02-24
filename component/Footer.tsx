@@ -1,14 +1,27 @@
+import Link from "next/link";
+
 import "@/app/css/footer.css";
 
 export default function Footer() {
   return (
     <footer>
       <div className="footer-inner">
-        <span className="footer-text">© 2024 DevTools — built with Next.js</span>
+        <span className="footer-text">
+          © 2026 converterdevtools. All rights reserved.
+        </span>
+
         <nav className="footer-links" aria-label="Footer navigation">
-          <a href="#">GitHub</a>
-          <a href="#">Privacy</a>
-          <a href="#">Docs</a>
+          <Link href="/privacy-policy">
+            Privacy
+          </Link>
+
+          <Link href="/terms-of-service">
+            Terms of service
+          </Link>
+
+          <Link href="/contacts">
+            Contacts
+          </Link>
         </nav>
       </div>
     </footer>

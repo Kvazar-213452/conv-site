@@ -44,14 +44,14 @@ function LiveNow({ unit }: { unit: TimestampUnit }) {
 // ── Main component ────────────────────────────────────────────
 
 export default function DateToTimestamp() {
-  const [mode, setMode]     = useState<Mode>("date2ts");
-  const [input, setInput]   = useState(EXAMPLE_DATES);
+  const [mode, setMode] = useState<Mode>("date2ts");
+  const [input, setInput] = useState(EXAMPLE_DATES);
   const [output, setOutput] = useState("");
-  const [error, setError]   = useState("");
+  const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [converting, setConverting] = useState(false);
-  const [unit, setUnit]     = useState<TimestampUnit>("seconds");
-  const [fmt, setFmt]       = useState<DateFormat>("iso");
+  const [unit, setUnit] = useState<TimestampUnit>("seconds");
+  const [fmt, setFmt] = useState<DateFormat>("iso");
 
   const isDate2Ts = mode === "date2ts";
 
@@ -115,20 +115,20 @@ export default function DateToTimestamp() {
     URL.revokeObjectURL(url);
   };
 
-  const clearAll    = () => { setInput(""); setOutput(""); setError(""); };
+  const clearAll = () => { setInput(""); setOutput(""); setError(""); };
   const loadExample = () => {
     setInput(isDate2Ts ? EXAMPLE_DATES : EXAMPLE_TIMESTAMPS);
     setOutput("");
     setError("");
   };
 
-  const inputLabel        = isDate2Ts ? "Date Input" : "Timestamp Input";
-  const outputLabel       = isDate2Ts ? "Unix Timestamp Output" : "Date Output";
-  const errorPrefix       = isDate2Ts ? "Date Parse Error" : "Timestamp Error";
+  const inputLabel = isDate2Ts ? "Date Input" : "Timestamp Input";
+  const outputLabel = isDate2Ts ? "Unix Timestamp Output" : "Date Output";
+  const errorPrefix = isDate2Ts ? "Date Parse Error" : "Timestamp Error";
   const outputPlaceholder = isDate2Ts
     ? "// Unix timestamps will appear here…"
     : "// Formatted dates will appear here…";
-  const inputPlaceholder  = isDate2Ts
+  const inputPlaceholder = isDate2Ts
     ? "2024-01-15\n2024-01-15T08:00:00Z\none date per line"
     : "1705305600\none timestamp per line";
 
@@ -319,6 +319,80 @@ export default function DateToTimestamp() {
           </button>
           <button className="btn-secondary" onClick={clearAll}>Clear All</button>
         </div>
+      </section>
+
+      <section className="seo-content" aria-labelledby="about-heading">
+        <h2 id="about-heading">About Date to Unix Timestamp Converter</h2>
+        <p>
+          This free online date and Unix timestamp converter tool allows you to transform between human-readable dates
+          and Unix timestamps instantly. Whether you're a developer working with APIs, databases, or system logs, our
+          bidirectional converter handles both date-to-timestamp and timestamp-to-date conversions seamlessly in your browser.
+          Switch between seconds and milliseconds, choose from 5 different output formats, and convert multiple entries at once.
+        </p>
+
+        <h3>Why Convert Between Dates and Unix Timestamps?</h3>
+        <p>
+          Unix timestamps (also known as Epoch time or POSIX time) represent time as the number of seconds (or milliseconds)
+          since January 1, 1970 00:00:00 UTC. They're essential for programming, databases, and system administration because
+          they provide a timezone-independent way to store and compare dates. Converting between human-readable dates and
+          timestamps is crucial for debugging logs, working with APIs, scheduling tasks, analyzing data, and synchronizing
+          systems across different timezones.
+        </p>
+
+        <h3>How to Use This Converter</h3>
+        <p>
+          Converting dates and timestamps is straightforward: choose your conversion direction (Date → Unix or Unix → Date)
+          using the mode toggle at the top. Paste or type your dates or timestamps into the input field (one per line for
+          batch conversion). Select your preferred unit (seconds or milliseconds) and output format if converting timestamps
+          to dates. Click the convert button to get your results instantly. Use the "Now" button to insert the current
+          timestamp, and the swap button to flip the conversion direction with your output.
+        </p>
+
+        <h3>Key Benefits</h3>
+        <ul>
+          <li><strong>No installation required:</strong> Works directly in your browser without any software downloads</li>
+          <li><strong>Completely free:</strong> No registration, credit card, or hidden fees</li>
+          <li><strong>Secure and private:</strong> All conversion happens locally - your data never reaches our servers</li>
+          <li><strong>Fast processing:</strong> Instant conversion with no waiting time</li>
+          <li><strong>Bidirectional:</strong> Convert Date → Unix or Unix → Date with one click</li>
+          <li><strong>Batch conversion:</strong> Process multiple dates or timestamps simultaneously</li>
+          <li><strong>5 output formats:</strong> ISO 8601 UTC, ISO 8601 Local, UTC string, Locale, and RFC 2822</li>
+          <li><strong>Live clock:</strong> See current timestamp updating in real-time</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <p>
+          Developers use timestamp converters for debugging server logs with Unix timestamps, converting API response dates
+          for database storage, scheduling cron jobs and automated tasks, working with JavaScript Date.now() milliseconds,
+          analyzing log files from different systems and timezones. Database administrators convert timestamps for queries
+          and data migration. DevOps engineers troubleshoot deployment timestamps and system events. Data analysts transform
+          timestamps for visualization and reporting. QA testers verify date handling in applications across timezones.
+        </p>
+
+        <h3>Supported Date Formats</h3>
+        <p>
+          Our converter accepts a wide variety of date input formats including ISO 8601 (2024-01-15T08:00:00Z), RFC 2822
+          (Mon, 15 Jan 2024 08:00:00 GMT), locale strings (January 15, 2024), natural formats (Jan 15 2024, 1/15/2024),
+          and more. For timestamp-to-date conversion, choose from ISO 8601 UTC, ISO 8601 Local (with timezone offset),
+          UTC string format, locale-specific format, or RFC 2822 format depending on your system requirements.
+        </p>
+
+        <h3>Technical Features</h3>
+        <p>
+          Our converter handles both Unix seconds (standard) and milliseconds (JavaScript), processes multiple dates or
+          timestamps in batch mode (one per line), displays a live updating clock showing current timestamp, provides
+          accurate timezone conversion, validates input and shows clear error messages, preserves precision for
+          millisecond timestamps, supports dates from 1970 to 2038+ (64-bit timestamps), and includes quick actions
+          like "Now" button, copy, download, and swap functionality for efficient workflow.
+        </p>
+
+        <h3>Privacy and Security</h3>
+        <p>
+          Unlike online converters that send your data to remote servers, this tool processes everything locally in your
+          browser using JavaScript. Your server logs, database timestamps, deployment times, or any time-sensitive data
+          never leave your computer, making it safe for converting confidential information. No cookies, tracking, or
+          data storage. Perfect for working with production logs, internal system times, or any sensitive temporal data.
+        </p>
       </section>
 
       <section className="features" aria-label="Features">

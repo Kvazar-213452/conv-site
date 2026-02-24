@@ -225,6 +225,89 @@ export default function JSON_TO_POSTGRES() {
         </div>
       </section>
 
+      <section className="seo-content" aria-labelledby="about-heading">
+        <h2 id="about-heading">About JSON to PostgreSQL INSERT Generator</h2>
+        <p>
+          This free online JSON to PostgreSQL converter tool allows you to transform JSON data into ready-to-run PostgreSQL
+          INSERT statements and vice versa. Whether you're a developer seeding databases, migrating data, testing queries,
+          or converting SQL results back to JSON, our bidirectional converter generates properly formatted, type-aware SQL
+          with correct quoting, escaping, and batch INSERT optimization. Everything runs 100% in your browser with no
+          server uploads.
+        </p>
+
+        <h3>Why Convert Between JSON and PostgreSQL?</h3>
+        <p>
+          Modern applications frequently need to move data between JSON (the standard API format) and PostgreSQL databases.
+          Developers export JSON from APIs or frontend applications and need to insert it into PostgreSQL for storage and
+          querying. Database administrators need to generate seed data, migrate records between environments, or create
+          test datasets. Writing INSERT statements manually is tedious, error-prone (missing quotes, incorrect escaping,
+          wrong type casting), and slow for large datasets. Automated conversion ensures proper SQL syntax, handles special
+          characters correctly, optimizes for performance with multi-row INSERTs, and saves hours of manual work.
+        </p>
+
+        <h3>How to Use This Converter</h3>
+        <p>
+          Choose your conversion direction: JSON → SQL mode converts JSON arrays of objects into PostgreSQL INSERT statements
+          with a single multi-row INSERT for optimal performance. SQL → JSON mode parses INSERT statements and extracts the
+          data back into a clean JSON array. Paste your JSON array or SQL INSERT statement into the input field, click
+          Generate INSERT or Convert to JSON, and get instant results. The output is ready to copy into psql, pgAdmin, or
+          your SQL client, or download as .sql or .json files.
+        </p>
+
+        <h3>Key Benefits</h3>
+        <ul>
+          <li><strong>No installation required:</strong> Works directly in your browser without any software downloads</li>
+          <li><strong>Completely free:</strong> No registration, credit card, or hidden fees</li>
+          <li><strong>Secure and private:</strong> All conversion happens locally - your data never reaches our servers</li>
+          <li><strong>Fast processing:</strong> Instant conversion with no waiting time</li>
+          <li><strong>Bidirectional:</strong> Convert JSON ↔ SQL INSERT statements with full roundtrip support</li>
+          <li><strong>Type-aware:</strong> Strings are escaped and quoted, numbers/booleans unquoted, nulls become NULL</li>
+          <li><strong>Batch optimization:</strong> Generates single multi-row INSERT for maximum database performance</li>
+          <li><strong>Proper escaping:</strong> Handles special characters, quotes, and SQL injection prevention</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <p>
+          Developers use JSON to SQL converters for seeding databases with initial data from JSON configuration files,
+          migrating data from NoSQL databases or APIs to PostgreSQL, generating test datasets for development and staging
+          environments, importing JSON exports from other systems into PostgreSQL tables, creating migration scripts with
+          INSERT statements for version control, batch inserting records from API responses or web scraping results. Database
+          administrators use it for data migration between environments (dev to prod), creating backup INSERT scripts from
+          JSON exports, generating seed data for testing and demos, converting JSON logs or analytics into relational tables.
+          QA engineers create test fixtures, populate test databases, and verify data transformations.
+        </p>
+
+        <h3>Supported PostgreSQL Features</h3>
+        <p>
+          JSON to SQL conversion generates multi-row INSERT statements (VALUES with multiple tuples) for optimal performance,
+          properly escapes single quotes and special characters in strings, handles PostgreSQL-specific types (timestamptz
+          for dates, boolean for true/false), converts JSON null to SQL NULL, preserves numeric precision, quotes column
+          and table names for reserved keywords, and generates valid PostgreSQL 9.5+ syntax. SQL to JSON parsing extracts
+          table names, column names, and all values from INSERT statements, handles both single and multi-row INSERTs,
+          unescapes quoted strings correctly, interprets NULL values, and preserves data types (numbers, booleans, strings).
+        </p>
+
+        <h3>Technical Features</h3>
+        <p>
+          The converter intelligently detects data types and applies correct SQL quoting rules: strings are single-quoted
+          with escape sequences for apostrophes and backslashes, numbers (integers and decimals) are unquoted, booleans
+          are rendered as true/false, null values become NULL, dates are cast to timestamptz, and arrays/objects are
+          serialized. The generated SQL uses efficient multi-row INSERT syntax instead of separate statements per row,
+          reducing database round-trips. Error messages pinpoint syntax issues in both JSON and SQL inputs. Quick actions
+          include copy, download (.sql or .json), and swap for roundtrip conversion testing.
+        </p>
+
+        <h3>Privacy and Security</h3>
+        <p>
+          Unlike online converters that upload your data to remote servers, this tool processes everything locally in your
+          browser using JavaScript. Your database records, customer data, user credentials, API payloads, or any sensitive
+          information never leave your computer, making it completely safe for converting production data. No cookies,
+          tracking, data storage, or server communication. Perfect for working with real database records, PII (personally
+          identifiable information), financial data, or any confidential datasets that require strict privacy controls.
+          Your PostgreSQL credentials and database schema remain secure.
+        </p>
+      </section>
+
       {/* Features */}
       <section className="features" aria-label="Features">
         {[

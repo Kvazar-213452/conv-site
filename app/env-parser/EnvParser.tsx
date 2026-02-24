@@ -186,11 +186,11 @@ function EnvTable({ entries, onChange }: {
 // ── Main component ────────────────────────────────────────────
 
 export default function EnvParser() {
-  const [mode, setMode]           = useState<Mode>("parse");
-  const [input, setInput]         = useState(EXAMPLE_ENV);
-  const [output, setOutput]       = useState("");
-  const [error, setError]         = useState("");
-  const [copied, setCopied]       = useState(false);
+  const [mode, setMode] = useState<Mode>("parse");
+  const [input, setInput] = useState(EXAMPLE_ENV);
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
   const [converting, setConverting] = useState(false);
   const [tableEntries, setTableEntries] = useState<EnvEntry[] | null>(null);
 
@@ -263,7 +263,7 @@ export default function EnvParser() {
     URL.revokeObjectURL(url);
   };
 
-  const clearAll   = () => { setInput(""); setOutput(""); setError(""); setTableEntries(null); };
+  const clearAll = () => { setInput(""); setOutput(""); setError(""); setTableEntries(null); };
   const loadExample = () => {
     setInput(mode === "json2env" ? EXAMPLE_JSON : EXAMPLE_ENV);
     setOutput("");
@@ -271,14 +271,14 @@ export default function EnvParser() {
     setTableEntries(null);
   };
 
-  const inputLabel  = mode === "json2env" ? "JSON Input" : ".env Input";
+  const inputLabel = mode === "json2env" ? "JSON Input" : ".env Input";
   const outputLabel = mode === "env2json" ? "JSON Output" : ".env Output";
   const errorPrefix = "Parse Error";
 
   const outputPlaceholder =
-    mode === "parse"    ? "// Parsed variables will appear in the table above…" :
-    mode === "env2json" ? "// JSON output will appear here…" :
-                          "// .env output will appear here…";
+    mode === "parse" ? "// Parsed variables will appear in the table above…" :
+      mode === "env2json" ? "// JSON output will appear here…" :
+        "// .env output will appear here…";
 
   const inputPlaceholder =
     mode === "json2env"
@@ -423,6 +423,87 @@ export default function EnvParser() {
           </button>
           <button className="btn-secondary" onClick={clearAll}>Clear All</button>
         </div>
+      </section>
+
+      <section className="seo-content" aria-labelledby="about-heading">
+        <h2 id="about-heading">About .env Parser & Converter</h2>
+        <p>
+          This free online .env parser and converter tool allows you to parse, validate, edit, and convert environment
+          variable files instantly. Whether you're a developer managing configuration files, converting between .env and
+          JSON formats, or troubleshooting environment variables, our tool handles parsing with full dotenv specification
+          support including quoted values, escape sequences, inline comments, and export declarations. Everything runs
+          100% in your browser with no server uploads.
+        </p>
+
+        <h3>Why Use a .env Parser and Converter?</h3>
+        <p>
+          Environment variable files (.env) are critical for modern application configuration, storing API keys, database
+          credentials, and feature flags separately from code. However, .env files can be tricky to work with manually—
+          they require proper escaping for special characters, correct quote handling, and careful formatting. A dedicated
+          parser validates syntax, catches errors before deployment, provides visual editing capabilities, and enables
+          seamless conversion to JSON for APIs, configuration management tools, or documentation. This prevents common
+          mistakes like unescaped quotes, missing newlines, or invalid syntax that can break deployments.
+        </p>
+
+        <h3>How to Use This Tool</h3>
+        <p>
+          Choose your mode: Parse mode validates and displays your .env in an editable table where you can add, edit,
+          or delete variables visually, then export back to a clean .env file. .env → JSON mode converts your environment
+          file to a JSON object for APIs or config management. JSON → .env mode generates a properly formatted .env file
+          from any flat JSON key-value object. Paste your content, click the convert or parse button, and get instant
+          results with options to copy, download, or swap for further editing.
+        </p>
+
+        <h3>Key Benefits</h3>
+        <ul>
+          <li><strong>No installation required:</strong> Works directly in your browser without any software downloads</li>
+          <li><strong>Completely free:</strong> No registration, credit card, or hidden fees</li>
+          <li><strong>Secure and private:</strong> All parsing happens locally - your secrets never reach our servers</li>
+          <li><strong>Fast processing:</strong> Instant parsing and conversion with no waiting time</li>
+          <li><strong>Visual editor:</strong> Parse mode shows variables in an editable table for easy management</li>
+          <li><strong>Bidirectional conversion:</strong> Convert .env ↔ JSON with proper formatting</li>
+          <li><strong>Full spec support:</strong> Handles quoted strings, escape sequences, comments, export statements</li>
+          <li><strong>Validation:</strong> Catches syntax errors with detailed line-by-line error messages</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <p>
+          Developers use .env parsers for validating environment files before deployment, debugging configuration issues
+          in development and production, converting .env to JSON for Kubernetes ConfigMaps or AWS Parameter Store,
+          migrating environment variables between hosting platforms, generating .env files from JSON API responses or
+          configuration tools, cleaning up messy .env files with inconsistent formatting, adding or removing variables
+          visually without manual text editing. DevOps engineers validate CI/CD environment configurations, security
+          teams audit environment variables for exposed secrets, and project managers document configuration requirements
+          by exporting to JSON.
+        </p>
+
+        <h3>Supported .env Features</h3>
+        <p>
+          Our parser fully supports the dotenv specification including: double-quoted strings with escape sequences
+          (\n for newlines, \t for tabs, \" for quotes, \\ for backslashes), single-quoted strings (literal values with
+          no escaping), unquoted values, inline comments with # symbol, blank lines and whitespace, export declarations
+          (export VAR=value), multi-line values in quotes, special characters in keys and values, and automatic trimming
+          of whitespace. Error messages pinpoint exact line numbers for quick debugging.
+        </p>
+
+        <h3>Technical Features</h3>
+        <p>
+          Parse mode displays variables in an interactive table with add/edit/delete capabilities and export to clean
+          .env format. Conversion modes handle bidirectional .env ↔ JSON transformation with proper escaping. The parser
+          validates syntax and reports detailed errors with line numbers, preserves comments and formatting where
+          appropriate, handles edge cases like empty values and special characters, supports both Unix and Windows line
+          endings, and provides download options for .env or JSON files. Quick actions include copy to clipboard, swap
+          input/output, and load examples.
+        </p>
+
+        <h3>Privacy and Security</h3>
+        <p>
+          Unlike online converters that upload your files to remote servers, this tool processes everything locally in
+          your browser using JavaScript. Your API keys, database passwords, JWT secrets, OAuth tokens, and other
+          sensitive environment variables never leave your computer, making it completely safe for parsing production
+          .env files with real credentials. No cookies, tracking, or data storage. Perfect for working with confidential
+          configuration files, secrets management, or any sensitive environment variables.
+        </p>
       </section>
 
       <section className="features" aria-label="Features">

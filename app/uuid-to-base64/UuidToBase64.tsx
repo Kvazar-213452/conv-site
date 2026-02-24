@@ -230,6 +230,112 @@ export default function UuidToBase64() {
         </div>
       </section>
 
+      <section className="seo-content" aria-labelledby="about-heading">
+        <h2 id="about-heading">About UUID to Base64 Converter</h2>
+        <p>
+          This free online UUID to Base64 converter tool allows you to convert UUIDs (Universally Unique Identifiers)
+          to compact Base64-encoded strings and decode them back instantly. Whether you're a developer optimizing database
+          storage, shortening URLs with UUID identifiers, building API tokens, or migrating data between systems, our
+          bidirectional converter reduces 36-character UUIDs (with hyphens) to 22-character Base64 strings—saving 39%
+          space. Supports standard and URL-safe Base64 encoding, batch processing, and runs 100% in your browser with
+          instant conversion.
+        </p>
+
+        <h3>Why Convert UUIDs to Base64?</h3>
+        <p>
+          UUIDs are standard 128-bit identifiers represented as 36-character strings with hyphens
+          (550e8400-e29b-41d4-a716-446655440000). While excellent for uniqueness and distribution, they're verbose for
+          URLs, database indexes, and APIs. Converting UUIDs to Base64 reduces length from 36 to 22 characters (39% space
+          savings), creates more compact URLs and API responses, improves database index efficiency, reduces bandwidth and
+          storage costs, makes identifiers easier to copy/paste, and maintains full UUID uniqueness and reversibility.
+          This is essential for public-facing URLs (example.com/p/VQ6EAOKbQdSnFkRmVUQAAA instead of
+          example.com/p/550e8400-e29b-41d4-a716-446655440000), REST API endpoints, QR codes with UUID data, mobile apps
+          with bandwidth constraints, and high-volume database tables.
+        </p>
+
+        <h3>How to Use This Converter</h3>
+        <p>
+          Choose your conversion direction: UUID → Base64 mode converts standard UUID format (8-4-4-4-12 hexadecimal with
+          hyphens) into compact 22-character Base64 strings—optionally enable URL-safe encoding (replaces + with -, / with _,
+          removes padding) for use in URLs, filenames, and query parameters. Base64 → UUID mode decodes Base64-encoded UUIDs
+          (standard or URL-safe) back to canonical UUID format with hyphens. Paste your UUIDs or Base64 strings into the
+          input field (one per line for batch processing), click Encode or Decode, and get instant results. Copy to clipboard
+          for immediate use, download as text, or swap to reverse the conversion and decode what you just encoded.
+        </p>
+
+        <h3>Key Benefits</h3>
+        <ul>
+          <li><strong>No installation required:</strong> Works directly in your browser without any software downloads</li>
+          <li><strong>Completely free:</strong> No registration, credit card, or hidden fees</li>
+          <li><strong>Secure and private:</strong> All conversion happens locally - your UUIDs never reach our servers</li>
+          <li><strong>Fast processing:</strong> Instant encoding and decoding with no waiting time</li>
+          <li><strong>39% space savings:</strong> 36-character UUIDs become 22-character Base64 strings</li>
+          <li><strong>Bidirectional:</strong> Convert UUID ↔ Base64 with perfect reversibility</li>
+          <li><strong>URL-safe option:</strong> Standard or URL-safe Base64 for different use cases</li>
+          <li><strong>Batch processing:</strong> Convert hundreds of UUIDs simultaneously (one per line)</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <p>
+          Developers use UUID to Base64 conversion for shortening public-facing URLs with UUID identifiers (blog posts,
+          products, user profiles), creating compact REST API endpoints and resource identifiers, building shorter API
+          tokens and session identifiers, optimizing database indexes and foreign keys for better performance, reducing
+          JSON payload sizes in API responses, generating compact QR codes with UUID data, shortening mobile deep links
+          and share URLs, migrating from UUID to shorter identifiers without breaking uniqueness. Database administrators
+          optimize table indexes by storing UUIDs as Base64 BINARY(16) instead of VARCHAR(36), reduce row size and improve
+          query performance, save storage space in high-volume tables (millions of rows), maintain referential integrity
+          with compact foreign keys. API developers create shorter authentication tokens, build compact webhook signatures,
+          generate short-lived access codes, create user-friendly share links. Mobile app developers reduce bandwidth usage
+          in API responses, create compact push notification payloads, optimize local database storage. DevOps engineers
+          shorten container IDs and build IDs in logs, create compact Kubernetes resource names, optimize monitoring and
+          logging systems.
+        </p>
+
+        <h3>UUID Format and Standards</h3>
+        <p>
+          UUIDs (defined in RFC 4122) are 128-bit identifiers represented as 32 hexadecimal digits in 8-4-4-4-12 format with
+          hyphens: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx. Common UUID versions include: UUIDv1 (timestamp-based),
+          UUIDv4 (random), UUIDv5 (namespace + SHA-1 hash), and UUIDv7 (timestamp + random, newest standard). All versions
+          are exactly 128 bits (16 bytes) and convert identically to Base64. The conversion process: remove hyphens (32 hex
+          chars → 16 bytes), encode 16 bytes as Base64 (produces 24 characters including padding), remove padding for
+          compact 22-character result. The conversion is lossless and fully reversible—every UUID has exactly one Base64
+          representation and vice versa, maintaining uniqueness guarantees and collision resistance.
+        </p>
+
+        <h3>Standard vs URL-Safe Base64</h3>
+        <p>
+          Standard Base64 uses A-Z, a-z, 0-9, +, /, and = for padding. For UUIDs, this produces 22 characters plus 2 padding
+          characters (==), totaling 24 characters. However, + and / are problematic in URLs and filenames. URL-safe Base64
+          (RFC 4648 §5) replaces + with -, / with _, and removes padding entirely, resulting in exactly 22 characters safe
+          for URLs, filenames, and query parameters. Use standard Base64 for database storage (BINARY columns), JSON payloads,
+          internal systems, and Base64 fields in protocols. Use URL-safe Base64 for public URLs and routes, query parameters
+          and fragments, filenames and paths, OAuth tokens in URLs, QR codes and shortened links, and any scenario where +, /,
+          or = would be problematic. Our tool supports both formats and automatically detects the type during decoding.
+        </p>
+
+        <h3>Technical Features</h3>
+        <p>
+          The converter validates UUID format (8-4-4-4-12 with hyphens, case-insensitive hexadecimal), handles both lowercase
+          and uppercase UUIDs, removes hyphens and converts to binary (16 bytes), encodes bytes as Base64 using browser-native
+          APIs, optionally generates URL-safe Base64 (- _ instead of + /, no padding), validates Base64 input during decode
+          (proper length, valid characters), reconstructs 16-byte binary from Base64, formats output as canonical UUID with
+          lowercase hex and hyphens, supports batch processing with line-by-line conversion, provides detailed error messages
+          for invalid UUIDs or Base64 strings, and handles edge cases correctly. The tool includes copy-to-clipboard, download
+          options, swap functionality for roundtrip verification, and clear error reporting pinpointing exact invalid input.
+        </p>
+
+        <h3>Privacy and Security</h3>
+        <p>
+          Unlike online converters that upload your data to remote servers, this tool processes everything locally in your
+          browser using JavaScript. Your UUIDs (user IDs, session tokens, resource identifiers, database keys, API tokens,
+          authentication credentials) never leave your computer, making it completely safe for converting production identifiers
+          and sensitive UUIDs. No cookies, tracking, data storage, or server communication. Perfect for working with user account
+          UUIDs, session identifiers, API keys, database primary keys, order IDs, transaction references, or any identifiers
+          that require strict privacy controls. Your UUIDs and identifiers remain 100% private and secure on your device.
+          Note: Base64 encoding provides no security—it only changes representation, not confidentiality.
+        </p>
+      </section>
+
       <section className="features" aria-label="Features">
         {[
           {

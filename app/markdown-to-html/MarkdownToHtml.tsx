@@ -350,6 +350,95 @@ export default function MarkdownToHtml() {
         </div>
       )}
 
+      <section className="seo-content" aria-labelledby="about-heading">
+        <h2 id="about-heading">About Markdown to HTML Converter & Live Preview</h2>
+        <p>
+          This free online Markdown to HTML converter tool provides a real-time editor with syntax highlighting and instant
+          HTML preview. Whether you're a developer writing documentation, a content writer formatting articles, or a blogger
+          converting Markdown to HTML, our live converter handles the transformation seamlessly. Supports all standard Markdown
+          syntax including headings, tables, code blocks, links, images, lists, blockquotes, bold, italic, strikethrough,
+          and more. Everything runs 100% in your browser with live preview, syntax highlighting, and fullscreen mode.
+        </p>
+
+        <h3>Why Convert Markdown to HTML?</h3>
+        <p>
+          Markdown is the preferred writing format for developers, technical writers, and content creators because it's
+          simple, readable, and fast to write. However, most websites, blogs, and publishing platforms require HTML for
+          final output. Converting Markdown to HTML is essential for publishing blog posts, generating documentation sites,
+          creating README files for display on websites, embedding formatted content in web applications, converting technical
+          documentation, preparing content for email newsletters, and exporting articles to CMS platforms. Manual HTML writing
+          is slow and error-prone, while Markdown offers clean syntax that's easy to read and write, with automatic conversion
+          to properly structured HTML.
+        </p>
+
+        <h3>How to Use This Converter</h3>
+        <p>
+          Simply start typing Markdown in the left editor panel and watch the HTML preview update instantly in real-time on
+          the right—no convert button needed. The editor features syntax highlighting that color-codes headings, bold, italic,
+          code blocks, links, and other Markdown elements for easy reading while writing. Switch between Preview mode to see
+          the rendered output or HTML mode to view and copy the generated source code. Use the fullscreen button to focus on
+          your preview, copy HTML to clipboard, or download a complete HTML file with proper DOCTYPE ready to use in any project.
+        </p>
+
+        <h3>Key Benefits</h3>
+        <ul>
+          <li><strong>No installation required:</strong> Works directly in your browser without any software downloads</li>
+          <li><strong>Completely free:</strong> No registration, credit card, or hidden fees</li>
+          <li><strong>Secure and private:</strong> All conversion happens locally - your content never reaches our servers</li>
+          <li><strong>Real-time preview:</strong> HTML updates instantly as you type with no button clicks needed</li>
+          <li><strong>Syntax highlighting:</strong> Color-coded Markdown editor makes writing and editing easier</li>
+          <li><strong>Dual view modes:</strong> Toggle between rendered preview and HTML source code</li>
+          <li><strong>Fullscreen support:</strong> Distraction-free writing and preview experience</li>
+          <li><strong>Complete Markdown support:</strong> Headers, tables, code blocks, lists, links, images, and more</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <p>
+          Developers use Markdown to HTML converters for writing and previewing README.md files before committing to GitHub,
+          generating documentation pages from Markdown source files, converting technical specifications and API docs,
+          creating formatted release notes and changelogs, preparing blog posts written in Markdown for WordPress or custom
+          CMS, building static site content with proper HTML structure. Technical writers convert documentation, tutorials,
+          and guides from Markdown to HTML for publication, preview formatting before deployment, ensure proper heading
+          hierarchy and table structure, generate clean HTML for knowledge bases and help centers. Content creators and
+          bloggers write articles in Markdown for speed and simplicity, preview formatting in real-time, export to HTML
+          for Substack, Medium, Ghost, or custom blogs, convert newsletter content with proper formatting, and create
+          formatted email content from Markdown drafts.
+        </p>
+
+        <h3>Supported Markdown Features</h3>
+        <p>
+          The converter supports comprehensive Markdown syntax including: headings (H1-H6 with # syntax), bold text
+          (**bold** or __bold__), italic text (*italic* or _italic_), strikethrough (~~text~~), inline code (`code`),
+          fenced code blocks with language hints (```language), unordered lists with -, *, or +, ordered lists with numbers,
+          blockquotes with &gt; prefix, horizontal rules (---, ***, ___), links with [text](url) syntax, images with
+          ![alt](url) syntax, tables with pipe | syntax and header separators, nested formatting (bold + italic), and proper
+          paragraph handling with line breaks. All syntax is highlighted in the editor for easy visual editing.
+        </p>
+
+        <h3>Technical Features</h3>
+        <p>
+          The converter provides real-time rendering with instant preview updates as you type, syntax-highlighted editor
+          with color-coded Markdown elements for improved readability, dual output modes (rendered preview or HTML source),
+          fullscreen mode for distraction-free writing and preview, tab key support for proper indentation (inserts spaces),
+          synchronized scrolling between editor and preview, copy-to-clipboard for generated HTML, download as complete
+          HTML5 document with DOCTYPE and proper structure, handles escaped HTML entities correctly, preserves whitespace
+          and line breaks appropriately, generates semantic HTML (proper heading hierarchy, list structure, table formatting),
+          and includes error-free parsing of complex nested structures. The tool processes everything client-side with zero
+          latency and no server dependencies.
+        </p>
+
+        <h3>Privacy and Security</h3>
+        <p>
+          Unlike online converters that upload your files to remote servers, this tool processes everything locally in your
+          browser using JavaScript. Your documentation, blog posts, articles, technical specifications, personal notes,
+          or any Markdown content never leave your computer, making it completely safe for converting confidential documentation,
+          internal company wikis, unpublished articles, draft blog posts, or any sensitive content. No cookies, tracking,
+          data storage, or server communication. Perfect for working with proprietary documentation, pre-release content,
+          internal knowledge bases, or any private writing that requires strict confidentiality. Your content remains 100%
+          private and secure.
+        </p>
+      </section>
+
       <section className="features" aria-label="Features">
         {[
           {

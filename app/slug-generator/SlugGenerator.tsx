@@ -213,6 +213,98 @@ export default function SlugGenerator() {
         </div>
       </section>
 
+      <section className="seo-content" aria-labelledby="about-heading">
+        <h2 id="about-heading">About URL Slug Generator Tool</h2>
+        <p>
+          This free online slug generator tool converts any text into clean, SEO-friendly, URL-safe slugs instantly.
+          Whether you're a developer building URLs, a content creator formatting blog post links, or a marketer optimizing
+          page URLs, our tool generates lowercase, hyphenated slugs with Cyrillic transliteration support (Ukrainian, Russian),
+          stop-word removal, custom separators (hyphen, underscore, dot), length limits, and multi-locale support for
+          English, Ukrainian, German, French, and Spanish. Everything runs 100% in your browser with instant generation.
+        </p>
+
+        <h3>Why Generate URL-Friendly Slugs?</h3>
+        <p>
+          URL slugs are the readable, SEO-friendly parts of web addresses that come after the domain name (example.com/this-is-a-slug).
+          Good slugs improve search engine rankings, make URLs memorable and shareable, indicate page content to users and
+          search engines, and provide better user experience. However, creating slugs manually is tedious: you need to
+          convert to lowercase, replace spaces with hyphens, remove special characters, handle accented letters and Cyrillic
+          text, remove stop words (a, the, and, or, etc.) for shorter URLs, and ensure compatibility with all browsers and
+          servers. Automated slug generation ensures consistency, saves time, prevents URL encoding issues (%20, %D0, etc.),
+          and follows best practices for SEO and readability.
+        </p>
+
+        <h3>How to Use This Slug Generator</h3>
+        <p>
+          Type or paste your text (blog post title, product name, page title, or any phrase) into the input field. Configure
+          your slug preferences: choose a separator (hyphen for standard URLs, underscore for some systems, dot for special
+          cases), enable lowercase conversion (recommended for consistency), enable stop-word removal to create shorter,
+          focused slugs, select your locale for proper transliteration (Ukrainian/Cyrillic to Latin, German umlauts, French
+          accents, etc.), and optionally set a maximum length to keep URLs concise. Click "Generate Slug" to get your
+          instant, URL-ready slug. Copy it to clipboard for immediate use in your CMS, website, or application.
+        </p>
+
+        <h3>Key Benefits</h3>
+        <ul>
+          <li><strong>No installation required:</strong> Works directly in your browser without any software downloads</li>
+          <li><strong>Completely free:</strong> No registration, credit card, or hidden fees</li>
+          <li><strong>Secure and private:</strong> All generation happens locally - your content never reaches our servers</li>
+          <li><strong>Instant generation:</strong> Results appear immediately with zero latency</li>
+          <li><strong>Cyrillic transliteration:</strong> Ukrainian and Russian text converts to Latin characters properly</li>
+          <li><strong>SEO-optimized:</strong> Removes stop words, converts to lowercase, uses proper separators</li>
+          <li><strong>Multi-locale support:</strong> Handles English, Ukrainian, German, French, Spanish text correctly</li>
+          <li><strong>Highly configurable:</strong> Custom separators, length limits, stop-word removal, case options</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <p>
+          Developers use slug generators for creating blog post URLs from titles programmatically, generating product page
+          slugs for e-commerce sites, building CMS URL routing with clean slugs, creating API endpoint names from descriptions,
+          generating file names for uploads and static assets, building permalink structures for WordPress, Drupal, or custom
+          CMS. Content creators and bloggers convert article titles to URL-friendly slugs before publishing, optimize blog
+          post URLs for SEO and readability, create memorable URLs for landing pages and campaigns, generate consistent URL
+          structures across multiple posts, fix poorly formatted URLs from imported content. SEO specialists optimize page
+          URLs with keyword-focused slugs, remove stop words to shorten URLs and improve focus, ensure URLs follow best
+          practices (lowercase, hyphenated, concise), create canonical URLs for duplicate content, audit and fix existing
+          URL structures. Marketers generate campaign URLs, landing page slugs, and tracking links with clean, branded URLs.
+        </p>
+
+        <h3>Supported Features</h3>
+        <p>
+          The slug generator handles comprehensive text transformations: Cyrillic transliteration converts Ukrainian (і→i,
+          є→ye, ї→yi, Ґ→g) and Russian (ы→y, э→e, ю→yu, я→ya) to Latin characters using proper phonetic mappings. Accented
+          character normalization converts ä→a, ö→o, ü→u (German), é→e, è→e, ê→e (French), ñ→n, á→a (Spanish), and other
+          diacritics to ASCII equivalents. Stop word removal eliminates common words (a, an, the, and, or, but, in, on, at,
+          to, for, of, with, from) in English and other configured locales for shorter, more focused slugs. Special character
+          removal strips punctuation, symbols, emoji, and non-alphanumeric characters. Multiple separator options (hyphen
+          for standard URLs, underscore for database-friendly slugs, dot for alternative formats). Lowercase conversion
+          ensures consistency (recommended for all modern web servers). Maximum length limiting truncates slugs at word
+          boundaries to maintain readability while meeting length constraints.
+        </p>
+
+        <h3>Technical Features</h3>
+        <p>
+          The generator processes text with intelligent algorithms: strips HTML tags and special characters, normalizes
+          Unicode characters to ASCII equivalents, applies locale-specific transliteration rules, removes or replaces
+          stop words based on selected language, converts to lowercase or preserves case as configured, replaces whitespace
+          with chosen separator, removes consecutive separators (avoid example--slug), trims separators from start and end,
+          optionally truncates to maximum length at word boundaries (never cuts mid-word), validates output for URL safety,
+          and handles edge cases like all-numeric input, emoji-only text, or special Unicode characters. The tool generates
+          slugs that work correctly in all modern browsers, web servers (Apache, Nginx), and frameworks (WordPress, Next.js,
+          Django, Rails). Copy-to-clipboard functionality for instant use.
+        </p>
+
+        <h3>Privacy and Security</h3>
+        <p>
+          Unlike online slug generators that upload your text to remote servers, this tool processes everything locally
+          in your browser using JavaScript. Your blog post titles, product names, page titles, internal documentation,
+          draft content, or any text never leave your computer, making it completely safe for generating slugs from
+          confidential content. No cookies, tracking, data storage, or server communication. Perfect for working with
+          unpublished articles, internal project names, proprietary product titles, client websites, or any sensitive
+          content that requires privacy. Your content and URL structure remain 100% private and secure on your device.
+        </p>
+      </section>
+
       {/* Features */}
       <section className="features" aria-label="Features">
         {[

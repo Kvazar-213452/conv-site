@@ -515,6 +515,115 @@ textarea::-webkit-scrollbar-thumb,
     transform: rotate(180deg) scale(.9);
 }
 
+/* ── SEO CONTENT ─────────────────────────────────────────────── */
+.seo-content {
+    margin: 80px auto 0;
+    padding: 48px 32px;
+    border-top: 1px solid var(--color-border);
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--color-surface) 0%, transparent 100%);
+    animation: fadeUp .6s ease .8s both;
+}
+
+.seo-content h2 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1.2px;
+    margin-bottom: 24px;
+    color: var(--color-text);
+    transition: color .35s;
+    position: relative;
+    padding-bottom: 16px;
+}
+
+.seo-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    border-radius: 2px;
+}
+
+.seo-content h3 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -.6px;
+    margin-top: 40px;
+    margin-bottom: 14px;
+    color: var(--color-text);
+    transition: color .35s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.seo-content h3::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: var(--color-accent);
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.seo-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
+    transition: color .35s;
+}
+
+.seo-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0;
+    background: var(--color-accent-soft);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 8px;
+    padding: 20px 24px;
+}
+
+.seo-content ul li {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+    margin-bottom: 14px;
+    padding-left: 28px;
+    position: relative;
+    transition: color .35s, transform .2s;
+}
+
+.seo-content ul li:last-child {
+    margin-bottom: 0;
+}
+
+.seo-content ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.seo-content ul li:hover {
+    transform: translateX(4px);
+    color: var(--color-text);
+}
+
+.seo-content strong {
+    color: var(--color-text);
+    font-weight: 600;
+    transition: color .35s;
+    background: linear-gradient(120deg, transparent 0%, var(--color-accent-soft) 50%, transparent 100%);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
 /* ── TABLET  (≤ 900px) ───────────────────────────────────────── */
 @media (max-width: 900px) {
     main {
@@ -637,6 +746,54 @@ textarea::-webkit-scrollbar-thumb,
     .panel {
         max-height: 600px;
     }
+
+    /* SEO Content mobile */
+    .seo-content {
+        margin-top: 48px;
+        padding: 32px 20px;
+    }
+
+    .seo-content h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+    }
+
+    .seo-content h2::after {
+        width: 50px;
+        height: 2px;
+    }
+
+    .seo-content h3 {
+        font-size: 19px;
+        margin-top: 32px;
+        gap: 8px;
+    }
+
+    .seo-content h3::before {
+        width: 3px;
+        height: 16px;
+    }
+
+    .seo-content p,
+    .seo-content ul li {
+        font-size: 15px;
+        line-height: 1.75;
+    }
+
+    .seo-content ul {
+        padding: 16px 20px;
+        margin: 20px 0;
+    }
+
+    .seo-content ul li {
+        padding-left: 24px;
+        margin-bottom: 12px;
+    }
+
+    .seo-content ul li::before {
+        font-size: 16px;
+    }
 }
 
 /* ── VERY SMALL  (≤ 380px) ───────────────────────────────────── */
@@ -661,4 +818,36 @@ textarea::-webkit-scrollbar-thumb,
     .panel {
         max-height: 500px;
     }
+
+    .seo-content {
+        padding: 24px 16px;
+    }
+
+    .seo-content h2 {
+        font-size: 22px;
+    }
+
+    .seo-content h3 {
+        font-size: 17px;
+    }
+
+    .seo-content p,
+    .seo-content ul li {
+        font-size: 14px;
+    }
+
+    .seo-content ul {
+        padding: 14px 16px;
+    }
+
+    .seo-content ul li {
+        padding-left: 20px;
+    }
 }
+
+
+/* 
+
+seo-content
+
+*/

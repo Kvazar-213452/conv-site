@@ -16,6 +16,9 @@ const CONVERTERS = [
   "/date-to-unix-timestamp",
   "/json-to-prisma-schema",
   "/json-to-typescript-interface",
+  "/contacts",
+  "/privacy-policy",
+  "/terms-of-service",
 ];
 
 export default function sitemap() {

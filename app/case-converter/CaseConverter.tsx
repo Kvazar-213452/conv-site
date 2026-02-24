@@ -259,6 +259,65 @@ export default function CaseConverter() {
         </div>
       </section>
 
+      <section className="seo-content" aria-labelledby="about-heading">
+        <h2 id="about-heading">About Case Converter</h2>
+        <p>
+          This free online case converter tool allows you to transform text between 11 different case formats instantly.
+          Whether you're a developer working with code, a writer formatting content, or anyone needing to change text case,
+          our converter handles the transformation seamlessly in your browser.
+        </p>
+
+        <h3>Why Convert Text Case?</h3>
+        <p>
+          Different contexts require different case styles: variables in code use camelCase or snake_case, constants are
+          written in CONSTANT_CASE, class names use PascalCase, and URLs use kebab-case. Writers need Title Case for
+          headings and Sentence case for proper grammar. Manually converting large amounts of text is time-consuming and
+          error-prone, so automating this process saves time and ensures consistency.
+        </p>
+
+        <h3>How to Use This Converter</h3>
+        <p>
+          Converting text case is simple: paste or type your text into the input field, select your desired case format
+          from the available options (Basic, Code, or Fun categories), configure options like preserving newlines or
+          trimming whitespace if needed, then click Convert Case. Your transformed text appears instantly with options
+          to copy, download, or swap for further editing.
+        </p>
+
+        <h3>Key Benefits</h3>
+        <ul>
+          <li><strong>No installation required:</strong> Works directly in your browser without any software downloads</li>
+          <li><strong>Completely free:</strong> No registration, credit card, or hidden fees</li>
+          <li><strong>Secure and private:</strong> All conversion happens locally - your data never reaches our servers</li>
+          <li><strong>Fast processing:</strong> Instant conversion with no waiting time</li>
+          <li><strong>11 formats:</strong> Support for all popular case styles for code and text</li>
+          <li><strong>Flexible options:</strong> Preserve newlines and trim whitespace as needed</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <p>
+          Developers use case converters for renaming variables, formatting class and function names, converting between
+          different naming conventions (camelCase for JavaScript, snake_case for Python, kebab-case for CSS). Content
+          editors format article titles, fix ALL CAPS TEXT, prepare content for publication. Writers and students correct
+          case in citations, format bibliographies, and transform copied text into the proper format. Database administrators
+          convert column names, API developers format endpoint URLs, and designers prepare text for mockups.
+        </p>
+
+        <h3>Technical Features</h3>
+        <p>
+          Our converter preserves multi-line text structure, supports preserving or removing newlines, trims excess
+          whitespace at the beginning and end of each line, handles special characters and Unicode correctly, displays
+          statistics (character count, word count, line count), and provides detailed error messages for invalid input.
+          The tool also includes sample examples for quick testing and a swap function to use output as new input.
+        </p>
+
+        <h3>Privacy and Security</h3>
+        <p>
+          Unlike online converters that send your data to remote servers, this tool processes everything locally in your
+          browser using JavaScript. Your confidential code, passwords, configuration files, or proprietary data never
+          leave your computer, making it safe for converting sensitive information. No cookies, tracking, or data storage.
+        </p>
+      </section>
+
       {/* Features */}
       <section className="features" aria-label="Features">
         {[

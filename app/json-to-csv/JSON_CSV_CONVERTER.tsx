@@ -79,13 +79,13 @@ export default function JSON_CSV_CONVERTER() {
     setError("");
   };
 
-  const inputLabel    = isJson2Csv ? "JSON Input" : "CSV Input";
-  const outputLabel   = isJson2Csv ? "CSV Output" : "JSON Output";
-  const inputDot      = isJson2Csv ? "json" : "csv";
-  const outputDot     = isJson2Csv ? "csv" : "json";
-  const errorPrefix   = isJson2Csv ? "JSON Parse Error" : "CSV Parse Error";
+  const inputLabel = isJson2Csv ? "JSON Input" : "CSV Input";
+  const outputLabel = isJson2Csv ? "CSV Output" : "JSON Output";
+  const inputDot = isJson2Csv ? "json" : "csv";
+  const outputDot = isJson2Csv ? "csv" : "json";
+  const errorPrefix = isJson2Csv ? "JSON Parse Error" : "CSV Parse Error";
   const outputPlaceholder = isJson2Csv ? "# Your CSV will appear here…" : "// Your JSON will appear here…";
-  const inputPlaceholder  = isJson2Csv
+  const inputPlaceholder = isJson2Csv
     ? '[\n  { "name": "Alice", "age": 30 },\n  { "name": "Bob", "age": 25 }\n]'
     : "name,age,city\nAlice,30,Kyiv\nBob,25,Lviv";
 
@@ -222,6 +222,86 @@ export default function JSON_CSV_CONVERTER() {
           </button>
           <button className="btn-secondary" onClick={clearAll}>Clear All</button>
         </div>
+      </section>
+
+      <section className="seo-content" aria-labelledby="about-heading">
+        <h2 id="about-heading">About JSON to CSV Converter</h2>
+        <p>
+          This free online JSON to CSV converter tool allows you to transform data between JSON and CSV formats instantly.
+          Whether you're a developer working with APIs, a data analyst preparing spreadsheet exports, or anyone needing to
+          convert structured data, our bidirectional converter handles JSON arrays to CSV tables and CSV files to JSON
+          objects seamlessly in your browser. Supports nested values, type inference, and header detection.
+        </p>
+
+        <h3>Why Convert Between JSON and CSV?</h3>
+        <p>
+          JSON (JavaScript Object Notation) is the standard format for APIs and web applications, offering nested structures
+          and complex data types. CSV (Comma-Separated Values) is universally compatible with spreadsheet software like
+          Excel, Google Sheets, and database imports. Converting between them is essential for data analysis workflows,
+          exporting API responses to Excel, importing spreadsheet data into applications, sharing data with non-technical
+          stakeholders, and migrating data between systems. Manual conversion is error-prone and time-consuming, especially
+          with large datasets or complex structures.
+        </p>
+
+        <h3>How to Use This Converter</h3>
+        <p>
+          Choose your conversion direction using the toggle: JSON → CSV converts JSON arrays of objects into CSV tables
+          with proper headers and comma-separated values. CSV → JSON converts CSV files into JSON arrays with automatic
+          type inference for numbers, booleans, and null values. Paste your data into the input field, click Convert, and
+          get instant results. Download as .csv or .json files, copy to clipboard, or use the swap button to reverse the
+          conversion and transform the output back.
+        </p>
+
+        <h3>Key Benefits</h3>
+        <ul>
+          <li><strong>No installation required:</strong> Works directly in your browser without any software downloads</li>
+          <li><strong>Completely free:</strong> No registration, credit card, or hidden fees</li>
+          <li><strong>Secure and private:</strong> All conversion happens locally - your data never reaches our servers</li>
+          <li><strong>Fast processing:</strong> Instant conversion with no waiting time or rate limits</li>
+          <li><strong>Bidirectional:</strong> Convert JSON ↔ CSV with full roundtrip support</li>
+          <li><strong>Smart type inference:</strong> Automatically detects numbers, booleans, and null values</li>
+          <li><strong>Header detection:</strong> Auto-detects CSV headers and maps them to JSON keys</li>
+          <li><strong>Nested value support:</strong> Handles complex JSON structures in CSV conversion</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <p>
+          Developers use JSON to CSV converters for exporting API responses to Excel for stakeholder reports, converting
+          database query results to spreadsheet format, transforming JSON logs or analytics data for analysis, importing
+          CSV configuration files into applications, generating CSV reports from JSON datasets, testing data transformations
+          in ETL pipelines. Data analysts convert JSON API data to CSV for Excel pivot tables and charts, import web scraping
+          results into Google Sheets, prepare data for visualization tools, and share datasets with non-technical teams.
+          Business users export JSON from web apps to CSV for budget tracking, inventory management, customer databases,
+          and sales reports.
+        </p>
+
+        <h3>Supported Features</h3>
+        <p>
+          JSON to CSV conversion supports arrays of objects (standard format for tabular data), nested object flattening,
+          consistent column ordering, proper CSV escaping for commas and quotes, and UTF-8 character encoding. CSV to JSON
+          conversion includes automatic header detection, smart type inference (converts "123" to number, "true" to boolean,
+          "null" to null), handling of quoted values and escaped commas, empty value interpretation, and proper JSON array
+          structure generation. Both directions preserve data integrity and handle edge cases like special characters,
+          multi-line values, and empty fields.
+        </p>
+
+        <h3>Technical Features</h3>
+        <p>
+          The converter processes data entirely client-side with zero latency, handles large datasets efficiently, provides
+          detailed error messages for malformed input, preserves UTF-8 and special characters correctly, generates properly
+          formatted output with consistent indentation, offers download options for both .csv and .json files, includes
+          copy-to-clipboard functionality, and features a swap button for quick roundtrip conversion. The tool validates
+          input syntax and reports specific parse errors to help debug data issues.
+        </p>
+
+        <h3>Privacy and Security</h3>
+        <p>
+          Unlike online converters that upload your files to remote servers, this tool processes everything locally in your
+          browser using JavaScript. Your customer data, financial records, API responses, analytics datasets, or any
+          sensitive information never leave your computer, making it completely safe for converting confidential data.
+          No cookies, tracking, data storage, or server communication. Perfect for working with GDPR-protected data,
+          internal business records, personal information, or any proprietary datasets that require privacy.
+        </p>
       </section>
 
       {/* Features */}
