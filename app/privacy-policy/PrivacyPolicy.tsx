@@ -475,7 +475,7 @@ export default function PrivacyPolicyPage() {
           Your data stays private. No uploads, no tracking, no accounts. 
           Start converting your JSON, YAML, CSV, and XML files securely in your browser.
         </p>
-        <Link href="/json-to-yaml" className="btn-convert home-cta">
+        <Link href="/tools/json-to-yaml" className="btn-convert home-cta">
           Start Converting Privately
           <ArrowRight size={18} aria-hidden="true" style={{ marginLeft: '8px' }} />
         </Link>

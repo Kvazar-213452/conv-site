@@ -663,7 +663,7 @@ export default function TermsOfServicePage() {
           Simple terms, unlimited usage, zero cost. Convert your JSON, YAML, CSV, 
           and XML data with complete freedom and peace of mind.
         </p>
-        <Link href="/json-to-yaml" className="btn-convert home-cta">
+        <Link href="/tools/json-to-yaml" className="btn-convert home-cta">
           Start Converting Now
           <ArrowRight size={18} aria-hidden="true" style={{ marginLeft: '8px' }} />
         </Link>

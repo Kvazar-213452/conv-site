@@ -30,7 +30,7 @@ const CONVERTERS = [
     desc: "Convert JSON to clean YAML and back. Handles nested objects, arrays, and special strings.",
     longDesc: "Our JSON to YAML converter is perfect for developers working with configuration files and data serialization. Instantly transform complex JSON structures into human-readable YAML format. Supports bidirectional conversion with full preservation of data types and nested structures.",
     badge: "Bidirectional",
-    href: "/json-to-yaml",
+    href: "/tools/json-to-yaml",
   },
   {
     icon: <Table2 size={22} />,
@@ -38,7 +38,7 @@ const CONVERTERS = [
     desc: "Turn JSON arrays into CSV spreadsheets and parse CSV back to JSON with type inference.",
     longDesc: "Transform JSON arrays into CSV format instantly. Perfect for exporting data to Excel, Google Sheets, or any spreadsheet application. Our CSV to JSON converter includes intelligent type inference and handles complex nested data structures.",
     badge: "Bidirectional",
-    href: "/json-to-csv",
+    href: "/tools/json-to-csv",
   },
   {
     icon: <Code2 size={22} />,
@@ -46,7 +46,7 @@ const CONVERTERS = [
     desc: "Generate well-formed XML from JSON and parse XML tags back to JSON objects.",
     longDesc: "Convert JSON payloads to valid XML documents with proper formatting and structure. Our JSON to XML tool supports namespace handling and generates clean, standards-compliant XML. Great for SOAP APIs, configuration files, and data exchange.",
     badge: "Bidirectional",
-    href: "/json-to-xml",
+    href: "/tools/json-to-xml",
   },
   {
     icon: <Braces size={22} />,
@@ -54,7 +54,7 @@ const CONVERTERS = [
     desc: "Scaffold Prisma schema models from a JSON payload with inferred types and relations.",
     longDesc: "Automatically generate Prisma ORM schema definitions from sample JSON data. Our converter intelligently infers field types, optional fields, and relationships. Save hours of manual schema writing for your Node.js and TypeScript projects.",
     badge: "Bidirectional",
-    href: "/json-to-prisma",
+    href: "/tools/json-to-prisma",
   },
   {
     icon: <Database size={22} />,
@@ -62,7 +62,7 @@ const CONVERTERS = [
     desc: "Generate batch INSERT statements from JSON and parse INSERT SQL back to JSON.",
     longDesc: "Convert JSON arrays into PostgreSQL INSERT statements instantly. Perfect for database migrations, bulk imports, and data seeding. Our tool generates properly escaped SQL and handles all PostgreSQL data types correctly.",
     badge: "Bidirectional",
-    href: "/json-to-postgresql-insert",
+    href: "/tools/json-to-postgresql-insert",
   },
   {
     icon: <Hash size={22} />,
@@ -70,7 +70,7 @@ const CONVERTERS = [
     desc: "Count words, characters, sentences, and paragraphs in any text. Great for essays and content writing.",
     longDesc: "Analyze your text with detailed statistics including word count, character count, sentence count, paragraph count, and reading time estimation. Ideal for writers, students, and content creators who need precise content metrics.",
     badge: "Options",
-    href: "/word-counter",
+    href: "/tools/word-counter",
   },
   {
     icon: <KeyRound size={22} />,
@@ -78,7 +78,7 @@ const CONVERTERS = [
     desc: "Encode UUIDs to compact Base64 strings and decode Base64 back to standard UUID format.",
     longDesc: "Convert standard UUID format to compact Base64 encoding and vice versa. Perfect for URL shortening, API parameters, and data compression. Our UUID Base64 converter maintains perfect reversibility.",
     badge: "Bidirectional",
-    href: "/uuid-to-base64",
+    href: "/tools/uuid-to-base64",
   },
   {
     icon: <Link2 size={22} />,
@@ -86,7 +86,7 @@ const CONVERTERS = [
     desc: "Percent-encode special characters in URLs and decode encoded strings back to plain text.",
     longDesc: "Encode URLs safely for use in query parameters, form submissions, and API requests. Our URL encoder handles all special characters correctly. Decode percent-encoded strings instantly without errors.",
     badge: "Options",
-    href: "/url-encode-or-decode",
+    href: "/tools/url-encode-or-decode",
   },
   {
     icon: <Layers size={22} />,
@@ -94,7 +94,7 @@ const CONVERTERS = [
     desc: "Encode any string to Base64 and decode Base64 back to its original text instantly.",
     longDesc: "Fast and reliable Base64 encoding and decoding for any text string. Perfect for encoding API keys, authentication tokens, and sensitive data. Works with Unicode characters and special symbols.",
     badge: "Bidirectional",
-    href: "/string-to-base64",
+    href: "/tools/string-to-base64",
   },
   {
     icon: <Layers size={22} />,
@@ -102,7 +102,7 @@ const CONVERTERS = [
     desc: "Paste any text and instantly strip duplicate lines, keeping only unique entries.",
     longDesc: "Clean up text files, CSV data, and lists by removing duplicate lines in seconds. Our deduplication tool preserves the order of first occurrence and handles all text formats. Essential for data cleaning and quality assurance.",
     badge: "Options",
-    href: "/remove-duplicate-lines",
+    href: "/tools/remove-duplicate-lines",
   },
   {
     icon: <FileText size={22} />,
@@ -110,7 +110,7 @@ const CONVERTERS = [
     desc: "Render Markdown to clean HTML and convert HTML tags back to Markdown syntax.",
     longDesc: "Convert Markdown syntax to valid HTML instantly. Perfect for blog posts, documentation, and static site generators. Our converter supports tables, code blocks, and all standard Markdown features.",
     badge: "Bidirectional",
-    href: "/markdown-to-html",
+    href: "/tools/markdown-to-html",
   },
   {
     icon: <Type size={22} />,
@@ -118,7 +118,7 @@ const CONVERTERS = [
     desc: "Transform text between camelCase, snake_case, PascalCase, kebab-case, and more.",
     longDesc: "Convert text between multiple naming conventions including camelCase, snake_case, PascalCase, kebab-case, UPPERCASE, and lowercase. Essential tool for programmers working with different coding languages and style guides.",
     badge: "Bidirectional",
-    href: "/case-converter",
+    href: "/tools/case-converter",
   },
   {
     icon: <Clock size={22} />,
@@ -126,7 +126,7 @@ const CONVERTERS = [
     desc: "Convert human-readable dates to Unix timestamps and timestamps back to readable dates.",
     longDesc: "Transform between human-readable dates and Unix timestamps (epoch time) instantly. Handles timezone conversion, different date formats, and millisecond precision. Essential for developers working with APIs and databases.",
     badge: "Bidirectional",
-    href: "/date-to-unix-timestamp",
+    href: "/tools/date-to-unix-timestamp",
   },
   {
     icon: <Braces size={22} />,
@@ -134,7 +134,7 @@ const CONVERTERS = [
     desc: "Generate a full Prisma schema file from a JSON object with inferred field types and models.",
     longDesc: "Create complete Prisma schema files from sample JSON data with automatic type inference. Our generator understands relationships, optional fields, and complex data structures. Perfect for accelerating database setup in modern Node.js projects.",
     badge: "Bidirectional",
-    href: "/json-to-prisma-schema",
+    href: "/tools/json-to-prisma-schema",
   },
   {
     icon: <FileType2 size={22} />,
@@ -142,7 +142,7 @@ const CONVERTERS = [
     desc: "Instantly generate TypeScript interfaces from any JSON payload with nested type support.",
     longDesc: "Auto-generate TypeScript interfaces and types from JSON samples. Supports nested objects, arrays, unions, and optional properties. Save development time by eliminating manual interface creation and ensure type safety across your codebase.",
     badge: "Bidirectional",
-    href: "/json-to-typescript-interface",
+    href: "/tools/json-to-typescript-interface",
   },
 ];
 
