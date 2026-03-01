@@ -4,6 +4,7 @@ import Header from "@/component/Header";
 import Footer from "@/component/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from "next/script";
 
 import "@/style/global.css";
 
@@ -88,6 +89,14 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" />
       </head>
       <body>
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5292843538766538"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+
         <Header />
         <div className="page-wrapper">
           <main>{children}</main>
