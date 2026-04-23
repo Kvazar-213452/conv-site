@@ -8,7 +8,8 @@ const CONVERTERS = [
   "/tools/json-to-postgresql",
   "/tools/word-counter",
   "/tools/uuid-to-base64",
-  "/tools/url-encode-or-decode",
+  "/tools/url-decode",
+  "/tools/url-encode",
   "/tools/string-to-base64",
   "/tools/remove-duplicate-lines",
   "/tools/markdown-to-html",
@@ -19,6 +20,8 @@ const CONVERTERS = [
   "/contacts",
   "/privacy-policy",
   "/terms-of-service",
+  "/blog/json-vs-xml",
+  "/"
 ];
 
 export default function sitemap() {

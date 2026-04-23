@@ -1,7 +1,7 @@
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
-import UrlEncodeDecode from "./UrlEncodeDecode";
+import JsonVsXml from "./JsonVsXml";
 import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 
 export const metadata: Metadata = {
@@ -48,8 +48,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function UrlEncodeDecodePage() {
+export default function JsonVsXmlPage() {
   return (
-    <UrlEncodeDecode />
+    <JsonVsXml />
   );
 }
