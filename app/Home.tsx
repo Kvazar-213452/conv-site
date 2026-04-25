@@ -16,6 +16,8 @@ import {
   FileText,
   Clock,
   FileType2,
+  FileJson,
+  Minimize2
 } from "lucide-react";
 
 import "@/style/main.css";
@@ -144,6 +146,22 @@ const CONVERTERS = [
     badge: "Bidirectional",
     href: "/tools/json-to-typescript-interface",
   },
+  {
+    icon: <FileJson size={22} />,
+    label: "JSON Formatter for Large Files",
+    desc: "Format or minify JSON files up to 100 MB right in your browser with drag-and-drop upload.",
+    longDesc: "Pretty-print or compress massive JSON payloads — API exports, NDJSON logs, GeoJSON, database dumps — without crashing your browser. Choose 2 spaces, 4 spaces, or tabs, drag files directly from your file manager, and get instant size statistics. Everything runs client-side: your data never reaches a server, making it safe for production payloads and confidential exports.",
+    badge: "Up to 100 MB",
+    href: "/tools/json-formatter",
+  },
+  {
+    icon: <Minimize2 size={22} />,
+    label: "Minify JSON Online",
+    desc: "Compress JSON to a single line or beautify it back with one click and instant size savings.",
+    longDesc: "Strip whitespace, line breaks, and indentation to shrink JSON payloads by up to 80% — or beautify minified blobs into clean, indented format for debugging. Perfect for production REST APIs, JSON-LD structured data, GraphQL responses, and analytics events where every byte matters. Bidirectional with roundtrip support, full type preservation, and detailed compression statistics.",
+    badge: "Bidirectional",
+    href: "/tools/minify-json",
+  }
 ];
 
 const STATS = [
@@ -199,7 +217,7 @@ export default function HomePage() {
         <div className="home-section-header">
           <h2 id="tools-heading" className="home-section-title">All converters</h2>
           <p className="home-section-sub">
-            Every tool runs entirely in your browser. Nothing is sent to a server. 
+            Every tool runs entirely in your browser. Nothing is sent to a server.
             Click any converter to start transforming your data immediately.
           </p>
         </div>
@@ -234,18 +252,18 @@ export default function HomePage() {
         <div className="home-converters-seo">
           <h3 className="home-converters-seo-title">Comprehensive Data Format Conversion Tools</h3>
           <p>
-            Our JSON Converter Toolkit includes 15+ essential tools for developers, data engineers, and content creators. 
-            From JSON format conversions (YAML, CSV, XML) to code generation (Prisma schemas, TypeScript interfaces), 
+            Our JSON Converter Toolkit includes 15+ essential tools for developers, data engineers, and content creators.
+            From JSON format conversions (YAML, CSV, XML) to code generation (Prisma schemas, TypeScript interfaces),
             we've covered every common data transformation need.
           </p>
           <p>
-            Each converter is designed for speed and reliability. Convert between formats bidirectionally, encode/decode strings, 
-            count words, generate database schemas, and manipulate text — all without leaving your browser. 
+            Each converter is designed for speed and reliability. Convert between formats bidirectionally, encode/decode strings,
+            count words, generate database schemas, and manipulate text — all without leaving your browser.
             Perfect for API development, database migrations, documentation, and daily developer workflows.
           </p>
           <p>
-            Whether you're a full-stack developer, data scientist, or technical writer, our free converter toolkit 
-            eliminates the need for multiple specialized tools. Work with JSON, YAML, CSV, XML, SQL, Markdown, 
+            Whether you're a full-stack developer, data scientist, or technical writer, our free converter toolkit
+            eliminates the need for multiple specialized tools. Work with JSON, YAML, CSV, XML, SQL, Markdown,
             Base64, UUID, URLs, timestamps, and more in a single unified platform.
           </p>
         </div>
@@ -329,7 +347,7 @@ export default function HomePage() {
           <h3 className="home-faq-title">
             Frequently Asked Questions
           </h3>
-          
+
           <div className="home-faq-item">
             <h4 className="home-faq-question">Is JSON Converter Toolkit really free?</h4>
             <p className="home-faq-answer">
@@ -354,7 +372,7 @@ export default function HomePage() {
           <div className="home-faq-item">
             <h4 className="home-faq-question">What formats are supported?</h4>
             <p className="home-faq-answer">
-              We support JSON, YAML, CSV, XML, Prisma schemas, TypeScript interfaces, PostgreSQL, Base64, URLs, 
+              We support JSON, YAML, CSV, XML, Prisma schemas, TypeScript interfaces, PostgreSQL, Base64, URLs,
               Unix timestamps, Markdown, case conversion, and more.
             </p>
           </div>
@@ -374,7 +392,7 @@ export default function HomePage() {
           Start Converting Today
         </h2>
         <p className="home-final-cta-subtitle">
-          Transform your data formats instantly with our free, privacy-first converter toolkit. 
+          Transform your data formats instantly with our free, privacy-first converter toolkit.
           No sign-ups, no limits, no server uploads.
         </p>
         <Link href={CONVERTERS[0].href} className="btn-convert home-cta">

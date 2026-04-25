@@ -20,7 +20,6 @@ interface User {
   updated_at: string;
 }
 
-// GET — отримати поточного користувача
 export async function GET() {
   const session = await getCurrentUser();
   if (!session) {
@@ -38,12 +37,10 @@ export async function GET() {
   return Response.json({ user });
 }
 
-// POST — усі дії з користувачем
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { action } = body;
 
-  // ── РЕЄСТРАЦІЯ ───────────────────────────────────────────
   if (action === "register") {
     const { username, email, password } = body;
 
@@ -77,7 +74,6 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // ── ЛОГІН ────────────────────────────────────────────────
   if (action === "login") {
     const { username, password } = body;
 
@@ -107,7 +103,6 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // ── LOGOUT ───────────────────────────────────────────────
   if (action === "logout") {
     await clearAuthCookie();
     return Response.json({ msg: "Logged out" });
@@ -116,7 +111,6 @@ export async function POST(req: NextRequest) {
   return Response.json({ error: "Unknown action" }, { status: 400 });
 }
 
-// PATCH — оновити профіль
 export async function PATCH(req: NextRequest) {
   const session = await getCurrentUser();
   if (!session) {
@@ -173,7 +167,6 @@ export async function PATCH(req: NextRequest) {
   return Response.json({ msg: "Profile updated", user });
 }
 
-// DELETE — видалити акаунт
 export async function DELETE() {
   const session = await getCurrentUser();
   if (!session) {
