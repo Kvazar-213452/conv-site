@@ -232,3 +232,52 @@ export const EXAMPLE_UUID = `550e8400-e29b-41d4-a716-446655440000
 export const EXAMPLE_BASE641 = `VQ6EAOKbQdSnFkRmVUQAAA==
 a6e4EMna0R2AtEAAwE/UMIg=
 a6e4EZ3a0R2AtEAAwE/UMIg=`;
+
+// ===============     ===============
+//                another
+// ===============     ===============
+
+export const EXAMPLE_HASH_INPUT = `Hello, World!
+The quick brown fox jumps over the lazy dog
+password123`;
+
+// ===============     ===============
+//                another
+// ===============     ===============
+
+export const EXAMPLE_JWT = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`;
+
+// ===============     ===============
+//                another
+// ===============     ===============
+
+export const EXAMPLE_COLOR_HEX = `#3b82f6`;
+export const EXAMPLE_COLOR_RGB = `rgb(59, 130, 246)`;
+export const EXAMPLE_COLOR_HSL = `hsl(217, 91%, 60%)`;
+
+// ===============     ===============
+//                another
+// ===============     ===============
+
+export const EXAMPLE_REGEX_PATTERN = `\\b([A-Z][a-z]+)\\s(\\d{4})\\b`;
+export const EXAMPLE_REGEX_FLAGS = `g`;
+export const EXAMPLE_REGEX_TEXT = `Alice 2024 moved to Austin. Bob 2023 joined Denver, and Carol 2025 relocated to Portland.`;
+
+// ===============     ===============
+//                another
+// ===============     ===============
+
+export const EXAMPLE_DIFF_A = `function greet(name) {
+  console.log("Hello, " + name);
+  return name.length;
+}
+
+greet("World");`;
+
+export const EXAMPLE_DIFF_B = `function greet(name: string): number {
+  console.log(\`Hello, \${name}\`);
+  return name.length;
+}
+
+greet("World");
+greet("Universe");`;

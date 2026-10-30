@@ -1,0 +1,93 @@
+/* ── Regex Tester — additional styles ──────────────────────── */
+
+.rx-pattern-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-accent-soft);
+  flex-wrap: wrap;
+}
+
+.rx-input {
+  flex: 1;
+  min-width: 160px;
+  padding: 6px 10px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-bright);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.rx-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent-soft);
+}
+
+.rx-flags {
+  width: 90px;
+  flex: 0 0 auto;
+}
+
+.rx-highlight {
+  flex: 1;
+  min-height: 220px;
+  padding: 18px 20px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--color-code-yaml);
+  background: transparent;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.rx-highlight.empty {
+  color: var(--color-text-dim);
+  font-style: italic;
+}
+
+.rx-mark {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  padding: 0 3px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.rx-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 20px 18px;
+  overflow: auto;
+}
+
+.rx-list-item {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.rx-list-index {
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.rx-list-pos {
+  color: var(--color-text-dim);
+  margin-left: 6px;
+}
+
+.rx-list-more {
+  font-size: 11px;
+  color: var(--color-text-dim);
+  font-style: italic;
+}

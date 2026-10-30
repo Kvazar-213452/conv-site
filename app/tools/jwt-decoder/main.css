@@ -1,0 +1,70 @@
+/* ── JWT Decoder — additional styles ───────────────────────── */
+
+.jwt-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 22px;
+  padding: 18px 20px;
+  overflow: auto;
+}
+
+.jwt-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.jwt-group-title {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.jwt-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.jwt-key {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--color-text);
+}
+
+.jwt-value {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: var(--color-code-yaml);
+  word-break: break-all;
+  line-height: 1.6;
+}
+
+.jwt-ts-hint {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--color-text-dim);
+}
+
+.jwt-signature {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  word-break: break-all;
+  line-height: 1.6;
+}
+
+.jwt-note {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--color-text-dim);
+  font-style: italic;
+}

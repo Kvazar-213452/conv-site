@@ -1,0 +1,50 @@
+/* ── Number Base Converter — additional styles ─────────────── */
+
+.nb-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 20px;
+  overflow: auto;
+}
+
+.nb-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nb-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.nb-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.nb-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--color-accent);
+}
+
+.nb-value {
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  color: var(--color-code-yaml);
+  word-break: break-all;
+  line-height: 1.6;
+}
+
+.nb-prefix {
+  color: var(--color-text-dim);
+}

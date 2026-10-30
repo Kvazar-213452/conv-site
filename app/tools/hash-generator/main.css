@@ -1,0 +1,46 @@
+/* ── Hash Generator — additional styles ────────────────────── */
+
+.hg-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 20px;
+  overflow: auto;
+}
+
+.hg-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hg-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.hg-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.hg-algo {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--color-accent);
+}
+
+.hg-hex {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: var(--color-code-yaml);
+  word-break: break-all;
+  line-height: 1.6;
+}

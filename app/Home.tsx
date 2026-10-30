@@ -17,7 +17,13 @@ import {
   Clock,
   FileType2,
   FileJson,
-  Minimize2
+  Minimize2,
+  Palette,
+  Search,
+  ShieldCheck,
+  Lock,
+  GitCompare,
+  Binary
 } from "lucide-react";
 
 import "@/style/main.css";
@@ -161,6 +167,70 @@ const CONVERTERS = [
     longDesc: "Strip whitespace, line breaks, and indentation to shrink JSON payloads by up to 80% — or beautify minified blobs into clean, indented format for debugging. Perfect for production REST APIs, JSON-LD structured data, GraphQL responses, and analytics events where every byte matters. Bidirectional with roundtrip support, full type preservation, and detailed compression statistics.",
     badge: "Bidirectional",
     href: "/tools/minify-json",
+  },
+  {
+    icon: <ShieldCheck size={22} />,
+    label: "Hash Generator",
+    desc: "Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from any text in a single click.",
+    longDesc: "Compute every common cryptographic hash — MD5, SHA-1, SHA-256, SHA-384, SHA-512 — from a single input. Perfect for verifying file integrity, generating checksums, debugging auth flows, and comparing hashes during security research. All processing runs locally via the Web Crypto API.",
+    badge: "Multi-Algorithm",
+    href: "/tools/hash-generator",
+  },
+  {
+    icon: <KeyRound size={22} />,
+    label: "JWT Decoder",
+    desc: "Decode JSON Web Tokens and inspect header, payload, and signature with formatted timestamps.",
+    longDesc: "Split any JWT into its three parts and parse the Base64URL-encoded JSON. Timestamp claims like iat, exp, and nbf are converted to human-readable ISO dates. Perfect for debugging OAuth, OpenID Connect, and custom auth flows. Runs entirely in your browser — never send production tokens to a third-party site.",
+    badge: "Inspect",
+    href: "/tools/jwt-decoder",
+  },
+  {
+    icon: <Palette size={22} />,
+    label: "Color Converter",
+    desc: "Convert between HEX, RGB, and HSL with a live preview swatch for CSS and design work.",
+    longDesc: "Instantly translate colors between the three most common web formats — HEX, RGB, HSL — with a live preview swatch. Accepts shorthand (#abc) and full HEX, rgb() and hsl() notations. Perfect for CSS authoring, design-system work, and brand palette inspection.",
+    badge: "Bidirectional",
+    href: "/tools/color-converter",
+  },
+  {
+    icon: <Search size={22} />,
+    label: "Regex Tester",
+    desc: "Live-highlighting JavaScript regex playground with capture groups, named groups, and match counts.",
+    longDesc: "Build and debug JavaScript regular expressions with live match highlighting as you type. Supports all standard flags (gimsuy) and shows positional and named capture groups for every match. Perfect for building validators, scrapers, parsers, and search features.",
+    badge: "Live",
+    href: "/tools/regex-tester",
+  },
+  {
+    icon: <FileText size={22} />,
+    label: "Lorem Ipsum Generator",
+    desc: "Generate placeholder text by paragraphs, sentences, or words with the classic opener option.",
+    longDesc: "Produce configurable amounts of Lorem Ipsum placeholder text — paragraphs, sentences, or words — perfect for mockups, wireframes, email templates, and layout testing. Toggle the classic 'Lorem ipsum dolor sit amet…' opener and copy straight into your design tool, CMS, or code.",
+    badge: "Options",
+    href: "/tools/lorem-ipsum",
+  },
+  {
+    icon: <Lock size={22} />,
+    label: "Password Generator",
+    desc: "Create strong, cryptographically secure passwords with configurable length and character classes.",
+    longDesc: "Generate strong, cryptographically secure passwords powered by crypto.getRandomValues — the same CSPRNG the browser uses for TLS keys. Choose length (4–256), toggle character classes (a-z, A-Z, 0-9, symbols), exclude ambiguous characters, and see entropy readouts. 100% client-side, nothing is logged or stored.",
+    badge: "Secure",
+    href: "/tools/password-generator",
+  },
+  {
+    icon: <GitCompare size={22} />,
+    label: "Text Diff",
+    desc: "Compare two blocks of text line by line with added, removed, and unchanged highlighting.",
+    longDesc: "Side-by-side line diff powered by the classic longest-common-subsequence algorithm. Perfect for comparing code revisions, configuration files, legal documents, and translations. Line numbers for both sides, color-coded output, and diff stats — all computed locally in your browser.",
+    badge: "LCS Diff",
+    href: "/tools/text-diff",
+  },
+  {
+    icon: <Binary size={22} />,
+    label: "Number Base Converter",
+    desc: "Convert integers between binary, octal, decimal, and hexadecimal with BigInt precision.",
+    longDesc: "Convert integers between the four most common numeric bases — binary, octal, decimal, hex — using BigInt for arbitrary precision. Accepts 0b/0o/0x prefixes and underscores as digit separators. Perfect for reading bitmasks, decoding binary protocols, inspecting hex IDs, and CS coursework.",
+    badge: "BigInt",
+    href: "/tools/number-base-converter",
   }
 ];
 
