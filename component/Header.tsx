@@ -129,6 +129,7 @@ export default function Header() {
 
           {/* Desktop nav */}
           <nav className="nav-desktop" aria-label="Main navigation">
+            <Link href="/blog">Blog</Link>
             <Link href="/privacy-policy">Privacy policy</Link>
             <Link href="/terms-of-service">Terms of service</Link>
             <Link href="/contacts">Contacts</Link>
@@ -269,6 +270,9 @@ export default function Header() {
               </div>
             )}
 
+            <Link href="/blog" onClick={() => setMenuOpen(false)}>
+              Blog
+            </Link>
             <Link href="/privacy-policy" onClick={() => setMenuOpen(false)}>
               Privacy policy
             </Link>

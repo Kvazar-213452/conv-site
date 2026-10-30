@@ -30,7 +30,9 @@ import {
   FileCog,
   Network,
   Image as ImageIcon,
-  Shield
+  Shield,
+  Settings2,
+  ArrowLeft
 } from "lucide-react";
 
 import "@/style/main.css";
@@ -64,20 +66,12 @@ const CONVERTERS = [
     href: "/tools/json-to-xml",
   },
   {
-    icon: <Braces size={22} />,
-    label: "JSON → Prisma",
-    desc: "Scaffold Prisma schema models from a JSON payload with inferred types and relations.",
-    longDesc: "Automatically generate Prisma ORM schema definitions from sample JSON data. Our converter intelligently infers field types, optional fields, and relationships. Save hours of manual schema writing for your Node.js and TypeScript projects.",
-    badge: "Bidirectional",
-    href: "/tools/json-to-prisma",
-  },
-  {
     icon: <Database size={22} />,
     label: "JSON → PostgreSQL",
     desc: "Generate batch INSERT statements from JSON and parse INSERT SQL back to JSON.",
     longDesc: "Convert JSON arrays into PostgreSQL INSERT statements instantly. Perfect for database migrations, bulk imports, and data seeding. Our tool generates properly escaped SQL and handles all PostgreSQL data types correctly.",
     badge: "Bidirectional",
-    href: "/tools/json-to-postgresql-insert",
+    href: "/tools/json-to-postgresql",
   },
   {
     icon: <Hash size={22} />,
@@ -101,7 +95,7 @@ const CONVERTERS = [
     desc: "Percent-encode special characters in URLs and decode encoded strings back to plain text.",
     longDesc: "Encode URLs safely for use in query parameters, form submissions, and API requests. Our URL encoder handles all special characters correctly. Decode percent-encoded strings instantly without errors.",
     badge: "Options",
-    href: "/tools/url-encode-or-decode",
+    href: "/tools/url-encode",
   },
   {
     icon: <Layers size={22} />,
@@ -318,6 +312,30 @@ const CONVERTERS = [
     longDesc: "Shrink SVGs exported from Inkscape, Figma, Illustrator, and Sketch by 30–70% with side-by-side preview and byte savings readout. Removes XML declarations, metadata blocks, editor-specific namespaces, and unused precision. Perfect for shipping fast, bundle-friendly SVGs in React/Vue/Svelte components.",
     badge: "30–70% smaller",
     href: "/tools/svg-optimizer",
+  },
+  {
+    icon: <Link2 size={22} />,
+    label: "Slug Generator",
+    desc: "Turn any text into a clean, URL-friendly slug with Cyrillic transliteration and stop-word removal.",
+    longDesc: "Generate SEO-friendly URL slugs from blog titles, product names, or any phrase. Supports Cyrillic transliteration (Ukrainian, Russian), stop-word removal in multiple languages, custom separators, lowercase conversion, and max length limits. Perfect for CMS workflows, blog permalinks, and e-commerce product URLs.",
+    badge: "Multi-locale",
+    href: "/tools/slug-generator",
+  },
+  {
+    icon: <Settings2 size={22} />,
+    label: "ENV Parser",
+    desc: "Parse .env files and convert between .env, JSON, and YAML for safe secret management.",
+    longDesc: "Convert .env configuration files to JSON or YAML and back. Handles quoted values, multi-line entries, comments, and interpolation references. Perfect for migrating secrets between formats, auditing environment variables, and preparing config for Docker, Kubernetes, and CI/CD pipelines.",
+    badge: "Multi-format",
+    href: "/tools/env-parser",
+  },
+  {
+    icon: <ArrowLeft size={22} />,
+    label: "URL Decode",
+    desc: "Decode percent-encoded URLs and query parameters back to plain text with full Unicode support.",
+    longDesc: "Instantly decode percent-encoded URLs, query strings, and form data back to their original form. Handles all Unicode characters correctly — Cyrillic, Chinese, Arabic, emoji. Perfect for debugging API requests, parsing logs, and inspecting redirect chains.",
+    badge: "Unicode",
+    href: "/tools/url-decode",
   }
 ];
 
@@ -540,6 +558,36 @@ export default function HomePage() {
               Yes, the toolkit handles large files efficiently. Your browser's capabilities set the limit.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* ── BLOG TEASER ────────────────────────────────────── */}
+      <section aria-labelledby="blog-heading" className="home-why">
+        <h2 id="blog-heading" className="home-section-title">From the blog</h2>
+        <p className="home-section-sub">
+          Deep-dive guides and cheatsheets that pair with the tools above —
+          format comparisons, security explainers, and reference docs.
+        </p>
+        <div className="features">
+          {[
+            { href: "/blog/json-vs-yaml",         title: "JSON vs YAML",            desc: "When to use each, with examples and the Norway problem." },
+            { href: "/blog/understanding-jwt",    title: "Understanding JWT",       desc: "Anatomy, signing algorithms, and the usual mistakes." },
+            { href: "/blog/regex-cheatsheet",     title: "Regex Cheatsheet",        desc: "Classes, flags, groups, lookarounds, and recipes." },
+            { href: "/blog/chmod-explained",      title: "chmod Explained",         desc: "Octal math, special bits, umask, and chown together." },
+            { href: "/blog/html-entities-xss",    title: "HTML Entities & XSS",     desc: "Context-aware escaping done right — HTML, URLs, JS, CSS." },
+            { href: "/blog/sql-formatting-guide", title: "SQL Formatting Guide",    desc: "Readable SQL conventions for code review and incidents." },
+          ].map(({ href, title, desc }) => (
+            <Link key={href} href={href} className="feature" style={{ textDecoration: "none", color: "inherit" }}>
+              <h3>{title}</h3>
+              <p>{desc}</p>
+            </Link>
+          ))}
+        </div>
+        <div className="home-cta-row" style={{ marginTop: "24px" }}>
+          <Link href="/blog" className="btn-convert home-cta">
+            Read all posts
+            <ArrowRight size={16} aria-hidden="true" />
+          </Link>
         </div>
       </section>
 

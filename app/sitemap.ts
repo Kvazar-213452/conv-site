@@ -1,22 +1,29 @@
+import type { MetadataRoute } from "next";
 import { MAIN_DOMEN_NO } from "@/lib/config";
 
-const CONVERTERS = [
+type Entry = { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] };
+
+// Tools — one line per real page under app/tools/*. Any path listed here MUST
+// have a matching directory, or Google will see a 404 and drop it from the index.
+const TOOLS: string[] = [
   "/tools/json-to-yaml",
   "/tools/json-to-csv",
   "/tools/json-to-xml",
-  "/tools/json-to-prisma",
   "/tools/json-to-postgresql",
+  "/tools/json-to-prisma-schema",
+  "/tools/json-to-typescript-interface",
+  "/tools/json-formatter",
+  "/tools/minify-json",
+  "/tools/json-diff",
   "/tools/word-counter",
   "/tools/uuid-to-base64",
-  "/tools/url-decode",
   "/tools/url-encode",
+  "/tools/url-decode",
   "/tools/string-to-base64",
   "/tools/remove-duplicate-lines",
   "/tools/markdown-to-html",
   "/tools/case-converter",
   "/tools/date-to-unix-timestamp",
-  "/tools/json-to-prisma-schema",
-  "/tools/json-to-typescript-interface",
   "/tools/hash-generator",
   "/tools/jwt-decoder",
   "/tools/color-converter",
@@ -27,7 +34,6 @@ const CONVERTERS = [
   "/tools/number-base-converter",
   "/tools/cron-parser",
   "/tools/curl-to-fetch",
-  "/tools/json-diff",
   "/tools/toml-to-json",
   "/tools/cidr-calculator",
   "/tools/sql-formatter",
@@ -35,9 +41,11 @@ const CONVERTERS = [
   "/tools/csv-to-markdown",
   "/tools/html-entity-encoder",
   "/tools/svg-optimizer",
-  "/contacts",
-  "/privacy-policy",
-  "/terms-of-service",
+  "/tools/slug-generator",
+  "/tools/env-parser",
+];
+
+const BLOG: string[] = [
   "/blog/json-vs-xml",
   "/blog/json-vs-yaml",
   "/blog/base64-explained",
@@ -50,15 +58,28 @@ const CONVERTERS = [
   "/blog/chmod-explained",
   "/blog/sql-formatting-guide",
   "/blog/html-entities-xss",
-  "/"
 ];
 
-export default function sitemap() {
-  const urls = [{ url: MAIN_DOMEN_NO, priority: 1 }];
-  
-  CONVERTERS.forEach((path) => {
-    urls.push({ url: `${MAIN_DOMEN_NO}${path}`, priority: 0.8 });
-  });
+const STATIC: string[] = [
+  "/contacts",
+  "/privacy-policy",
+  "/terms-of-service",
+];
 
-  return urls;
+const ENTRIES: Entry[] = [
+  { path: "/",     priority: 1.0, changeFrequency: "weekly"  },
+  { path: "/blog", priority: 0.9, changeFrequency: "weekly"  },
+  ...TOOLS.map((path): Entry => ({ path, priority: 0.8, changeFrequency: "monthly" })),
+  ...BLOG.map((path): Entry  => ({ path, priority: 0.7, changeFrequency: "monthly" })),
+  ...STATIC.map((path): Entry => ({ path, priority: 0.3, changeFrequency: "yearly"  })),
+];
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date();
+  return ENTRIES.map(({ path, priority, changeFrequency }) => ({
+    url: `${MAIN_DOMEN_NO}${path}`,
+    lastModified,
+    priority,
+    changeFrequency,
+  }));
 }

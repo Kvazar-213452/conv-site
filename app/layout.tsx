@@ -41,6 +41,8 @@ export const metadata: Metadata = {
   authors: [{ name: NAME_MAKE }],
   creator: NAME_MAKE,
 
+  alternates: { canonical: "/" },
+
   robots: {
     index: true,
     follow: true,
