@@ -23,7 +23,12 @@ import {
   ShieldCheck,
   Lock,
   GitCompare,
-  Binary
+  Binary,
+  CalendarClock,
+  Terminal,
+  Diff,
+  FileCog,
+  Network
 } from "lucide-react";
 
 import "@/style/main.css";
@@ -231,6 +236,46 @@ const CONVERTERS = [
     longDesc: "Convert integers between the four most common numeric bases — binary, octal, decimal, hex — using BigInt for arbitrary precision. Accepts 0b/0o/0x prefixes and underscores as digit separators. Perfect for reading bitmasks, decoding binary protocols, inspecting hex IDs, and CS coursework.",
     badge: "BigInt",
     href: "/tools/number-base-converter",
+  },
+  {
+    icon: <CalendarClock size={22} />,
+    label: "Cron Expression Parser",
+    desc: "Translate any cron expression to plain English and preview the next five executions in your timezone.",
+    longDesc: "Decode Unix-style cron expressions used by crontab, Kubernetes CronJobs, GitHub Actions, Vercel Cron, GitLab CI, and AWS EventBridge. Supports 5-field and 6-field forms, ranges, lists, steps, month and day-of-week aliases, with next-run preview computed locally in your browser.",
+    badge: "Explainer",
+    href: "/tools/cron-parser",
+  },
+  {
+    icon: <Terminal size={22} />,
+    label: "cURL to Fetch",
+    desc: "Convert any cURL command to idiomatic JavaScript — fetch, axios, or XMLHttpRequest.",
+    longDesc: "Paste any cURL command (including Chrome DevTools' Copy as cURL output) and get idiomatic JavaScript. Handles headers, HTTP methods, JSON and form bodies, Basic auth, user agents, cookies, and multi-line commands. Smart JSON detection emits readable JSON.stringify output.",
+    badge: "3 targets",
+    href: "/tools/curl-to-fetch",
+  },
+  {
+    icon: <Diff size={22} />,
+    label: "JSON Diff",
+    desc: "Semantic structural JSON diff ignoring whitespace and key order with dotted path output.",
+    longDesc: "Compare two JSON documents structurally rather than line-by-line. Every change is reported as a dotted path (env.LOG_LEVEL, ports[2]) with before and after values. Perfect for comparing API responses, config files, and database records without noise from whitespace or key reordering.",
+    badge: "Semantic",
+    href: "/tools/json-diff",
+  },
+  {
+    icon: <FileCog size={22} />,
+    label: "TOML to JSON",
+    desc: "Convert between TOML and JSON for Cargo.toml, pyproject.toml, Hugo, and Zola configs.",
+    longDesc: "Bidirectional TOML ↔ JSON converter supporting tables, dotted keys, inline tables, arrays of tables, and numeric literals with underscores. Covers the common 95% of TOML 1.0 for Rust Cargo.toml, Python pyproject.toml, Hugo site configs, and Zola themes.",
+    badge: "Bidirectional",
+    href: "/tools/toml-to-json",
+  },
+  {
+    icon: <Network size={22} />,
+    label: "CIDR Calculator",
+    desc: "IPv4 subnet calculator — mask, wildcard, network/broadcast addresses, host range, and classification.",
+    longDesc: "Parse any IPv4 CIDR block for the netmask, wildcard, network and broadcast addresses, first and last usable host, total addresses, and RFC-1918 classification (private, public, loopback, multicast). Perfect for VPC design, firewall rule review, and network troubleshooting.",
+    badge: "IPv4",
+    href: "/tools/cidr-calculator",
   }
 ];
 

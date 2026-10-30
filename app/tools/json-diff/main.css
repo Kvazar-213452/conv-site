@@ -1,0 +1,72 @@
+/* ── JSON Diff — additional styles ─────────────────────────── */
+
+.jd-panel { grid-column: 1 / -1; }
+
+.jd-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  overflow: auto;
+  font-family: 'Geist Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+.jd-list.empty {
+  color: var(--color-text-dim);
+  font-style: italic;
+}
+
+.jd-row {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 10px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  align-items: start;
+}
+
+.jd-row.add    { background: var(--color-success-bg); }
+.jd-row.remove { background: var(--color-error-bg); }
+.jd-row.change { background: var(--color-accent-soft); }
+
+.jd-tag {
+  font-size: 10px;
+  letter-spacing: .08em;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-align: center;
+  align-self: start;
+}
+
+.jd-row.add    .jd-tag { background: var(--color-success); color: var(--color-text-inverse); }
+.jd-row.remove .jd-tag { background: var(--color-error);   color: var(--color-text-inverse); }
+.jd-row.change .jd-tag { background: var(--color-accent);  color: var(--color-text-inverse); }
+
+.jd-body { display: flex; flex-direction: column; gap: 2px; }
+
+.jd-path   { color: var(--color-text); font-weight: 500; }
+.jd-before { color: var(--color-error); }
+.jd-after  { color: var(--color-success); }
+.jd-arrow  { color: var(--color-text-dim); }
+
+.jd-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border);
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.jd-stats strong { color: var(--color-text); margin-right: 4px; }
+.jd-stat.added   strong { color: var(--color-success); }
+.jd-stat.removed strong { color: var(--color-error); }
+.jd-stat.changed strong { color: var(--color-accent); }
