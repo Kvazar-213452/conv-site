@@ -28,7 +28,9 @@ import {
   Terminal,
   Diff,
   FileCog,
-  Network
+  Network,
+  Image as ImageIcon,
+  Shield
 } from "lucide-react";
 
 import "@/style/main.css";
@@ -276,6 +278,46 @@ const CONVERTERS = [
     longDesc: "Parse any IPv4 CIDR block for the netmask, wildcard, network and broadcast addresses, first and last usable host, total addresses, and RFC-1918 classification (private, public, loopback, multicast). Perfect for VPC design, firewall rule review, and network troubleshooting.",
     badge: "IPv4",
     href: "/tools/cidr-calculator",
+  },
+  {
+    icon: <Database size={22} />,
+    label: "SQL Formatter",
+    desc: "Pretty-print SQL queries with configurable indentation and uppercase keywords for Postgres, MySQL, SQLite, MSSQL.",
+    longDesc: "Format any SQL query — SELECT, INSERT, UPDATE, DELETE, DDL — with one clause per line, indented AND/OR, and preserved comments. Works for Postgres, MySQL, MariaDB, SQLite, and MSSQL. Perfect for reformatting ORM-generated queries, Slack-pasted snippets, and migration scripts before committing.",
+    badge: "Pretty-print",
+    href: "/tools/sql-formatter",
+  },
+  {
+    icon: <Terminal size={22} />,
+    label: "Unix Permissions",
+    desc: "chmod calculator — numeric notation (755) ↔ symbolic (rwxr-xr-x) with setuid, setgid, and sticky bit.",
+    longDesc: "Translate between chmod numeric notation and ls -l symbolic notation with a live permission matrix. Toggle setuid, setgid, and sticky bit; see plain-English descriptions. Essential for sysadmins, Dockerfile authors, and anyone configuring server permissions.",
+    badge: "chmod",
+    href: "/tools/unix-permissions",
+  },
+  {
+    icon: <Table2 size={22} />,
+    label: "CSV to Markdown",
+    desc: "Convert CSV, TSV, or semicolon-separated data to GitHub-flavored Markdown tables with aligned columns.",
+    longDesc: "Turn any CSV spreadsheet export into a GitHub-ready Markdown table with aligned columns, pipe escaping per GFM spec, and configurable text alignment. Handles quoted fields, embedded commas, newlines, and multiple delimiters. Perfect for README tables, pull request descriptions, and documentation.",
+    badge: "GFM",
+    href: "/tools/csv-to-markdown",
+  },
+  {
+    icon: <Shield size={22} />,
+    label: "HTML Entity Encoder",
+    desc: "Encode HTML entities (named, numeric, hex) and decode entity-encoded strings for safe HTML rendering.",
+    longDesc: "Essential XSS defense tool — encode HTML entities with named (&copy;), decimal (&#38;), hex (&#x26;), or minimal modes. Also decodes any entity-encoded string back to plain text. Perfect for template authors, security researchers, and anyone embedding user content in HTML.",
+    badge: "Bidirectional",
+    href: "/tools/html-entity-encoder",
+  },
+  {
+    icon: <ImageIcon size={22} />,
+    label: "SVG Optimizer",
+    desc: "Minify SVG files — strip editor metadata, shorten hex colors, round decimals, collapse whitespace.",
+    longDesc: "Shrink SVGs exported from Inkscape, Figma, Illustrator, and Sketch by 30–70% with side-by-side preview and byte savings readout. Removes XML declarations, metadata blocks, editor-specific namespaces, and unused precision. Perfect for shipping fast, bundle-friendly SVGs in React/Vue/Svelte components.",
+    badge: "30–70% smaller",
+    href: "/tools/svg-optimizer",
   }
 ];
 

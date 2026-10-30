@@ -30,6 +30,11 @@ const CONVERTERS = [
   "/tools/json-diff",
   "/tools/toml-to-json",
   "/tools/cidr-calculator",
+  "/tools/sql-formatter",
+  "/tools/unix-permissions",
+  "/tools/csv-to-markdown",
+  "/tools/html-entity-encoder",
+  "/tools/svg-optimizer",
   "/contacts",
   "/privacy-policy",
   "/terms-of-service",
@@ -42,6 +47,9 @@ const CONVERTERS = [
   "/blog/uuid-vs-nanoid",
   "/blog/markdown-guide",
   "/blog/url-encoding-explained",
+  "/blog/chmod-explained",
+  "/blog/sql-formatting-guide",
+  "/blog/html-entities-xss",
   "/"
 ];
 

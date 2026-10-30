@@ -138,11 +138,6 @@ export function parseCurl(input: string): ParsedCurl {
   return { url, method: method.toUpperCase(), headers, body, isJson };
 }
 
-function indent(lines: string[], n: number): string {
-  const pad = " ".repeat(n);
-  return lines.map((l) => pad + l).join("\n");
-}
-
 export function emitFetch(p: ParsedCurl): string {
   const headerLines = Object.entries(p.headers).map(
     ([k, v]) => `    ${JSON.stringify(k)}: ${JSON.stringify(v)},`,
@@ -216,6 +211,3 @@ function pretty(raw: string): string {
     return JSON.stringify(raw);
   }
 }
-
-// used to avoid "indent" being flagged as unused
-export const _INTERNAL_INDENT = indent;
