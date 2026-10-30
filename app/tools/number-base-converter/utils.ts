@@ -34,17 +34,18 @@ export function parseBase(input: string, base: Base): bigint {
   }
   const negative = cleaned.startsWith("-");
   const body = negative ? cleaned.slice(1) : cleaned;
-  let n = 0n;
+  let n = BigInt(0);
+  const baseBig = BigInt(base);
   for (const ch of body) {
     const digit = BigInt(parseInt(ch, 16));
-    n = n * BigInt(base) + digit;
+    n = n * baseBig + digit;
   }
   return negative ? -n : n;
 }
 
 export function toBase(value: bigint, base: Base): string {
   if (base === 10) return value.toString(10);
-  const negative = value < 0n;
+  const negative = value < BigInt(0);
   const abs = negative ? -value : value;
   const body = abs.toString(base);
   return negative ? "-" + body : body;
