@@ -35,7 +35,8 @@ import {
   ArrowLeft,
   Radio,
   ArrowUpDown,
-  Globe
+  Globe,
+  ArrowDownAZ
 } from "lucide-react";
 
 import "@/style/main.css";
@@ -499,7 +500,47 @@ const CONVERTERS = [
     longDesc: "Produce the baseline <head> meta tags Google and social platforms expect: title, description, keywords, canonical link, Open Graph for Facebook/LinkedIn/Discord/Slack, and Twitter Card for X/Twitter. Length hints and locale picker included.",
     badge: "SEO + OG",
     href: "/tools/meta-tag-generator",
-  }
+  },
+  {
+    icon: <ArrowDownAZ size={22} />,
+    label: "JSON Key Sorter",
+    desc: "Sort JSON object keys alphabetically or reverse with recursive deep sorting for nested objects.",
+    longDesc: "Alphabetically sort all keys in a JSON object for deterministic output. Recursive sorting handles any nesting depth. Essential for clean git diffs, snapshot testing, and consistent config files like package.json and tsconfig.json.",
+    badge: "Recursive",
+    href: "/tools/json-sorter",
+  },
+  {
+    icon: <Shield size={22} />,
+    label: "Backslash Escape",
+    desc: "Escape and unescape strings for JSON, JavaScript, Python, HTML, and URL encoding.",
+    longDesc: "Multi-format string escaper handling backslash sequences, HTML entities, and URL percent-encoding. Bidirectional — escape special characters or unescape encoded strings. Essential for API payloads, template authoring, and XSS prevention.",
+    badge: "5 formats",
+    href: "/tools/backslash-escape",
+  },
+  {
+    icon: <Binary size={22} />,
+    label: "Text to Hex",
+    desc: "Convert text to hexadecimal bytes and hex back to text with full UTF-8 and Unicode support.",
+    longDesc: "Transform any text string into its hexadecimal byte representation using UTF-8 encoding. Multiple output formats (space, colon, 0x prefix) and bidirectional conversion. Perfect for debugging protocols, inspecting encodings, and working with binary data.",
+    badge: "UTF-8",
+    href: "/tools/text-to-hex",
+  },
+  {
+    icon: <Layers size={22} />,
+    label: "Base64 to Hex",
+    desc: "Convert between Base64 and hexadecimal encoding formats with configurable output options.",
+    longDesc: "Switch between the two most common binary-to-text encodings. Decode Base64 to hex bytes for inspection or encode hex back to compact Base64. Essential for working with cryptographic hashes, certificates, JWTs, and binary protocol debugging.",
+    badge: "Bidirectional",
+    href: "/tools/base64-to-hex",
+  },
+  {
+    icon: <FileCode2 size={22} />,
+    label: "YAML Formatter",
+    desc: "Pretty-print or minify YAML config files with configurable indentation for Kubernetes, Docker, Ansible.",
+    longDesc: "Normalize messy YAML indentation or strip comments and whitespace for production. Handles Kubernetes manifests, Docker Compose, GitHub Actions, Ansible playbooks, and all standard YAML files. Configurable indent width.",
+    badge: "Readable",
+    href: "/tools/yaml-formatter",
+  },
 ];
 
 const STATS = [

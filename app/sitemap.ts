@@ -63,6 +63,11 @@ const TOOLS: string[] = [
   "/tools/rot13",
   "/tools/line-sorter",
   "/tools/meta-tag-generator",
+  "/tools/json-sorter",
+  "/tools/backslash-escape",
+  "/tools/text-to-hex",
+  "/tools/base64-to-hex",
+  "/tools/yaml-formatter",
 ];
 
 const BLOG: string[] = [
