@@ -1,0 +1,37 @@
+/* ── Meta Tag Generator — additional styles ───────────────── */
+
+.mtg-form {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 10px 14px;
+  padding: 18px 20px;
+}
+
+.mtg-form label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  align-self: center;
+}
+
+.mtg-form input,
+.mtg-form select {
+  padding: 6px 10px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-bright);
+  border-radius: 6px;
+  outline: none;
+}
+
+.mtg-form input:focus,
+.mtg-form select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent-soft);
+}
+
+@media (max-width: 640px) {
+  .mtg-form { grid-template-columns: 1fr; }
+}

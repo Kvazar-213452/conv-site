@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://converterdevtools.com/sitemap.xml
+Sitemap: https://utilixio.com/sitemap.xml

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { GITHUB } from "@/lib/config";
+import { GITHUB, NAME_MAKE } from "@/lib/config";
 
 import "@/style/footer.css";
 
@@ -8,7 +8,7 @@ export default function Footer() {
     <footer>
       <div className="footer-inner">
         <span className="footer-text">
-          © 2026 converterdevtools. All rights reserved.
+          © 2026 {NAME_MAKE}. All rights reserved.
         </span>
 
         <nav className="footer-links" aria-label="Footer navigation">
