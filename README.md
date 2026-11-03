@@ -1,16 +1,17 @@
 # 🚀 Converter Tools — Next.js Project
 
+1
 A modern web application built with Next.js that provides a collection of useful online tools for developers and everyday users. The platform focuses on fast, simple, and privacy-friendly data conversion directly in the browser.
 
 ---
 
 ## 🌐 Features
 
-* ⚡ Fast and responsive UI
-* 🔐 No data storage — all conversions happen client-side
-* 🧰 Multiple developer tools in one place
-* 📱 Mobile-friendly design
-* 🔎 SEO optimized
+- ⚡ Fast and responsive UI
+- 🔐 No data storage — all conversions happen client-side
+- 🧰 Multiple developer tools in one place
+- 📱 Mobile-friendly design
+- 🔎 SEO optimized
 
 ---
 
@@ -18,42 +19,42 @@ A modern web application built with Next.js that provides a collection of useful
 
 ### 🔄 JSON Converters
 
-* JSON → YAML
-* JSON → CSV
-* JSON → XML
-* JSON → Prisma
-* JSON → PostgreSQL
-* JSON → Prisma Schema
-* JSON → TypeScript Interface
+- JSON → YAML
+- JSON → CSV
+- JSON → XML
+- JSON → Prisma
+- JSON → PostgreSQL
+- JSON → Prisma Schema
+- JSON → TypeScript Interface
 
 ### ✍️ Text Tools
 
-* Word Counter
-* Remove Duplicate Lines
-* Case Converter
-* Markdown → HTML
+- Word Counter
+- Remove Duplicate Lines
+- Case Converter
+- Markdown → HTML
 
 ### 🔐 Encoding & Utilities
 
-* UUID → Base64
-* String → Base64
-* URL Encode / Decode
-* Date → Unix Timestamp
+- UUID → Base64
+- String → Base64
+- URL Encode / Decode
+- Date → Unix Timestamp
 
 ### 📄 Other Pages
 
-* Contacts
-* Privacy Policy
-* Terms of Service
+- Contacts
+- Privacy Policy
+- Terms of Service
 
 ---
 
 ## ⚙️ Tech Stack
 
-* Next.js
-* React
-* JavaScript / TypeScript
-* CSS / Tailwind (optional)
+- Next.js
+- React
+- JavaScript / TypeScript
+- CSS / Tailwind (optional)
 
 ---
 
@@ -110,7 +111,7 @@ MIT License
 
 ## 💡 Future Improvements
 
-* Add more converters
-* API support
-* Dark mode
-* Save/share results
+- Add more converters
+- API support
+- Dark mode
+- Save/share results
