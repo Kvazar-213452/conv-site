@@ -1,0 +1,7 @@
+import UnicodeEscape from "./UnicodeEscape";
+import { expansionTools } from "@/lib/expansion-tools";
+import { pageMetadata, PageSchema, ToolGuide } from "@/component/ContentSeo";
+const tool = expansionTools.find(t => t.slug === "unicode-escape")!;
+export const dynamic = "force-static";
+export const metadata = pageMetadata(tool.title + " Online", tool.description, "/tools/" + tool.slug);
+export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" /><UnicodeEscape /><ToolGuide tool={tool} /></>; }

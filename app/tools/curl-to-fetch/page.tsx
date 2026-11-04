@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     description: "Convert cURL commands to JavaScript fetch, axios, or XMLHttpRequest.",
     url: PAGE_URL,
     type: "website",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "cURL to Fetch" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "cURL to Fetch" }],
   },
   twitter: {
     card: "summary_large_image",

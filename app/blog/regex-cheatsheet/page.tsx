@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "Quick reference for JavaScript regex syntax, flags, and recipes.",
     url: `${MAIN_DOMEN}blog/regex-cheatsheet`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "Regex Cheatsheet" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Regex Cheatsheet" }],
   },
   twitter: {
     card: "summary_large_image",

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: NAME_MAKE }],
   alternates: { canonical: "/tools/html-formatter" },
   robots: { index: true, follow: true },
-  openGraph: { title: "HTML Formatter Online", description: "Pretty-print HTML — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "HTML Formatter" }] },
+  openGraph: { title: "HTML Formatter Online", description: "Pretty-print HTML — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "HTML Formatter" }] },
   twitter: { card: "summary_large_image", title: "HTML Formatter", description: "Readable HTML in your browser." },
 };
 

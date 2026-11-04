@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: "Which format should you reach for? A field guide to JSON and YAML with real examples.",
     url: `${MAIN_DOMEN}blog/json-vs-yaml`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "JSON vs YAML" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "JSON vs YAML" }],
   },
   twitter: {
     card: "summary_large_image",

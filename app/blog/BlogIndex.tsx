@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import {
   ArrowRight,
@@ -19,7 +17,10 @@ import {
 import "@/style/main.css";
 import "@/style/home.css";
 
+import { expansionArticles } from "@/lib/expansion-articles";
+
 const POSTS = [
+  ...expansionArticles.map(article => ({ icon: <FileText size={22} />, label: article.title, desc: article.description, badge: "Guide", href: "/blog/" + article.slug })),
   {
     icon: <FileCode2 size={22} />,
     label: "JSON vs YAML – When to Use Each Format",

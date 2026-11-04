@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: NAME_MAKE }],
   alternates: { canonical: "/tools/meta-tag-generator" },
   robots: { index: true, follow: true },
-  openGraph: { title: "Meta Tag Generator Online", description: "SEO + Open Graph + Twitter Card from a form.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "Meta Tag Generator" }] },
+  openGraph: { title: "Meta Tag Generator Online", description: "SEO + Open Graph + Twitter Card from a form.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Meta Tag Generator" }] },
   twitter: { card: "summary_large_image", title: "Meta Tag Generator", description: "Generate SEO + OG + Twitter tags." },
 };
 

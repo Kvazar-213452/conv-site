@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description: "Unix file permissions, octal math, and special bits — the full picture.",
     url: `${MAIN_DOMEN}blog/chmod-explained`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "chmod Explained" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "chmod Explained" }],
   },
   twitter: {
     card: "summary_large_image",

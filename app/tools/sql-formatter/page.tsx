@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     description: "Pretty-print SQL queries with configurable indentation and uppercase keywords.",
     url: PAGE_URL,
     type: "website",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "SQL Formatter" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "SQL Formatter" }],
   },
   twitter: {
     card: "summary_large_image",

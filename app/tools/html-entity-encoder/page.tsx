@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     description: "Named, numeric, and hex HTML entities — plus a minimal XSS-safe mode.",
     url: PAGE_URL,
     type: "website",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "HTML Entity Encoder" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "HTML Entity Encoder" }],
   },
   twitter: {
     card: "summary_large_image",

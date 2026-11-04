@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: NAME_MAKE }],
   alternates: { canonical: "/tools/line-sorter" },
   robots: { index: true, follow: true },
-  openGraph: { title: "Line Sorter Online", description: "Sort lines 4 ways — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "Line Sorter" }] },
+  openGraph: { title: "Line Sorter Online", description: "Sort lines 4 ways — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Line Sorter" }] },
   twitter: { card: "summary_large_image", title: "Line Sorter", description: "Sort text lines in your browser." },
 };
 

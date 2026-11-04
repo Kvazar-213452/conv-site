@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "Make SQL readable — clause layout, aliases, comments, and dialect pitfalls.",
     url: `${MAIN_DOMEN}blog/sql-formatting-guide`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "SQL Formatting Guide" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "SQL Formatting Guide" }],
   },
   twitter: {
     card: "summary_large_image",

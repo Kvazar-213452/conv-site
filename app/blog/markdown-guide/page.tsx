@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "Complete syntax reference with CommonMark and GFM extras.",
     url: `${MAIN_DOMEN}blog/markdown-guide`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "Markdown Guide" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Markdown Guide" }],
   },
   twitter: {
     card: "summary_large_image",

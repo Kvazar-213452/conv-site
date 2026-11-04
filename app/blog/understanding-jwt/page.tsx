@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "A developer's guide to JSON Web Tokens — anatomy, signing, pitfalls.",
     url: `${MAIN_DOMEN}blog/understanding-jwt`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "Understanding JWT" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Understanding JWT" }],
   },
   twitter: {
     card: "summary_large_image",

@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "Which hash algorithm belongs in your pipeline?",
     url: `${MAIN_DOMEN}blog/md5-vs-sha256`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "MD5 vs SHA-256" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "MD5 vs SHA-256" }],
   },
   twitter: {
     card: "summary_large_image",

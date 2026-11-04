@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: NAME_MAKE }],
   alternates: { canonical: "/tools/jwt-generator" },
   robots: { index: true, follow: true },
-  openGraph: { title: "JWT Generator Online", description: "Sign JWTs with HS256/384/512 in your browser.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "JWT Generator" }] },
+  openGraph: { title: "JWT Generator Online", description: "Sign JWTs with HS256/384/512 in your browser.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "JWT Generator" }] },
   twitter: { card: "summary_large_image", title: "JWT Generator Online", description: "Signer with HS256/384/512." },
 };
 

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: NAME_MAKE }],
   alternates: { canonical: "/tools/yaml-to-json" },
   robots: { index: true, follow: true },
-  openGraph: { title: "YAML to JSON Converter", description: "Parse YAML to JSON — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "YAML to JSON" }] },
+  openGraph: { title: "YAML to JSON Converter", description: "Parse YAML to JSON — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "YAML to JSON" }] },
   twitter: { card: "summary_large_image", title: "YAML to JSON Converter", description: "YAML → JSON in your browser." },
 };
 

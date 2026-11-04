@@ -60,9 +60,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${MAIN_DOMEN}icon.png`,
-        width: 1200,
-        height: 630,
+        url: `${MAIN_DOMEN}og-image.png`,
+        width: 1024,
+        height: 1024,
         alt: "DevTools Converter - Online Developer Tools",
       },
     ],
@@ -99,6 +99,13 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
 
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            { "@type": "Organization", "@id": MAIN_DOMEN + "#organization", name: NAME_MAKE, url: MAIN_DOMEN, logo: MAIN_DOMEN + "icon-512.png" },
+            { "@type": "WebSite", "@id": MAIN_DOMEN + "#website", name: NAME_MAKE, url: MAIN_DOMEN, inLanguage: "en", publisher: { "@id": MAIN_DOMEN + "#organization" } }
+          ]
+        }).replace(/</g, "\\u003c") }} />
         <Header />
         <div className="page-wrapper">
           <main>{children}</main>

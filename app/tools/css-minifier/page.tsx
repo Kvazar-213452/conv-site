@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: NAME_MAKE }],
   alternates: { canonical: "/tools/css-minifier" },
   robots: { index: true, follow: true },
-  openGraph: { title: "CSS Minifier Online", description: "Shrink CSS 20–40% — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "CSS Minifier" }] },
+  openGraph: { title: "CSS Minifier Online", description: "Shrink CSS 20–40% — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "CSS Minifier" }] },
   twitter: { card: "summary_large_image", title: "CSS Minifier", description: "Shrink CSS in your browser." },
 };
 

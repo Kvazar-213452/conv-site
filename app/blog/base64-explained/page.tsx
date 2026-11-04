@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "What Base64 really is, when to use it, and when to avoid it.",
     url: `${MAIN_DOMEN}blog/base64-explained`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "Base64 Explained" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Base64 Explained" }],
   },
   twitter: {
     card: "summary_large_image",

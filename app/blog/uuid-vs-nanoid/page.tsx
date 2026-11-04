@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "Which identifier belongs in your schema?",
     url: `${MAIN_DOMEN}blog/uuid-vs-nanoid`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "UUID vs NanoID" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "UUID vs NanoID" }],
   },
   twitter: {
     card: "summary_large_image",

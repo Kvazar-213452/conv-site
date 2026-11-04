@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     type: "article",
     images: [
       {
-        url: `${MAIN_DOMEN}icon.png`,
-        width: 1200,
-        height: 630,
+        url: `${MAIN_DOMEN}og-image.png`,
+        width: 1024,
+        height: 1024,
         alt: "JSON vs XML"
       }
     ],

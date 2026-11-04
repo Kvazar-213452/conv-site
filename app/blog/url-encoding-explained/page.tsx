@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description: "The rules, the three encode modes, and the subtleties that break URLs.",
     url: `${MAIN_DOMEN}blog/url-encoding-explained`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "URL Encoding Explained" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "URL Encoding Explained" }],
   },
   twitter: {
     card: "summary_large_image",

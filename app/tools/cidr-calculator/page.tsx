@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     description: "IPv4 subnet math — mask, range, host count, RFC-1918 classification.",
     url: PAGE_URL,
     type: "website",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "CIDR Calculator" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "CIDR Calculator" }],
   },
   twitter: {
     card: "summary_large_image",

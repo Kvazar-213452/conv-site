@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     description: "chmod numeric ↔ symbolic translator with setuid, setgid, and sticky bit support.",
     url: PAGE_URL,
     type: "website",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "Unix Permissions Calculator" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Unix Permissions Calculator" }],
   },
   twitter: {
     card: "summary_large_image",

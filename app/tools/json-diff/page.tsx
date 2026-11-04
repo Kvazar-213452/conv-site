@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     description: "Semantic JSON diff with dotted paths and before/after values.",
     url: PAGE_URL,
     type: "website",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "JSON Diff" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "JSON Diff" }],
   },
   twitter: {
     card: "summary_large_image",

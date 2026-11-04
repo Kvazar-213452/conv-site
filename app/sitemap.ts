@@ -1,4 +1,7 @@
 import type { MetadataRoute } from "next";
+import { growthTools } from "@/lib/growth-tools";
+import { expansionTools } from "@/lib/expansion-tools";
+import { expansionArticles } from "@/lib/expansion-articles";
 import { MAIN_DOMEN_NO } from "@/lib/config";
 
 type Entry = { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] };
@@ -6,6 +9,8 @@ type Entry = { path: string; priority: number; changeFrequency: MetadataRoute.Si
 // Tools — one line per real page under app/tools/*. Any path listed here MUST
 // have a matching directory, or Google will see a 404 and drop it from the index.
 const TOOLS: string[] = [
+  ...growthTools.map(tool => "/tools/" + tool.slug),
+  ...expansionTools.map(tool => "/tools/" + tool.slug),
   "/tools/json-to-yaml",
   "/tools/json-to-csv",
   "/tools/json-to-xml",
@@ -68,9 +73,20 @@ const TOOLS: string[] = [
   "/tools/text-to-hex",
   "/tools/base64-to-hex",
   "/tools/yaml-formatter",
+  "/tools/json-validator",
+  "/tools/html-to-jsx",
+  "/tools/url-parser",
+  "/tools/json-to-html-table",
+  "/tools/markdown-table-generator",
+  "/tools/utm-builder",
+  "/tools/hmac-generator",
+  "/tools/byte-converter",
+  "/tools/aspect-ratio-calculator",
+  "/tools/json-to-go-struct",
 ];
 
 const BLOG: string[] = [
+  ...expansionArticles.map(article => "/blog/" + article.slug),
   "/blog/json-vs-xml",
   "/blog/json-vs-yaml",
   "/blog/base64-explained",
@@ -100,10 +116,14 @@ const ENTRIES: Entry[] = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
   return ENTRIES.map(({ path, priority, changeFrequency }) => ({
     url: `${MAIN_DOMEN_NO}${path}`,
-    lastModified,
+    // Use explicit content dates; do not claim an update on every generation.
+    ...(growthTools.some(t => path === "/tools/" + t.slug)
+      ? { lastModified: growthTools.find(t => path === "/tools/" + t.slug)?.modified ?? "2026-11-03" }
+      : path === "/" ? { lastModified: "2026-11-04" }
+      : expansionTools.some(t => path === "/tools/" + t.slug) || expansionArticles.some(a => path === "/blog/" + a.slug) || path === "/blog"
+        ? { lastModified: "2026-11-03" } : {}),
     priority,
     changeFrequency,
   }));

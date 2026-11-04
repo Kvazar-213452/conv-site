@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: NAME_MAKE }],
   alternates: { canonical: "/tools/xml-to-json" },
   robots: { index: true, follow: true },
-  openGraph: { title: "XML to JSON Converter", description: "Convert XML to JSON — SOAP, RSS, SVG — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "XML to JSON" }] },
+  openGraph: { title: "XML to JSON Converter", description: "Convert XML to JSON — SOAP, RSS, SVG — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "XML to JSON" }] },
   twitter: { card: "summary_large_image", title: "XML to JSON Converter", description: "XML → JSON with configurable attributes." },
 };
 

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: NAME_MAKE }],
   alternates: { canonical: "/tools/text-reverser" },
   robots: { index: true, follow: true },
-  openGraph: { title: "Text Reverser Online", description: "Reverse text 4 ways — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "Text Reverser" }] },
+  openGraph: { title: "Text Reverser Online", description: "Reverse text 4 ways — client-side.", url: PAGE_URL, type: "website", images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Text Reverser" }] },
   twitter: { card: "summary_large_image", title: "Text Reverser", description: "Reverse characters, words, or lines." },
 };
 

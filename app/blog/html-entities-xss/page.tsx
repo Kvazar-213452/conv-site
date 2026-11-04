@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: "Context-aware escaping done right — HTML, attributes, URLs, JavaScript, CSS.",
     url: `${MAIN_DOMEN}blog/html-entities-xss`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}icon.png`, width: 1200, height: 630, alt: "HTML Entities and XSS" }],
+    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "HTML Entities and XSS" }],
   },
   twitter: {
     card: "summary_large_image",
