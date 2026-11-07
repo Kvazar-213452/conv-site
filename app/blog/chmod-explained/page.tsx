@@ -1,3 +1,5 @@
+import { blogVisual } from "@/lib/blog-catalog";
+import BlogArticleFrame from "@/component/BlogArticleFrame";
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
@@ -27,15 +29,17 @@ export const metadata: Metadata = {
     description: "Unix file permissions, octal math, and special bits — the full picture.",
     url: `${MAIN_DOMEN}blog/chmod-explained`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "chmod Explained" }],
+    modifiedTime: "2026-11-06T00:00:00Z",
+    images: [{ url: blogVisual("chmod-explained").image, width: 1440, height: 900, alt: blogVisual("chmod-explained").alt }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [blogVisual("chmod-explained").image],
     title: "chmod Explained",
     description: "Octal math, special bits, umask, and chown.",
   },
 };
 
 export default function ChmodExplainedPage() {
-  return <ChmodExplained />;
+  return <BlogArticleFrame slug="chmod-explained"><ChmodExplained /></BlogArticleFrame>;
 }

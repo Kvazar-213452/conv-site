@@ -1,3 +1,5 @@
+import { blogVisual } from "@/lib/blog-catalog";
+import BlogArticleFrame from "@/component/BlogArticleFrame";
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
@@ -24,15 +26,17 @@ export const metadata: Metadata = {
     description: "What Base64 really is, when to use it, and when to avoid it.",
     url: `${MAIN_DOMEN}blog/base64-explained`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Base64 Explained" }],
+    modifiedTime: "2026-11-06T00:00:00Z",
+    images: [{ url: blogVisual("base64-explained").image, width: 1440, height: 900, alt: blogVisual("base64-explained").alt }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [blogVisual("base64-explained").image],
     title: "Base64 Explained",
     description: "What Base64 really is and when it belongs in your code.",
   },
 };
 
 export default function Base64ExplainedPage() {
-  return <Base64Explained />;
+  return <BlogArticleFrame slug="base64-explained"><Base64Explained /></BlogArticleFrame>;
 }

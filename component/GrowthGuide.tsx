@@ -8,7 +8,7 @@ export function GrowthGuide({ tool }: { tool: GrowthTool }) {
     {tool.sections.map(section => <section key={section.heading}><h2>{section.heading}</h2><p>{section.body}</p></section>)}
     {tool.example && <><h3>Example input</h3><pre className="output-pre">{tool.example}</pre></>}
     <h2>{tool.faq.question}</h2><p>{tool.faq.answer}</p>
-    <h3>Is input uploaded?</h3><p>Processing takes place in your browser. This tool does not send your input or selected files to a conversion API.</p>
+    <h3>Is input uploaded?</h3><p>{tool.server ? 'This tool sends input to this site’s conversion API after you select Convert on server. Files use bounded workers and, when needed, private temporary folders deleted after processing or cancellation. No conversion history is saved. The converter does not upload files to a third-party conversion service.' : 'Processing takes place in your browser. This tool does not send your input or selected files to a conversion API.'}</p>
     <h3>Related tools and guides</h3><ul>{tool.related.map(path => <li key={path}><Link href={path}>{path.split('/').at(-1)!.split('-').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')}</Link></li>)}</ul>
     {expansionArticles.some(a => a.tool === tool.slug && !tool.related.includes('/blog/' + a.slug)) && <><h3>Practical guides for this tool</h3><ul>{expansionArticles.filter(a => a.tool === tool.slug && !tool.related.includes('/blog/' + a.slug)).map(article => <li key={article.slug}><Link href={'/blog/' + article.slug}>{article.title}</Link></li>)}</ul></>}
     {tool.reference && <p><a href={tool.reference} target="_blank" rel="noopener noreferrer">Official reference</a></p>}

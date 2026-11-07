@@ -1,3 +1,5 @@
+import { blogVisual } from "@/lib/blog-catalog";
+import BlogArticleFrame from "@/component/BlogArticleFrame";
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
@@ -24,15 +26,17 @@ export const metadata: Metadata = {
     description: "Quick reference for JavaScript regex syntax, flags, and recipes.",
     url: `${MAIN_DOMEN}blog/regex-cheatsheet`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Regex Cheatsheet" }],
+    modifiedTime: "2026-11-06T00:00:00Z",
+    images: [{ url: blogVisual("regex-cheatsheet").image, width: 1440, height: 900, alt: blogVisual("regex-cheatsheet").alt }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [blogVisual("regex-cheatsheet").image],
     title: "JavaScript Regex Cheatsheet",
     description: "The patterns you reach for most often.",
   },
 };
 
 export default function RegexCheatsheetPage() {
-  return <RegexCheatsheet />;
+  return <BlogArticleFrame slug="regex-cheatsheet"><RegexCheatsheet /></BlogArticleFrame>;
 }

@@ -1,12 +1,12 @@
 export type GrowthField = {
   key: string; label: string; default: string;
-  type: "number" | "text" | "color" | "checkbox" | "select";
+  type: "number" | "text" | "color" | "checkbox" | "select" | "date" | "password";
   min?: number; max?: number; step?: string;
   options?: { value: string; label: string }[];
 };
 export type GrowthTool = {
   slug: string; title: string; description: string; kind: "text" | "design" | "image" | "file" | "graphic";
-  example: string; exampleB?: string; inputLabel?: string; secondInputLabel?: string; modified?: string; reference?: string; action: string; extension: string;
+  example: string; exampleB?: string; tableInput?: {headers:string[]}; inputLabel?: string; secondInputLabel?: string; modified?: string; reference?: string; server?: { input: "files" | "text"; accept?: string; multiple?: boolean; textLabel?: string; warning?: string }; action: string; extension: string;
   fields: GrowthField[]; steps: string[];
   sections: { heading: string; body: string }[];
   faq: { question: string; answer: string }; related: string[];
@@ -4145,5 +4145,7702 @@ export const growthTools: GrowthTool[] = [
       "/tools/percentage-calculator"
     ],
     "modified": "2026-11-04"
+  },
+  {
+    "slug": "unicode-normalizer",
+    "title": "Unicode Normalizer",
+    "description": "Normalize text to NFC, NFD, NFKC or NFKD to fix different Unicode representations before comparisons and imports.",
+    "kind": "text",
+    "example": "Café — ① ﬁ",
+    "action": "Run Unicode Normalizer",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "form",
+        "label": "Normalization form",
+        "default": "NFC",
+        "type": "select",
+        "options": [
+          {
+            "value": "NFC",
+            "label": "NFC"
+          },
+          {
+            "value": "NFD",
+            "label": "NFD"
+          },
+          {
+            "value": "NFKC",
+            "label": "NFKC"
+          },
+          {
+            "value": "NFKD",
+            "label": "NFKD"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use Unicode Normalizer",
+        "body": "Text copied from different applications can look identical while using different character sequences. Normalize product names, imported labels, or test fixtures before an exact comparison. NFC combines compatible canonical sequences, while NFD separates them. The example contains an accented word written with a combining mark, alongside characters that demonstrate the difference between canonical and compatibility normalization."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "The output is the normalized text itself, so it can be pasted directly into another application. NFKC and NFKD can change distinctions such as circled digits and typographic ligatures; choose them only when that is intended. Normalization does not translate text, remove accents, change letter case, or guarantee that visually similar letters belong to the same alphabet. Keep an original copy when transforming identifiers."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "The output is the normalized text itself, so it can be pasted directly into another application."
+    },
+    "related": [
+      "/tools/unicode-escape",
+      "/tools/text-diff"
+    ],
+    "modified": "2026-11-05",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize"
+  },
+  {
+    "slug": "invisible-character-detector",
+    "title": "Invisible Character Detector",
+    "description": "Find zero-width characters, non-breaking spaces, bidirectional controls and unusual whitespace with exact positions.",
+    "kind": "text",
+    "example": "Hello​ world !\nID:‮123",
+    "action": "Run Invisible Character Detector",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use Invisible Character Detector",
+        "body": "Unexpected invisible characters can explain why a copied identifier fails, a CSV key does not match, or a line appears backwards. Paste the suspicious text to list invisible and formatting characters without modifying the source. Each match includes a Unicode code point and both a UTF-16 offset and a code-point position, making it easier to locate the character in an editor."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "Positions start at zero. Tabs and line breaks are reported because they affect comparisons, even when they are intentional. The detector also includes Unicode format characters, separators, variation selectors, combining grapheme joiners and several visually blank characters. A match is a clue rather than an error: zero-width joiners and variation selectors are legitimate parts of many emoji and writing systems. Review context before removing anything."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "Positions start at zero."
+    },
+    "related": [
+      "/tools/whitespace-remover",
+      "/tools/unicode-normalizer"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "uuid-validator",
+    "title": "UUID Validator and Inspector",
+    "description": "Validate UUID syntax and inspect its version, variant and UUIDv7 timestamp without generating new identifiers.",
+    "kind": "text",
+    "example": "019a4d50-6b80-7000-8000-000000000001",
+    "action": "Run UUID Validator and Inspector",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use UUID Validator and Inspector",
+        "body": "Use this inspector when a database identifier is rejected or when you need to distinguish UUID versions in an API response. Paste one canonical UUID per line. The report shows whether its shape is valid, its normalized spelling, version bits and variant. Nil and maximum UUIDs are identified separately because their reserved patterns do not describe ordinary generated identifiers."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "A syntactically valid identifier is not proof that a generator used secure randomness or that the value is unique. Version seven identifiers include a millisecond timestamp that is shown as an ISO date when representable; other versions do not receive that interpretation. This tool accepts the standard hyphenated form only and reports invalid rows individually instead of silently discarding them."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "A syntactically valid identifier is not proof that a generator used secure randomness or that the value is unique."
+    },
+    "related": [
+      "/tools/uuid-generator",
+      "/tools/uuid-to-base64"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "cookie-parser",
+    "title": "Cookie Parser",
+    "description": "Parse Cookie request headers or separate Set-Cookie response lines into structured JSON without losing duplicate names.",
+    "kind": "text",
+    "example": "Set-Cookie: session=abc=123; Path=/; Secure; HttpOnly; SameSite=Lax",
+    "action": "Run Cookie Parser",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "mode",
+        "label": "Header type",
+        "default": "response",
+        "type": "select",
+        "options": [
+          {
+            "value": "response",
+            "label": "Set-Cookie response"
+          },
+          {
+            "value": "request",
+            "label": "Cookie request"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use Cookie Parser",
+        "body": "Browser requests send a Cookie header containing name and value pairs, while responses use Set-Cookie to attach attributes to individual cookies. Choose the matching mode before parsing a copied header. The output preserves cookie order, duplicate names and values containing equals signs, which helps diagnose sessions with multiple paths or applications sharing the same cookie name."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "Paste each response cookie on its own line. Commas inside an Expires date are kept intact; combined Set-Cookie headers are not automatically split. Attributes are displayed as written with normalized names, without checking public suffix rules or deciding whether a browser will accept the cookie. Percent escapes are preserved rather than decoded, since cookie values do not have a universal URL-encoding contract."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "Paste each response cookie on its own line."
+    },
+    "related": [
+      "/tools/http-headers-to-json",
+      "/tools/url-decode"
+    ],
+    "modified": "2026-11-05",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie"
+  },
+  {
+    "slug": "csp-parser",
+    "title": "Content Security Policy Parser",
+    "description": "Inspect CSP directives, repeated directives and common risky source expressions in a pasted policy.",
+    "kind": "text",
+    "example": "default-src 'self'; script-src 'self' https://cdn.example.com; object-src 'none'; base-uri 'self' ",
+    "action": "Run Content Security Policy Parser",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use Content Security Policy Parser",
+        "body": "Long Content-Security-Policy headers become easier to inspect when each directive is separated into a name and a source list. Paste one policy to see the first occurrence of every directive, any later duplicates and notes about common source expressions. This is useful when reviewing a deployment header or explaining why a repeated directive has not extended the earlier source list."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "The report is a structural inspection, not a security grade or a browser enforcement simulator. It does not fetch resources, resolve default-src fallback chains, verify nonces, or combine multiple policy headers. Notes about unsafe-inline, unsafe-eval, wildcards and mixed none expressions call attention to values worth reviewing. Whether a resource loads still depends on the complete response, browser support, destination and execution context."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "The report is a structural inspection, not a security grade or a browser enforcement simulator."
+    },
+    "related": [
+      "/tools/http-headers-to-json",
+      "/tools/meta-tag-generator"
+    ],
+    "modified": "2026-11-05",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy"
+  },
+  {
+    "slug": "ini-to-json",
+    "title": "INI to JSON Converter",
+    "description": "Convert sectioned INI configuration to JSON while preserving string values and catching duplicate keys.",
+    "kind": "text",
+    "example": "; Application configuration\nname=Utilixio\n[server]\nhost=localhost\nport=3000\n[features]\ncache=true",
+    "action": "Run INI to JSON Converter",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use INI to JSON Converter",
+        "body": "Configuration files often use INI sections while applications and deployment tooling expect JSON. This converter places keys before the first section at the document root and turns each named section into a nested object. It keeps numbers and booleans as strings so values such as leading-zero codes and explicitly written settings survive the conversion without guessed types."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "INI dialects differ across platforms. This implementation supports equals-separated keys, full-line semicolon or hash comments, and simple section names. It rejects duplicate keys, repeated sections, root-key collisions and malformed lines instead of guessing which value wins. Quotes and inline comment characters remain literal parts of values. Interpolation, multiline values, dotted section expansion and PHP-style array syntax are not interpreted."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "INI dialects differ across platforms."
+    },
+    "related": [
+      "/tools/env-parser",
+      "/tools/json-formatter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "csv-join",
+    "title": "CSV Join by Key",
+    "description": "Join two CSV tables by exact key columns using inner, left or full joins, with duplicate-key checks.",
+    "kind": "text",
+    "example": "id,name\n1,Ada\n2,Grace",
+    "action": "Run CSV Join by Key",
+    "extension": "csv",
+    "fields": [
+      {
+        "key": "leftKey",
+        "label": "Left key column",
+        "default": "id",
+        "type": "text"
+      },
+      {
+        "key": "rightKey",
+        "label": "Right key column",
+        "default": "id",
+        "type": "text"
+      },
+      {
+        "key": "mode",
+        "label": "Join type",
+        "default": "left",
+        "type": "select",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left join"
+          },
+          {
+            "value": "inner",
+            "label": "Inner join"
+          },
+          {
+            "value": "full",
+            "label": "Full outer join"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use CSV Join by Key",
+        "body": "Join related exports when one table contains names and another contains account details, prices or departments. Choose one key column in each table; the names can differ. A left join keeps every first-table record, an inner join keeps matched records, and a full join also includes unmatched second-table records. Matching uses exact text, so leading zeros remain significant."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "Both tables need unique, non-empty keys because this tool performs a one-to-one join rather than expanding many-to-many combinations. All columns are retained, including both key columns; conflicting right-side headers receive a unique suffix. Missing cells from unmatched rows are empty strings. Inputs use comma-separated CSV with a header row and may contain quoted commas or multiline values. Output is downloadable CSV; review it before importing into another system."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "Both tables need unique, non-empty keys because this tool performs a one-to-one join rather than expanding many-to-many combinations."
+    },
+    "related": [
+      "/tools/csv-column-extractor",
+      "/tools/csv-compare"
+    ],
+    "modified": "2026-11-05",
+    "exampleB": "id,department\n1,Engineering\n3,Design",
+    "inputLabel": "First input",
+    "secondInputLabel": "Second input"
+  },
+  {
+    "slug": "csv-compare",
+    "title": "CSV Compare by Key",
+    "description": "Compare CSV exports by record ID and report added, removed and changed rows regardless of row or column order.",
+    "kind": "text",
+    "example": "id,name,plan\n1,Ada,free\n2,Grace,pro",
+    "action": "Run CSV Compare by Key",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "key",
+        "label": "Shared key column",
+        "default": "id",
+        "type": "text"
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use CSV Compare by Key",
+        "body": "Line diffs become noisy when exported rows move around. Compare the records by a stable ID instead to find additions, removals and changed cell values. Paste the older export first and the newer export second. Columns are matched by their exact header names, so reordering either rows or columns alone does not create a change."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "Both tables must have the same set of headers and unique non-empty values in the selected key column. Values are compared as exact strings: whitespace, leading zeros and different number spellings are meaningful differences. Each changed record lists the old and new values for affected columns. Added and removed records include their complete rows. Schema changes require a separate review and are rejected here rather than hidden inside a value comparison."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "Both tables must have the same set of headers and unique non-empty values in the selected key column."
+    },
+    "related": [
+      "/tools/csv-join",
+      "/tools/text-diff"
+    ],
+    "modified": "2026-11-05",
+    "exampleB": "plan,id,name\npro,1,Ada\nfree,3,Linus",
+    "inputLabel": "First input",
+    "secondInputLabel": "Second input"
+  },
+  {
+    "slug": "json-group-by",
+    "title": "JSON Array Group By",
+    "description": "Group JSON records by a JSON Pointer field and keep typed group keys, counts and original records.",
+    "kind": "text",
+    "example": "[{\"team\":\"Design\",\"name\":\"Ada\"},{\"team\":\"Engineering\",\"name\":\"Grace\"},{\"team\":\"Design\",\"name\":\"Linus\"}]",
+    "action": "Run JSON Array Group By",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "pointer",
+        "label": "Group field JSON Pointer",
+        "default": "/team",
+        "type": "text"
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use JSON Array Group By",
+        "body": "Group API records by a department, status, customer identifier or another nested field without writing a script. Enter a JSON Pointer such as /team or /address/country. The result is an array of groups, each containing the original field value, a count and the matching records in their original order. This makes the result convenient for inspecting distribution and feeding follow-up processing."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "Group keys must be scalar JSON values: strings, numbers, booleans or null. Missing paths and object or array keys are rejected to prevent ambiguous categories. The string 1 and the number 1 are separate groups because their types matter. JSON Pointer uses ~1 for a literal slash and ~0 for a tilde inside property names. This groups records only; it does not calculate sums or rewrite their contents."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "Group keys must be scalar JSON values: strings, numbers, booleans or null."
+    },
+    "related": [
+      "/tools/json-pointer-extractor",
+      "/tools/json-array-filter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "json-array-chunker",
+    "title": "JSON Array Chunker",
+    "description": "Split a JSON array into fixed-size batches for API requests, migrations and test fixtures while preserving order.",
+    "kind": "text",
+    "example": "[1,2,3,4,5,6,7]",
+    "action": "Run JSON Array Chunker",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "size",
+        "label": "Items per chunk",
+        "default": "3",
+        "type": "number",
+        "min": 1,
+        "max": 10000,
+        "step": "1"
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use JSON Array Chunker",
+        "body": "APIs and import jobs often limit how many records a single request may contain. Paste a JSON array and choose the maximum number of items per batch to produce an array of smaller arrays. The tool retains input order and values, which is useful when preparing test payloads or dividing a small migration into predictable parts."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "Chunk size must be an integer between one and ten thousand. The last chunk may contain fewer items, and an empty source array produces an empty result. This is an item-count limit rather than a byte-size limit: a batch containing large records can still exceed an API payload allowance. The tool prepares data only and does not send requests, manage retries, or guarantee that a remote service accepts the resulting records."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "Chunk size must be an integer between one and ten thousand."
+    },
+    "related": [
+      "/tools/json-array-filter",
+      "/tools/json-formatter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "css-selector-tester",
+    "title": "CSS Selector Tester",
+    "description": "Test a CSS selector against pasted HTML and inspect matching elements, text and attributes locally.",
+    "kind": "text",
+    "example": "<ul><li class=\"active\" data-id=\"1\">Ada</li><li>Grace</li></ul>",
+    "action": "Run CSS Selector Tester",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "selector",
+        "label": "CSS selector",
+        "default": "li.active",
+        "type": "text"
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use CSS Selector Tester",
+        "body": "Before writing a scraper or a browser assertion, test whether a selector matches the intended elements in a small HTML sample. Paste a fragment and enter a browser-supported CSS selector. The result includes the match count and a structured description of each matching element, with its tag, attributes and text content. Invalid selector syntax is reported as an error."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "HTML is parsed in an inert template and is never inserted into the live page. Scripts do not run and referenced resources are not loaded. Browser parsing can repair malformed markup, so the tree can differ from the original string. Layout-dependent pseudo-classes, hover state, shadow DOM and external styles are not simulated. Matches are capped at one thousand to keep the result readable; narrow a broad selector before inspecting a larger sample."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "HTML is parsed in an inert template and is never inserted into the live page."
+    },
+    "related": [
+      "/tools/html-formatter",
+      "/tools/xpath-tester"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "xpath-tester",
+    "title": "XPath Tester for HTML",
+    "description": "Evaluate relative XPath 1.0 expressions on pasted HTML, including attributes, counts, strings and booleans.",
+    "kind": "text",
+    "example": "<ul><li data-id=\"1\">Ada</li><li data-id=\"2\">Grace</li></ul>",
+    "action": "Run XPath Tester for HTML",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "expression",
+        "label": "Relative XPath expression",
+        "default": ".//li/@data-id",
+        "type": "text"
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use XPath Tester for HTML",
+        "body": "XPath can target attributes or compute values that are awkward to inspect with a CSS selector alone. Paste an HTML fragment and start a relative expression from the synthetic wrapper element. For example, .//li selects descendant list items, .//li/@data-id selects their attributes, and count(.//li) returns a number. Results identify node types so attributes and elements are distinguishable."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "This tester uses the browser XPath 1.0 engine on inert HTML, not an XML processor or XPath 2.0 implementation. Use relative paths beginning with a dot for navigation; absolute document paths are not useful in the detached wrapper. HTML tag names are normalized by the parser. No namespaces are registered, scripts are not executed, and pasted markup is never attached to the live page. Node result lists are limited to one thousand entries."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "This tester uses the browser XPath 1.0 engine on inert HTML, not an XML processor or XPath 2.0 implementation."
+    },
+    "related": [
+      "/tools/css-selector-tester",
+      "/tools/html-formatter"
+    ],
+    "modified": "2026-11-05",
+    "reference": "https://developer.mozilla.org/en-US/docs/Web/API/Document/evaluate"
+  },
+  {
+    "slug": "text-find-replace",
+    "title": "Text Find and Replace",
+    "description": "Replace literal text in bulk with first-match or all-match mode and an exact replacement count.",
+    "kind": "text",
+    "example": "Hello NAME. Welcome, NAME!",
+    "action": "Run Text Find and Replace",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "find",
+        "label": "Find literal text",
+        "default": "NAME",
+        "type": "text"
+      },
+      {
+        "key": "replacement",
+        "label": "Replace with",
+        "default": "Ada",
+        "type": "text"
+      },
+      {
+        "key": "mode",
+        "label": "Replace",
+        "default": "all",
+        "type": "select",
+        "options": [
+          {
+            "value": "all",
+            "label": "All occurrences"
+          },
+          {
+            "value": "first",
+            "label": "First occurrence"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use Text Find and Replace",
+        "body": "Use literal replacement for templates, copied labels and repeated snippets when regular expressions would add unnecessary escaping. Enter the exact text to find and its replacement, then choose whether to replace the first occurrence or every non-overlapping occurrence. Matching is case sensitive, and punctuation such as periods, brackets or dollar signs is treated as ordinary text."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "The output is the changed text, with a separate replacement count shown above it. An empty replacement removes the matched text; an empty search is rejected to avoid inserting content between every character. Dollar sequences in the replacement have no special meaning. Newlines and spaces are significant in the search. Review a text diff when changing configuration or source code because this tool does not understand its syntax."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "The output is the changed text, with a separate replacement count shown above it."
+    },
+    "related": [
+      "/tools/text-diff",
+      "/tools/regex-escape"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "regex-escape",
+    "title": "Regex Escape Tool",
+    "description": "Escape literal text into a JavaScript regular-expression pattern, including punctuation, whitespace and Unicode edge cases.",
+    "kind": "text",
+    "example": "price (USD): $19.99 / item",
+    "action": "Run Regex Escape Tool",
+    "extension": "txt",
+    "fields": [],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use Regex Escape Tool",
+        "body": "A literal string can accidentally become a very different search when passed directly to a regular-expression constructor. Escape pasted text before embedding it as a literal pattern. This tool uses JavaScript RegExp.escape when the browser provides it and a compatible fallback otherwise. The output is a pattern source that matches the input as literal text."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "The first ASCII letter or digit may appear as a hexadecimal escape to avoid joining a preceding numeric escape when patterns are concatenated. Slashes, brackets, whitespace and other punctuation are escaped for use in Unicode-aware JavaScript patterns. The result is not a JSON string or a complete slash-delimited expression. If storing the pattern in source code or JSON, apply the string escaping required by that destination separately."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "The first ASCII letter or digit may appear as a hexadecimal escape to avoid joining a preceding numeric escape when patterns are concatenated."
+    },
+    "related": [
+      "/tools/regex-tester",
+      "/tools/backslash-escape"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "json-array-deduplicator",
+    "title": "JSON Array Deduplicator",
+    "description": "Remove duplicate JSON records by a JSON Pointer key, keeping the first or last occurrence with exact typed matching.",
+    "kind": "text",
+    "example": "[{\"id\":1,\"name\":\"Ada\"},{\"id\":2,\"name\":\"Grace\"},{\"id\":1,\"name\":\"Ada updated\"}]",
+    "action": "Deduplicate JSON array",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "pointer",
+        "label": "Unique key JSON Pointer",
+        "default": "/id",
+        "type": "text"
+      },
+      {
+        "key": "keep",
+        "label": "Keep occurrence",
+        "default": "first",
+        "type": "select",
+        "options": [
+          {
+            "value": "first",
+            "label": "First"
+          },
+          {
+            "value": "last",
+            "label": "Last"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Remove repeated records by a stable key",
+        "body": "API pages, merged exports and retry logs can contain multiple versions of the same record. Choose a JSON Pointer to the unique identifier and decide whether to retain the first or last occurrence. The output remains a JSON array containing complete original records. It is useful for preparing a clean fixture or checking the result of combining small API responses."
+      },
+      {
+        "heading": "Understand exact matching and retained order",
+        "body": "Keys must exist and must be scalar JSON values. Numbers and strings remain different keys, so an identifier written as a number does not collide with the same digits inside a string. Null and empty strings are allowed but each behaves as one shared key. Retained records appear in their original source order, including when keeping the last occurrence. Missing paths, complex keys and arrays larger than ten thousand items are rejected. This tool does not merge fields across repeated records."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "Empty arrays and empty objects are preserved as values because they have no child paths to emit."
+    },
+    "related": [
+      "/tools/json-array-filter",
+      "/tools/csv-deduplicate"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "ipv6-compressor",
+    "title": "IPv6 Compressor and Expander",
+    "description": "Validate IPv6 addresses and show expanded, compressed and integer representations, including IPv4-mapped input.",
+    "kind": "text",
+    "example": "2001:0db8:0000:0000:0000:ff00:0042:8329\n::ffff:192.0.2.128",
+    "action": "Run IPv6 Compressor and Expander",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use IPv6 Compressor and Expander",
+        "body": "Long IPv6 spellings are hard to compare by eye. Paste one address per line to inspect its eight fully padded groups and a shorter lowercase representation. Compression removes leading zeroes and shortens the longest run of zero groups, choosing the first run when there is a tie. The report also includes the address as a decimal integer for storage or test-vector comparison."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "Input may use one double-colon abbreviation and may end with a dotted IPv4 address. Output uses hexadecimal groups consistently, including mapped addresses; application-specific display conventions may prefer a dotted suffix. Zone identifiers, CIDR prefixes, ports and enclosing URL brackets are rejected because this tool accepts addresses only. Validation establishes address syntax, not whether the address is assigned, reachable or appropriate for a particular network."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "Input may use one double-colon abbreviation and may end with a dotted IPv4 address."
+    },
+    "related": [
+      "/tools/cidr-calculator",
+      "/tools/ipv4-to-decimal"
+    ],
+    "modified": "2026-11-05",
+    "reference": "https://www.rfc-editor.org/rfc/rfc5952"
+  },
+  {
+    "slug": "semver-compare",
+    "title": "Semantic Version Comparator",
+    "description": "Compare two strict SemVer 2.0.0 versions with correct prerelease ordering and build metadata handling.",
+    "kind": "text",
+    "example": "1.10.0-beta.2",
+    "action": "Run Semantic Version Comparator",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use Semantic Version Comparator",
+        "body": "Lexical sorting puts some version numbers in the wrong order. Compare two semantic versions to evaluate major, minor and patch components numerically, then apply prerelease precedence when required. The report includes each parsed component and the relationship between the inputs. Use it while checking package releases or preparing update tests with versions such as beta.2 and beta.11."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "This comparator accepts strict major.minor.patch versions with optional prerelease and build metadata. Numeric identifiers cannot contain leading zeroes. Build metadata is shown but ignored for precedence, so two differently built artifacts can compare equal. Large numeric components are compared exactly without conversion to JavaScript Number. Package ranges, caret constraints, wildcards, leading v prefixes and ecosystem-specific version conventions are outside this tool."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "This comparator accepts strict major.minor.patch versions with optional prerelease and build metadata."
+    },
+    "related": [
+      "/tools/number-base-converter",
+      "/tools/text-diff"
+    ],
+    "modified": "2026-11-05",
+    "exampleB": "1.10.0-beta.11",
+    "inputLabel": "First input",
+    "secondInputLabel": "Second input",
+    "reference": "https://semver.org/"
+  },
+  {
+    "slug": "csv-pivot-table",
+    "title": "CSV Pivot Table Generator",
+    "description": "Build a pivot table from CSV with row and column groups and count, sum or average aggregation.",
+    "kind": "text",
+    "example": "team,month,hours\nDesign,Jan,4\nDesign,Feb,6\nEngineering,Jan,8\nDesign,Jan,2",
+    "action": "Run CSV Pivot Table Generator",
+    "extension": "csv",
+    "fields": [
+      {
+        "key": "row",
+        "label": "Row field",
+        "default": "team",
+        "type": "text"
+      },
+      {
+        "key": "column",
+        "label": "Column field",
+        "default": "month",
+        "type": "text"
+      },
+      {
+        "key": "value",
+        "label": "Numeric value field",
+        "default": "hours",
+        "type": "text"
+      },
+      {
+        "key": "aggregation",
+        "label": "Aggregation",
+        "default": "sum",
+        "type": "select",
+        "options": [
+          {
+            "value": "sum",
+            "label": "Sum"
+          },
+          {
+            "value": "count",
+            "label": "Count"
+          },
+          {
+            "value": "average",
+            "label": "Average"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use CSV Pivot Table Generator",
+        "body": "Turn a long CSV export into a compact cross-tabulation without opening a spreadsheet. Select one field for row labels and one for column labels, then choose count, sum or average. For numeric aggregation, select the value column as well. Repeated row and column combinations are combined, making the output suitable for reviewing activity by team, month, category or another pair of dimensions."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "Labels retain the order in which they first appear. Missing combinations produce empty cells, while actual zero totals remain zero. Count measures source records and does not require a numeric value field. Sum and average require a finite number in every source value; blank or formatted currency values are rejected. Arithmetic uses JavaScript floating-point numbers, so use an accounting system when exact decimal rounding is required. The output is comma-separated CSV."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "Labels retain the order in which they first appear."
+    },
+    "related": [
+      "/tools/csv-column-statistics",
+      "/tools/csv-join"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "html-heading-extractor",
+    "title": "HTML Heading Outline Extractor",
+    "description": "Extract H1–H6 headings in document order and flag skipped levels or missing and repeated H1 headings.",
+    "kind": "text",
+    "example": "<main><h1>Product guide</h1><h2>Setup</h2><h4>Troubleshooting</h4></main>",
+    "action": "Run HTML Heading Outline Extractor",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use HTML Heading Outline Extractor",
+        "body": "Inspect the heading structure of a pasted page before publishing an article or reviewing a template. The output lists heading levels, text and IDs in document order, with observations about missing H1 elements, multiple H1 elements and jumps over intermediate levels. It helps reveal a document outline that is hard to notice when headings are styled to look similar."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "The analysis uses the supplied HTML only and never fetches a page or executes scripts. It includes headings present in the markup even if external CSS would hide them, and it does not inspect shadow roots or generated content. A skipped level is a review prompt rather than an automatic accessibility failure. Heading structure is one part of a usable document and does not predict search ranking or replace an accessibility audit."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "The analysis uses the supplied HTML only and never fetches a page or executes scripts."
+    },
+    "related": [
+      "/tools/html-formatter",
+      "/tools/css-selector-tester"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "relative-url-resolver",
+    "title": "Relative URL Resolver",
+    "description": "Resolve relative links against a base HTTP or HTTPS URL and inspect the resulting origin and cross-origin status.",
+    "kind": "text",
+    "example": "../images/logo.svg\n?lang=uk\n#overview\n//cdn.example.com/app.js",
+    "action": "Run Relative URL Resolver",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "base",
+        "label": "Base URL",
+        "default": "https://example.com/docs/start/index.html",
+        "type": "text"
+      }
+    ],
+    "steps": [
+      "Paste the example or your own input.",
+      "Choose the options that match your task.",
+      "Run the tool, review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "When to use Relative URL Resolver",
+        "body": "Relative paths can behave unexpectedly when a page moves between directories or gains a trailing slash. Enter the page URL as the base and paste one reference per line. The resolver applies the browser URL algorithm to parent paths, query-only references, fragments and protocol-relative links. It reports the absolute URL and whether its origin differs from the base."
+      },
+      {
+        "heading": "How to interpret the result",
+        "body": "Both the base and resolved destinations must use HTTP or HTTPS, and embedded usernames or passwords are rejected. No request is made, so a successful resolution does not mean that the destination exists or is safe. The result follows URL syntax rather than filesystem path rules, including percent-encoding and dot-segment normalization. Supply the effective document base when an HTML base element changes how links are interpreted."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the output?",
+      "answer": "Both the base and resolved destinations must use HTTP or HTTPS, and embedded usernames or passwords are rejected."
+    },
+    "related": [
+      "/tools/url-parser",
+      "/tools/url-cleaner"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "date-difference-calculator",
+    "title": "Date Difference Calculator",
+    "description": "Calculate signed calendar days, full weeks and remaining days between two dates without daylight-saving surprises.",
+    "kind": "design",
+    "example": "",
+    "fields": [
+      {
+        "key": "start",
+        "label": "Start date (YYYY-MM-DD)",
+        "default": "2026-11-05",
+        "type": "text"
+      },
+      {
+        "key": "end",
+        "label": "End date (YYYY-MM-DD)",
+        "default": "2026-12-25",
+        "type": "text"
+      }
+    ],
+    "action": "Calculate",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Measure a date interval when planning a trip, checking a project timeline or preparing a test case. Enter two Gregorian calendar dates in year-month-day form. The result includes signed days, absolute days, complete weeks and the remaining days. Swapping the start and end reverses the sign while keeping the absolute interval unchanged."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "The start date is excluded and the end date marks the end of the interval, so identical dates have a difference of zero. Dates are evaluated at UTC midnight to avoid daylight-saving changes creating fractional days. This is a calendar-date calculation, not a measurement between local timestamps. Invalid dates and years outside 0001 through 9999 are rejected. Months are not reported because their lengths vary."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of Date Difference Calculator?",
+      "answer": "The start date is excluded and the end date marks the end of the interval, so identical dates have a difference of zero. Dates are evaluated at UTC midnight to avoid daylight-saving changes creating fractional days. This is a calendar-date calculation, not a measurement between local timestamps. Invalid dates and years outside 0001 through 9999 are rejected. Months are not reported because their lengths vary."
+    },
+    "related": [
+      "/tools/business-days-calculator",
+      "/tools/time-duration-converter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "business-days-calculator",
+    "title": "Business Days Calculator",
+    "description": "Count working days between dates with selectable weekends, optional end-date inclusion and your own holiday list.",
+    "kind": "design",
+    "example": "",
+    "fields": [
+      {
+        "key": "start",
+        "label": "Start date (included)",
+        "default": "2026-11-05",
+        "type": "text"
+      },
+      {
+        "key": "end",
+        "label": "End date",
+        "default": "2026-11-20",
+        "type": "text"
+      },
+      {
+        "key": "weekend",
+        "label": "Weekend",
+        "default": "sat-sun",
+        "type": "select",
+        "options": [
+          {
+            "value": "sat-sun",
+            "label": "Saturday and Sunday"
+          },
+          {
+            "value": "fri-sat",
+            "label": "Friday and Saturday"
+          },
+          {
+            "value": "none",
+            "label": "No weekend exclusion"
+          }
+        ]
+      },
+      {
+        "key": "includeEnd",
+        "label": "End date",
+        "default": "false",
+        "type": "select",
+        "options": [
+          {
+            "value": "false",
+            "label": "Exclude end date"
+          },
+          {
+            "value": "true",
+            "label": "Include end date"
+          }
+        ]
+      },
+      {
+        "key": "holidays",
+        "label": "Holiday dates (comma or space separated)",
+        "default": "2026-11-17",
+        "type": "text"
+      }
+    ],
+    "action": "Calculate",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Estimate available workdays for a delivery schedule, leave request or internal plan. Choose a weekend pattern and paste the holiday dates that apply to your organization. The result separates working days, excluded weekend days and excluded weekday holidays, so a holiday that falls on a weekend is not subtracted twice. The example uses a custom holiday solely to demonstrate the input format."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "The start date is included, while end-date inclusion is an explicit option. Holiday calendars are not downloaded or inferred from a country, and this is not a payroll or legal deadline service. Enter dates in YYYY-MM-DD form; duplicates in the holiday list count once. Reversed ranges and intervals longer than 36,600 days are rejected. Check local rules and any partial working days before using a count in an operational schedule."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of Business Days Calculator?",
+      "answer": "The start date is included, while end-date inclusion is an explicit option. Holiday calendars are not downloaded or inferred from a country, and this is not a payroll or legal deadline service. Enter dates in YYYY-MM-DD form; duplicates in the holiday list count once. Reversed ranges and intervals longer than 36,600 days are rejected. Check local rules and any partial working days before using a count in an operational schedule."
+    },
+    "related": [
+      "/tools/date-difference-calculator",
+      "/tools/iso-week-calculator"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "iso-week-calculator",
+    "title": "ISO Week Number Calculator",
+    "description": "Find a date’s ISO week number, ISO week-year, weekday and the Monday–Sunday boundaries of its week.",
+    "kind": "design",
+    "example": "",
+    "fields": [
+      {
+        "key": "date",
+        "label": "Date (YYYY-MM-DD)",
+        "default": "2026-12-31",
+        "type": "text"
+      }
+    ],
+    "action": "Calculate",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Week numbers in reports can differ from the calendar year near New Year. This calculator returns the ISO week date, where Monday is day one and week one contains January fourth. Use it to label a weekly export, verify an analytics grouping or identify the Monday and Sunday belonging to a particular date."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "The ISO week-year is shown separately from the ordinary calendar year because late December can belong to the next ISO year and early January can belong to the previous one. Output dates use the Gregorian calendar and are calculated in UTC without relying on your device time zone. This tool does not implement country-specific Sunday-start week numbering or fiscal calendars. Supply a complete valid date rather than a year and week alone."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of ISO Week Number Calculator?",
+      "answer": "The ISO week-year is shown separately from the ordinary calendar year because late December can belong to the next ISO year and early January can belong to the previous one. Output dates use the Gregorian calendar and are calculated in UTC without relying on your device time zone. This tool does not implement country-specific Sunday-start week numbering or fiscal calendars. Supply a complete valid date rather than a year and week alone."
+    },
+    "related": [
+      "/tools/date-difference-calculator",
+      "/tools/time-zone-converter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "time-zone-converter",
+    "title": "Time Zone Converter",
+    "description": "Convert an explicitly offset ISO timestamp to an IANA time zone with the correct date and daylight-saving offset.",
+    "kind": "design",
+    "example": "",
+    "fields": [
+      {
+        "key": "instant",
+        "label": "ISO timestamp with Z or UTC offset",
+        "default": "2026-11-05T12:00:00Z",
+        "type": "text"
+      },
+      {
+        "key": "zone",
+        "label": "Destination IANA time zone",
+        "default": "Europe/Bratislava",
+        "type": "text"
+      }
+    ],
+    "action": "Calculate",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Convert a meeting time, log entry or API timestamp into another time zone without assuming that a region keeps the same offset throughout the year. Enter an ISO timestamp containing Z or an explicit numeric offset, then choose an IANA name such as Europe/Bratislava or America/New_York. The result includes the UTC instant and its formatted local representation."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "An offset is required so the input identifies one instant even during repeated or skipped local clock hours. The destination offset and formatting come from your browser’s Internationalization API and installed time-zone data. Historical rules and future rule updates therefore depend on that runtime. This tool does not guess the zone of a bare local time or resolve ambiguous daylight-saving input. Leap seconds and timestamps without seconds are not accepted."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of Time Zone Converter?",
+      "answer": "An offset is required so the input identifies one instant even during repeated or skipped local clock hours. The destination offset and formatting come from your browser’s Internationalization API and installed time-zone data. Historical rules and future rule updates therefore depend on that runtime. This tool does not guess the zone of a bare local time or resolve ambiguous daylight-saving input. Leap seconds and timestamps without seconds are not accepted."
+    },
+    "related": [
+      "/tools/date-to-unix-timestamp",
+      "/tools/iso-week-calculator"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "unit-converter",
+    "title": "Unit Converter",
+    "description": "Convert length, mass, volume and temperature between metric and common imperial units with clear unit compatibility checks.",
+    "kind": "design",
+    "example": "",
+    "fields": [
+      {
+        "key": "value",
+        "label": "Value",
+        "default": "1",
+        "type": "number",
+        "min": -1000000000000.0,
+        "max": 1000000000000.0,
+        "step": "any"
+      },
+      {
+        "key": "from",
+        "label": "From",
+        "default": "m",
+        "type": "select",
+        "options": [
+          {
+            "value": "mm",
+            "label": "Millimetres"
+          },
+          {
+            "value": "cm",
+            "label": "Centimetres"
+          },
+          {
+            "value": "m",
+            "label": "Metres"
+          },
+          {
+            "value": "km",
+            "label": "Kilometres"
+          },
+          {
+            "value": "in",
+            "label": "Inches"
+          },
+          {
+            "value": "ft",
+            "label": "Feet"
+          },
+          {
+            "value": "yd",
+            "label": "Yards"
+          },
+          {
+            "value": "mi",
+            "label": "Miles"
+          },
+          {
+            "value": "g",
+            "label": "Grams"
+          },
+          {
+            "value": "kg",
+            "label": "Kilograms"
+          },
+          {
+            "value": "oz",
+            "label": "Ounces (mass)"
+          },
+          {
+            "value": "lb",
+            "label": "Pounds (mass)"
+          },
+          {
+            "value": "ml",
+            "label": "Millilitres"
+          },
+          {
+            "value": "l",
+            "label": "Litres"
+          },
+          {
+            "value": "usgal",
+            "label": "US liquid gallons"
+          },
+          {
+            "value": "ukgal",
+            "label": "Imperial gallons"
+          },
+          {
+            "value": "c",
+            "label": "Celsius"
+          },
+          {
+            "value": "f",
+            "label": "Fahrenheit"
+          },
+          {
+            "value": "k",
+            "label": "Kelvin"
+          }
+        ]
+      },
+      {
+        "key": "to",
+        "label": "To",
+        "default": "ft",
+        "type": "select",
+        "options": [
+          {
+            "value": "mm",
+            "label": "Millimetres"
+          },
+          {
+            "value": "cm",
+            "label": "Centimetres"
+          },
+          {
+            "value": "m",
+            "label": "Metres"
+          },
+          {
+            "value": "km",
+            "label": "Kilometres"
+          },
+          {
+            "value": "in",
+            "label": "Inches"
+          },
+          {
+            "value": "ft",
+            "label": "Feet"
+          },
+          {
+            "value": "yd",
+            "label": "Yards"
+          },
+          {
+            "value": "mi",
+            "label": "Miles"
+          },
+          {
+            "value": "g",
+            "label": "Grams"
+          },
+          {
+            "value": "kg",
+            "label": "Kilograms"
+          },
+          {
+            "value": "oz",
+            "label": "Ounces (mass)"
+          },
+          {
+            "value": "lb",
+            "label": "Pounds (mass)"
+          },
+          {
+            "value": "ml",
+            "label": "Millilitres"
+          },
+          {
+            "value": "l",
+            "label": "Litres"
+          },
+          {
+            "value": "usgal",
+            "label": "US liquid gallons"
+          },
+          {
+            "value": "ukgal",
+            "label": "Imperial gallons"
+          },
+          {
+            "value": "c",
+            "label": "Celsius"
+          },
+          {
+            "value": "f",
+            "label": "Fahrenheit"
+          },
+          {
+            "value": "k",
+            "label": "Kelvin"
+          }
+        ]
+      }
+    ],
+    "action": "Calculate",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Translate everyday measurements when following a specification, checking a package weight or comparing metric and imperial dimensions. Select two units of the same measurement type. Length, mass and volume conversions use fixed relationships; temperature conversions additionally apply the required offset. US liquid gallons and imperial gallons are separate choices so their different volumes remain visible."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "A length cannot be converted into a mass without extra information such as density, so incompatible selections are rejected. Negative length, mass or volume and temperatures below absolute zero are also rejected. Ounces and pounds refer to mass rather than fluid volume or force. Calculations use JavaScript floating-point arithmetic and display up to twelve significant digits; they are suitable for general measurement checks rather than calibration certificates or precision laboratory work."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of Unit Converter?",
+      "answer": "A length cannot be converted into a mass without extra information such as density, so incompatible selections are rejected. Negative length, mass or volume and temperatures below absolute zero are also rejected. Ounces and pounds refer to mass rather than fluid volume or force. Calculations use JavaScript floating-point arithmetic and display up to twelve significant digits; they are suitable for general measurement checks rather than calibration certificates or precision laboratory work."
+    },
+    "related": [
+      "/tools/aspect-ratio-calculator",
+      "/tools/byte-converter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "weighted-average-calculator",
+    "title": "Weighted Average Calculator",
+    "description": "Calculate a weighted mean from CSV values and weights, with explicit handling of zero weights and invalid rows.",
+    "kind": "text",
+    "example": "value,weight\n80,2\n90,3\n70,1",
+    "fields": [
+      {
+        "key": "valueField",
+        "label": "Value column",
+        "default": "value",
+        "type": "text"
+      },
+      {
+        "key": "weightField",
+        "label": "Weight column",
+        "default": "weight",
+        "type": "text"
+      }
+    ],
+    "action": "Calculate weighted average",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "Calculate a mean when contributions differ",
+        "body": "A simple average gives every entry equal influence, which can misrepresent a dataset with different counts or importance weights. Paste a CSV table and choose the value and weight columns to calculate a weighted mean. This can help verify an educational exercise, combine summarized measurements or check a small reporting formula. The example combines three scores with different contribution weights."
+      },
+      {
+        "heading": "Check weights and numeric precision",
+        "body": "Every row needs a finite numeric value and a nonnegative finite weight. Zero-weight rows do not affect the result and are counted separately. At least one weight must be positive. The result includes total weight and weighted sum so the calculation can be inspected. Values and weights are parsed as plain decimal or exponent notation without currency symbols or grouping commas. Arithmetic uses JavaScript floating point and rejects overflowing totals; displayed results are rounded to twelve significant digits."
+      }
+    ],
+    "faq": {
+      "question": "Can all weights be zero?",
+      "answer": "No. At least one weight must be positive; negative weights and missing numeric cells are rejected."
+    },
+    "related": [
+      "/tools/csv-column-statistics",
+      "/tools/percentage-calculator"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "gcd-lcm-calculator",
+    "title": "GCD and LCM Calculator",
+    "description": "Find the greatest common divisor and least common multiple of a list of whole numbers using exact integer arithmetic.",
+    "kind": "text",
+    "example": "12, 18, 30",
+    "fields": [],
+    "action": "Process input",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Find a shared divisor for reducing quantities or a common multiple for repeating cycles. Paste integers separated by commas or whitespace. The result reports the greatest common divisor and the least common multiple for the whole list. Negative inputs are treated by their magnitudes because the standard nonnegative results are the useful convention for these operations."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "At least two and at most one hundred integers are required, with a maximum of one hundred digits per input. Decimal notation and scientific notation are rejected instead of rounded. Any zero makes the least common multiple zero; the greatest common divisor of an all-zero list is reported as zero by convention. Results are decimal strings because exact values may exceed JavaScript’s safe integer range."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of GCD and LCM Calculator?",
+      "answer": "At least two and at most one hundred integers are required, with a maximum of one hundred digits per input. Decimal notation and scientific notation are rejected instead of rounded. Any zero makes the least common multiple zero; the greatest common divisor of an all-zero list is reported as zero by convention. Results are decimal strings because exact values may exceed JavaScript’s safe integer range."
+    },
+    "related": [
+      "/tools/aspect-ratio-calculator",
+      "/tools/number-base-converter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "scientific-notation-converter",
+    "title": "Scientific Notation Converter",
+    "description": "Convert decimal or exponent notation into normalized scientific notation and an exact expanded decimal string.",
+    "kind": "text",
+    "example": "0.0000012300",
+    "fields": [],
+    "action": "Process input",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Expand a value copied from a spreadsheet or normalize a long decimal for documentation. The converter handles both ordinary decimal text and forms such as 1.23e-6. It returns a normalized scientific form with one nonzero digit before the decimal point and an expanded ordinary decimal form. The conversion operates on digit strings rather than binary floating-point numbers."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "Numeric value is preserved exactly within the supported length, but insignificant trailing fractional zeroes are removed; this tool does not track measurement uncertainty or significant-figure intent. Zero is normalized without a negative sign. Commas, currency symbols, NaN and Infinity are not accepted. Exponents are limited to magnitude ten thousand and expanded output to twenty thousand characters to keep accidental large inputs manageable."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of Scientific Notation Converter?",
+      "answer": "Numeric value is preserved exactly within the supported length, but insignificant trailing fractional zeroes are removed; this tool does not track measurement uncertainty or significant-figure intent. Zero is normalized without a negative sign. Commas, currency symbols, NaN and Infinity are not accepted. Exponents are limited to magnitude ten thousand and expanded output to twenty thousand characters to keep accidental large inputs manageable."
+    },
+    "related": [
+      "/tools/number-base-converter",
+      "/tools/number-to-words"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "roman-numeral-converter",
+    "title": "Roman Numeral Converter",
+    "description": "Convert whole numbers from 1 to 3999 into Roman numerals or validate and decode canonical Roman numeral text.",
+    "kind": "text",
+    "example": "2026",
+    "fields": [
+      {
+        "key": "direction",
+        "label": "Direction",
+        "default": "roman",
+        "type": "select",
+        "options": [
+          {
+            "value": "roman",
+            "label": "Number to Roman"
+          },
+          {
+            "value": "decimal",
+            "label": "Roman to number"
+          }
+        ]
+      }
+    ],
+    "action": "Process input",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Convert a year, outline label or edition number into standard Roman numerals without manually combining symbols. Choose the direction before entering either a decimal integer or a Roman numeral. The reverse conversion accepts lowercase input and normalizes it to uppercase, then checks that the spelling follows the usual subtractive forms such as IV, IX, XL and CM."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "The supported range is one through 3999, using the symbols I, V, X, L, C, D and M. Zero, negative values, fractions, overlines and historical additive variants are outside this tool. Noncanonical strings such as IIII or IC are rejected rather than assigned a guessed meaning. The JSON result includes both representations so you can inspect the conversion before copying it into a document."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of Roman Numeral Converter?",
+      "answer": "The supported range is one through 3999, using the symbols I, V, X, L, C, D and M. Zero, negative values, fractions, overlines and historical additive variants are outside this tool. Noncanonical strings such as IIII or IC are rejected rather than assigned a guessed meaning. The JSON result includes both representations so you can inspect the conversion before copying it into a document."
+    },
+    "related": [
+      "/tools/number-to-words",
+      "/tools/number-base-converter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "number-to-words",
+    "title": "Number to Words Converter",
+    "description": "Spell signed whole numbers in English using exact decimal input, from zero through eighteen-digit magnitudes.",
+    "kind": "text",
+    "example": "123456789",
+    "fields": [],
+    "action": "Process input",
+    "extension": "txt",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Write an integer in English words for educational examples, generated labels or a document draft. The converter groups digits into thousands, millions and larger short-scale names while preserving the exact integer value. Negative numbers receive a minus prefix, and zero has its own explicit spelling. The example demonstrates how several groups are combined into one phrase."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "This implementation uses English short-scale cardinal wording without the optional British and between hundreds and tens. Hyphens connect compound tens such as twenty-one. It accepts at most eighteen digits in the magnitude and does not support fractions, currencies, ordinal numbers or regional cheque-writing conventions. Leading zeroes are rejected because they may indicate an identifier rather than a quantity. Always review wording required by a formal document."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of Number to Words Converter?",
+      "answer": "This implementation uses English short-scale cardinal wording without the optional British and between hundreds and tens. Hyphens connect compound tens such as twenty-one. It accepts at most eighteen digits in the magnitude and does not support fractions, currencies, ordinal numbers or regional cheque-writing conventions. Leading zeroes are rejected because they may indicate an identifier rather than a quantity. Always review wording required by a formal document."
+    },
+    "related": [
+      "/tools/roman-numeral-converter",
+      "/tools/scientific-notation-converter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "random-name-picker",
+    "title": "Random Name Picker",
+    "description": "Pick one or several unique entries from a list with browser-generated randomness and no replacement. ",
+    "kind": "text",
+    "example": "Ada\nGrace\nLinus\nMargaret\nAlan\nKatherine\nDonald",
+    "fields": [
+      {
+        "key": "count",
+        "label": "Number of entries to pick",
+        "default": "1",
+        "type": "number",
+        "min": 1,
+        "max": 10000,
+        "step": "any"
+      }
+    ],
+    "action": "Process input",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Choose participants for a small activity, select examples from a list or make a casual random choice. Paste one entry per line and choose how many to draw. Entries are trimmed and exact duplicate labels are removed before selection, so pasting the same label twice does not increase its chance. The result contains the selected entries in draw order."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "Selection uses a Fisher–Yates shuffle with browser cryptographic randomness and rejection sampling to avoid modulo bias. Each run is independent and draws without replacement within that run. This is a local convenience tool, not an externally audited draw, and it does not save history or provide a reproducible seed. Labels differing only by letter case remain separate. At most ten thousand unique entries are supported; the draw count cannot exceed the available entries."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of Random Name Picker?",
+      "answer": "Selection uses a Fisher–Yates shuffle with browser cryptographic randomness and rejection sampling to avoid modulo bias. Each run is independent and draws without replacement within that run. This is a local convenience tool, not an externally audited draw, and it does not save history or provide a reproducible seed. Labels differing only by letter case remain separate. At most ten thousand unique entries are supported; the draw count cannot exceed the available entries."
+    },
+    "related": [
+      "/tools/random-team-generator",
+      "/tools/remove-duplicate-lines"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "random-team-generator",
+    "title": "Random Team Generator",
+    "description": "Split a roster into randomly shuffled teams whose sizes differ by at most one person. ",
+    "kind": "text",
+    "example": "Ada\nGrace\nLinus\nMargaret\nAlan\nKatherine\nDonald",
+    "fields": [
+      {
+        "key": "teams",
+        "label": "Number of teams",
+        "default": "3",
+        "type": "number",
+        "min": 1,
+        "max": 10000,
+        "step": "any"
+      }
+    ],
+    "action": "Process input",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Create groups for a workshop, classroom activity or casual game without assigning every participant manually. Paste one participant per line and choose how many teams you need. The roster is shuffled locally and distributed across the teams in turn. Team sizes stay as even as possible, with any remaining participants assigned to the earlier numbered teams."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "Each nonblank line represents one participant, and repeated labels are rejected so a person is not accidentally assigned twice. Add a distinguishing label when two people share a name. Randomization uses browser cryptographic randomness with an unbiased shuffle, but it does not balance skill, availability or other personal attributes. The number of teams must be between one and the number of participants, with at most ten thousand participants. No roster is submitted to a server."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of Random Team Generator?",
+      "answer": "Each nonblank line represents one participant, and repeated labels are rejected so a person is not accidentally assigned twice. Add a distinguishing label when two people share a name. Randomization uses browser cryptographic randomness with an unbiased shuffle, but it does not balance skill, availability or other personal attributes. The number of teams must be between one and the number of participants, with at most ten thousand participants. No roster is submitted to a server."
+    },
+    "related": [
+      "/tools/random-name-picker",
+      "/tools/list-compare"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "csv-merge",
+    "title": "CSV Merger",
+    "description": "Append two CSV tables vertically, matching reordered headers or combining different schemas with a union of columns.",
+    "kind": "text",
+    "example": "id,name\n1,Ada\n2,Grace",
+    "fields": [
+      {
+        "key": "schema",
+        "label": "Column handling",
+        "default": "strict",
+        "type": "select",
+        "options": [
+          {
+            "value": "strict",
+            "label": "Same column names"
+          },
+          {
+            "value": "union",
+            "label": "Union of columns"
+          }
+        ]
+      }
+    ],
+    "action": "Process input",
+    "extension": "csv",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Combine small exports from successive days or separate sources into one table with a single header row. Unlike joining by a key, merging appends records vertically and keeps every source row. The second table may use a different column order because cells are aligned by header name. Union mode also keeps columns that appear in only one of the tables."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "Headers must be unique and nonblank. Strict mode requires the same set of column names; union mode keeps first-table columns first and appends new second-table columns. Missing cells are empty strings, which cannot distinguish an absent column from an explicitly empty value. Duplicate records are intentionally preserved. Inputs use comma-separated CSV with standard quoting, and output is limited to one hundred thousand cells for a responsive local conversion."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of CSV Merger?",
+      "answer": "Headers must be unique and nonblank. Strict mode requires the same set of column names; union mode keeps first-table columns first and appends new second-table columns. Missing cells are empty strings, which cannot distinguish an absent column from an explicitly empty value. Duplicate records are intentionally preserved. Inputs use comma-separated CSV with standard quoting, and output is limited to one hundred thousand cells for a responsive local conversion."
+    },
+    "related": [
+      "/tools/csv-join",
+      "/tools/csv-deduplicate"
+    ],
+    "modified": "2026-11-05",
+    "exampleB": "name,id\nLinus,3",
+    "inputLabel": "First CSV",
+    "secondInputLabel": "Second CSV"
+  },
+  {
+    "slug": "csv-unpivot",
+    "title": "CSV Unpivot Tool",
+    "description": "Convert a wide CSV table into long-form records while preserving selected identifier columns and original cell text.",
+    "kind": "text",
+    "example": "team,Jan,Feb\nDesign,4,6\nEngineering,8,10",
+    "fields": [
+      {
+        "key": "ids",
+        "label": "Identifier columns (JSON array)",
+        "default": "[\"team\"]",
+        "type": "text"
+      },
+      {
+        "key": "variable",
+        "label": "Variable column name",
+        "default": "period",
+        "type": "text"
+      },
+      {
+        "key": "valueName",
+        "label": "Value column name",
+        "default": "amount",
+        "type": "text"
+      }
+    ],
+    "action": "Process input",
+    "extension": "csv",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Turn spreadsheet columns such as months or survey questions into rows before charting or importing data. Choose the identifier columns to retain in each output record. Every remaining source column becomes a variable name, and its cell becomes the corresponding value. The result is a long-form CSV table that is easier to group, filter or feed into another analysis tool."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "Identifier selection is a JSON array of exact header names, and at least one source column must remain to unpivot. Output names must be distinct and cannot collide with retained identifiers. All cell values, including empty cells and leading zeroes, remain strings without aggregation or type inference. Records are emitted in source-row order and then source-column order. The output is limited to one hundred thousand cells."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of CSV Unpivot Tool?",
+      "answer": "Identifier selection is a JSON array of exact header names, and at least one source column must remain to unpivot. Output names must be distinct and cannot collide with retained identifiers. All cell values, including empty cells and leading zeroes, remain strings without aggregation or type inference. Records are emitted in source-row order and then source-column order. The output is limited to one hundred thousand cells."
+    },
+    "related": [
+      "/tools/csv-pivot-table",
+      "/tools/csv-column-extractor"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "json-array-to-object",
+    "title": "JSON Array to Object",
+    "description": "Index an array of JSON records by a string or safe integer field, with explicit duplicate-key handling.",
+    "kind": "text",
+    "example": "[{\"id\":\"u1\",\"name\":\"Ada\"},{\"id\":\"u2\",\"name\":\"Grace\"}]",
+    "fields": [
+      {
+        "key": "pointer",
+        "label": "Key field JSON Pointer",
+        "default": "/id",
+        "type": "text"
+      },
+      {
+        "key": "duplicates",
+        "label": "Duplicate keys",
+        "default": "error",
+        "type": "select",
+        "options": [
+          {
+            "value": "error",
+            "label": "Reject duplicates"
+          },
+          {
+            "value": "first",
+            "label": "Keep first"
+          },
+          {
+            "value": "last",
+            "label": "Keep last"
+          }
+        ]
+      }
+    ],
+    "action": "Process input",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Change a list response into a lookup object when a UI or fixture needs direct access by identifier. Select the key field with a JSON Pointer such as /id or /user/code. Each resulting object property contains the complete source record. This is useful when testing normalized application state or preparing an input expected by another library."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "JSON property names are strings, so the number 1 and the string 1 map to the same destination key. Duplicate behavior is an explicit choice, with rejection as the default to avoid silent data loss. Keys must be strings or safe integers; missing paths, null, booleans and complex keys are rejected. The output safely preserves property names such as __proto__ as ordinary data. Object enumeration can reorder integer-looking keys, so retain an array when ordering matters."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of JSON Array to Object?",
+      "answer": "JSON property names are strings, so the number 1 and the string 1 map to the same destination key. Duplicate behavior is an explicit choice, with rejection as the default to avoid silent data loss. Keys must be strings or safe integers; missing paths, null, booleans and complex keys are rejected. The output safely preserves property names such as __proto__ as ordinary data. Object enumeration can reorder integer-looking keys, so retain an array when ordering matters."
+    },
+    "related": [
+      "/tools/json-group-by",
+      "/tools/json-array-deduplicator"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "html-image-alt-checker",
+    "title": "HTML Image Alt Checker",
+    "description": "Inspect pasted HTML for images with missing, empty or whitespace-only alt attributes and review image metadata locally.",
+    "kind": "text",
+    "example": "<img src=\"product.jpg\" alt=\"Blue ceramic cup\"><img src=\"decoration.svg\" alt=\"\"><img src=\"banner.jpg\">",
+    "fields": [],
+    "action": "Process input",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Review image descriptions in a page fragment before publishing an article or a product template. The report lists each image source, alternative text and loading metadata, separating missing attributes from deliberately empty values. This helps a content editor find markup that deserves attention without fetching the images or running scripts from the page."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "An empty alt attribute can be correct for a decorative image, while a meaningful image generally needs useful equivalent text. The tool flags cases for review and cannot decide whether a description communicates the right meaning. It inspects img elements only, not CSS background images, rendered visibility or the complete accessibility tree. Pasted HTML stays inert in the browser, and external image sources are not requested."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of HTML Image Alt Checker?",
+      "answer": "An empty alt attribute can be correct for a decorative image, while a meaningful image generally needs useful equivalent text. The tool flags cases for review and cannot decide whether a description communicates the right meaning. It inspects img elements only, not CSS background images, rendered visibility or the complete accessibility tree. Pasted HTML stays inert in the browser, and external image sources are not requested."
+    },
+    "related": [
+      "/tools/html-heading-extractor",
+      "/tools/html-formatter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "html-form-inspector",
+    "title": "HTML Form Inspector",
+    "description": "Extract forms, associated controls, labels, methods and action attributes from pasted HTML without submitting anything.",
+    "kind": "text",
+    "example": "<form id=\"signup\" action=\"/subscribe\" method=\"post\"><label for=\"email\">Email</label><input id=\"email\" name=\"email\" type=\"email\" required><button type=\"submit\">Join</button></form>",
+    "fields": [],
+    "action": "Process input",
+    "extension": "json",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Inspect the fields a form declares before debugging a submission or reviewing a template. The result lists forms and their associated controls, including names, types, required and disabled states, label text and select options. Controls using a form attribute are associated with the matching form ID even when they appear outside the form element."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "This is a static markup inventory, not a serialization of successful submission fields or an accessibility certification. It does not execute validation, simulate clicks, resolve action URLs or send a request. Password, hidden and other input values are deliberately omitted from the report. Missing explicit methods are reported as GET, and action attributes are shown literally. Form associations are resolved within the pasted fragment; the browser may repair malformed markup during parsing."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of HTML Form Inspector?",
+      "answer": "This is a static markup inventory, not a serialization of successful submission fields or an accessibility certification. It does not execute validation, simulate clicks, resolve action URLs or send a request. Password, hidden and other input values are deliberately omitted from the report. Missing explicit methods are reported as GET, and action attributes are shown literally. Form associations are resolved within the pasted fragment; the browser may repair malformed markup during parsing."
+    },
+    "related": [
+      "/tools/html-image-alt-checker",
+      "/tools/css-selector-tester"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "css-keyframes-generator",
+    "title": "CSS Keyframes Animation Generator",
+    "description": "Generate fade, slide, pulse or spin keyframes with duration controls, a live preview and reduced-motion CSS.",
+    "kind": "design",
+    "example": "",
+    "fields": [
+      {
+        "key": "effect",
+        "label": "Effect",
+        "default": "slide",
+        "type": "select",
+        "options": [
+          {
+            "value": "fade",
+            "label": "Fade"
+          },
+          {
+            "value": "slide",
+            "label": "Slide"
+          },
+          {
+            "value": "pulse",
+            "label": "Pulse"
+          },
+          {
+            "value": "spin",
+            "label": "Spin"
+          }
+        ]
+      },
+      {
+        "key": "duration",
+        "label": "Duration (seconds)",
+        "default": "1.5",
+        "type": "number",
+        "min": 0.1,
+        "max": 30,
+        "step": "any"
+      },
+      {
+        "key": "distance",
+        "label": "Slide distance (px)",
+        "default": "40",
+        "type": "number",
+        "min": 0,
+        "max": 200,
+        "step": "any"
+      },
+      {
+        "key": "timing",
+        "label": "Timing",
+        "default": "ease-in-out",
+        "type": "select",
+        "options": [
+          {
+            "value": "linear",
+            "label": "linear"
+          },
+          {
+            "value": "ease",
+            "label": "ease"
+          },
+          {
+            "value": "ease-in",
+            "label": "ease-in"
+          },
+          {
+            "value": "ease-out",
+            "label": "ease-out"
+          },
+          {
+            "value": "ease-in-out",
+            "label": "ease-in-out"
+          }
+        ]
+      }
+    ],
+    "action": "Generate CSS",
+    "extension": "css",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Prepare a small interface animation without rewriting the same keyframe structure. Choose a fade, slide, pulse or spin effect and adjust its duration and easing. The live preview demonstrates the generated motion, and the output includes an animation class plus named keyframes that can be copied into an existing stylesheet."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "The preview repeats to make the motion easy to inspect, and the generated CSS uses the same infinite alternate behavior. A reduced-motion media query disables the animation for users who request less motion. Consider changing the iteration count for real interface feedback instead of looping indefinitely. Animation can create a stacking context and transform existing content, so review the result within your actual component layout. This generator does not modify the original stylesheet."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of CSS Keyframes Animation Generator?",
+      "answer": "The preview repeats to make the motion easy to inspect, and the generated CSS uses the same infinite alternate behavior. A reduced-motion media query disables the animation for users who request less motion. Consider changing the iteration count for real interface feedback instead of looping indefinitely. Animation can create a stacking context and transform existing content, so review the result within your actual component layout. This generator does not modify the original stylesheet."
+    },
+    "related": [
+      "/tools/cubic-bezier-generator",
+      "/tools/css-filter-generator"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "css-triangle-generator",
+    "title": "CSS Triangle Generator",
+    "description": "Generate up, down, left or right CSS border triangles with adjustable dimensions, color and live preview.",
+    "kind": "design",
+    "example": "",
+    "fields": [
+      {
+        "key": "direction",
+        "label": "Direction",
+        "default": "up",
+        "type": "select",
+        "options": [
+          {
+            "value": "up",
+            "label": "Up"
+          },
+          {
+            "value": "down",
+            "label": "Down"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "key": "width",
+        "label": "Width (px)",
+        "default": "100",
+        "type": "number",
+        "min": 1,
+        "max": 300,
+        "step": "any"
+      },
+      {
+        "key": "height",
+        "label": "Height (px)",
+        "default": "80",
+        "type": "number",
+        "min": 1,
+        "max": 300,
+        "step": "any"
+      },
+      {
+        "key": "color",
+        "label": "Color",
+        "default": "#6366f1",
+        "type": "color"
+      }
+    ],
+    "action": "Generate CSS",
+    "extension": "css",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Create a simple decorative pointer for a tooltip, speech bubble or dropdown. The technique uses a zero-size element with transparent borders on two sides and a colored border on another. Choose the direction, visible width and height, then inspect the preview before copying the generated declarations into a class or pseudo-element."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "The visible triangle uses border geometry rather than an image file, so width and height declarations on the element itself remain zero. Surrounding layout still needs to account for the border box. A border triangle cannot contain readable text and should be treated as decoration rather than an interactive control on its own. Dimensions are limited to three hundred pixels per axis for the preview, and the color input accepts a six-digit hexadecimal value."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of CSS Triangle Generator?",
+      "answer": "The visible triangle uses border geometry rather than an image file, so width and height declarations on the element itself remain zero. Surrounding layout still needs to account for the border box. A border triangle cannot contain readable text and should be treated as decoration rather than an interactive control on its own. Dimensions are limited to three hundred pixels per axis for the preview, and the color input accepts a six-digit hexadecimal value."
+    },
+    "related": [
+      "/tools/css-clip-path-generator",
+      "/tools/css-border-radius-generator"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "css-filter-generator",
+    "title": "CSS Filter Generator",
+    "description": "Combine blur, brightness, contrast, saturation, grayscale and hue rotation with a colorful CSS preview.",
+    "kind": "design",
+    "example": "",
+    "fields": [
+      {
+        "key": "blur",
+        "label": "Blur (px)",
+        "default": "0",
+        "type": "number",
+        "min": 0,
+        "max": 20,
+        "step": "any"
+      },
+      {
+        "key": "brightness",
+        "label": "Brightness (%)",
+        "default": "110",
+        "type": "number",
+        "min": 0,
+        "max": 200,
+        "step": "any"
+      },
+      {
+        "key": "contrast",
+        "label": "Contrast (%)",
+        "default": "105",
+        "type": "number",
+        "min": 0,
+        "max": 200,
+        "step": "any"
+      },
+      {
+        "key": "saturate",
+        "label": "Saturation (%)",
+        "default": "120",
+        "type": "number",
+        "min": 0,
+        "max": 300,
+        "step": "any"
+      },
+      {
+        "key": "grayscale",
+        "label": "Grayscale (%)",
+        "default": "0",
+        "type": "number",
+        "min": 0,
+        "max": 100,
+        "step": "any"
+      },
+      {
+        "key": "hue",
+        "label": "Hue rotation (degrees)",
+        "default": "20",
+        "type": "number",
+        "min": 0,
+        "max": 360,
+        "step": "any"
+      }
+    ],
+    "action": "Generate CSS",
+    "extension": "css",
+    "steps": [
+      "Load the example or enter your own values.",
+      "Choose the relevant options and run the tool.",
+      "Review the result, then copy it or download a local file."
+    ],
+    "sections": [
+      {
+        "heading": "When this tool is useful",
+        "body": "Explore a CSS filter chain before adding it to an image or interface element. Adjust brightness, contrast, saturation and hue, then add grayscale or blur if needed. The preview uses a colorful sample so changes are visible without uploading a photo. The output is a complete class declaration containing the filter functions in a fixed, visible order."
+      },
+      {
+        "heading": "Reading the result and limitations",
+        "body": "Filter order affects the result, so the emitted chain should be kept intact when comparing the preview to your stylesheet. Filters apply to the element and its rendered descendants and can affect text as well as images. This is a browser rendering effect, not a downloadable edited image or an accurate color-calibration workflow. Blur can extend beyond an element’s bounds, and filtering may affect stacking behavior and rendering performance in a larger page."
+      }
+    ],
+    "faq": {
+      "question": "What are the main limits of CSS Filter Generator?",
+      "answer": "Filter order affects the result, so the emitted chain should be kept intact when comparing the preview to your stylesheet. Filters apply to the element and its rendered descendants and can affect text as well as images. This is a browser rendering effect, not a downloadable edited image or an accurate color-calibration workflow. Blur can extend beyond an element’s bounds, and filtering may affect stacking behavior and rendering performance in a larger page."
+    },
+    "related": [
+      "/tools/image-grayscale",
+      "/tools/color-converter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "xlsx-to-csv",
+    "title": "Excel XLSX to CSV Converter",
+    "description": "Export a selected Excel worksheet as UTF-8 CSV, preserving text cells and using stored formula results.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".xlsx"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "sheet",
+        "label": "Worksheet number (1-based)",
+        "default": "1",
+        "type": "number",
+        "min": 1,
+        "max": 100,
+        "step": "1"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "csv",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Export one worksheet from an XLSX workbook for a data import or a quick inspection in a text editor. Select the worksheet by its one-based position. The output contains comma-separated UTF-8 cells with standard quoting for embedded commas, quotes and line breaks. Empty cells inside the used table remain empty instead of shifting later values to the left."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Only modern XLSX workbooks are accepted; legacy XLS and password-protected files are unsupported. Formulas are not executed and use cached results only, so a formula without a saved result is an error. Styling, charts, merged-cell geometry and macros are not exported. Files are limited to 2 MiB compressed, 32 MiB expanded ZIP content and 50,000 worksheet cells. Dates become ISO date-time strings rather than locale-specific spreadsheet displays."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Only modern XLSX workbooks are accepted; legacy XLS and password-protected files are unsupported."
+    },
+    "related": [
+      "/tools/xlsx-to-json",
+      "/tools/csv-to-json"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "json-to-xlsx",
+    "title": "JSON to Excel XLSX Converter",
+    "description": "Create an Excel workbook from a JSON array of flat records with typed numbers, booleans and literal text cells.",
+    "kind": "graphic",
+    "server": {
+      "input": "text"
+    },
+    "example": "[{\"id\":\"001\",\"name\":\"Ada\",\"score\":95,\"active\":true},{\"id\":\"002\",\"name\":\"Grace\",\"score\":98,\"active\":false}]",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "xlsx",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Turn a small API export into an editable spreadsheet without first flattening its values into CSV. Paste an array of records to create one worksheet with a header row. Headers are collected in first-seen order across the records. Text remains text, including leading-zero identifiers and strings beginning with an equals sign; numeric and boolean JSON values become native Excel cells."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Records must be flat objects containing strings, finite safe-range numbers, booleans or null. Nested arrays and objects require an explicit flattening decision and are rejected. Missing properties and null become empty cells. The table is limited to 50,000 cells and individual strings to Excel’s 32,767-character cell limit. This converter creates a new workbook and does not execute formulas, build charts or preserve a pre-existing workbook template."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Records must be flat objects containing strings, finite safe-range numbers, booleans or null."
+    },
+    "related": [
+      "/tools/xlsx-to-json",
+      "/tools/json-to-csv"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "xlsx-to-json",
+    "title": "Excel XLSX to JSON Converter",
+    "description": "Convert a selected XLSX worksheet into JSON records using its first row as unique property names.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".xlsx"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "sheet",
+        "label": "Worksheet number (1-based)",
+        "default": "1",
+        "type": "number",
+        "min": 1,
+        "max": 100,
+        "step": "1"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Read an Excel table as structured records for a test fixture, application import or review. The first worksheet row becomes the JSON property names and subsequent nonempty rows become objects. Numbers and booleans retain their types; empty cells become null. Choose a worksheet position when a workbook contains more than one sheet."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Header cells must be unique and nonblank, and the workbook must contain a rectangular table within 50,000 cells. Cell formatting does not change the underlying numeric value, so use real text cells for leading-zero identifiers. Dates are emitted as ISO strings. Stored formula results can be read, but formulas are never recalculated and missing cached results are rejected. XLS, encrypted workbooks and files above the documented ZIP limits are not supported."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Header cells must be unique and nonblank, and the workbook must contain a rectangular table within 50,000 cells."
+    },
+    "related": [
+      "/tools/json-to-xlsx",
+      "/tools/xlsx-to-csv"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "docx-converter",
+    "title": "Word DOCX to HTML and Text Converter",
+    "description": "Extract readable text or sanitized structural HTML from a DOCX document for publishing and content migration.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".docx"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "format",
+        "label": "Output format",
+        "default": "text",
+        "type": "select",
+        "options": [
+          {
+            "value": "text",
+            "label": "Plain UTF-8 text"
+          },
+          {
+            "value": "html",
+            "label": "Sanitized HTML"
+          }
+        ]
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "txt",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Recover the main written content of a modern Word document for an editor or publishing workflow. Plain-text mode removes document formatting, while HTML mode retains common paragraph, heading, list and table structure. HTML output is sanitized before download and is shown as source text rather than executed inside the tool."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "This is content extraction rather than an exact rendering of Word pages. Images, precise fonts, floating shapes and page layout are not preserved. Legacy DOC, encrypted documents and externally linked files are unsupported. DOCX uploads are limited to 2 MiB compressed and 32 MiB expanded archive content. Embedded images are omitted from HTML output. Review conversion notes and the resulting structure before publishing, especially for complex tables and unusual document styles."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "This is content extraction rather than an exact rendering of Word pages."
+    },
+    "related": [
+      "/tools/text-to-docx",
+      "/tools/html-to-text"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "pdf-merger",
+    "title": "PDF Merger",
+    "description": "Combine PDF documents into one download with an editable file order and no image rasterization. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf",
+      "multiple": true
+    },
+    "example": "",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Combine related PDF pages into a single document for sharing or archiving. Add at least two PDFs and use the file-list arrows to choose their order. Each source contributes all its pages in sequence. Page sizes and page content are copied, avoiding an unnecessary image conversion that would otherwise make selectable text harder to use."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "This tool accepts up to eight unencrypted PDFs within a combined 4 MiB upload and a total of 200 pages. It copies pages rather than entire document-level structures, so bookmarks, signatures, attachments and interactive forms are not guaranteed to survive. Any modification invalidates existing digital signatures. The output is a new PDF; retain source documents when their original signatures or interactive behavior matter."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "This tool accepts up to eight unencrypted PDFs within a combined 4 MiB upload and a total of 200 pages."
+    },
+    "related": [
+      "/tools/pdf-page-extractor",
+      "/tools/pdf-rotate"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "pdf-page-extractor",
+    "title": "PDF Page Extractor",
+    "description": "Extract selected PDF pages into a new document using page numbers and ranges in your chosen order. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "pages",
+        "label": "Pages and ranges (1-based)",
+        "default": "1",
+        "type": "text"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Create a smaller PDF containing only the pages needed for a particular task. Enter a comma-separated list such as 1,3-5 to copy individual pages or inclusive ranges. Selections are processed in the order entered, allowing a custom output sequence. Repeated pages are rejected so an accidental repeated range does not silently duplicate a section."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Page numbers are one-based and must refer to existing pages. The result is one PDF containing the selected pages, not a ZIP of individual page files. Up to 200 source pages and 4 MiB combined input are supported. Encrypted PDFs are rejected. Page copying may omit document-level bookmarks, attachments and form relationships, and the new file does not retain the validity of any digital signature on the source."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Page numbers are one-based and must refer to existing pages."
+    },
+    "related": [
+      "/tools/pdf-merger",
+      "/tools/pdf-page-numbers"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "pdf-rotate",
+    "title": "PDF Page Rotation Tool",
+    "description": "Rotate all pages of a PDF clockwise by 90, 180 or 270 degrees while keeping text and vectors. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "angle",
+        "label": "Clockwise rotation",
+        "default": "90",
+        "type": "select",
+        "options": [
+          {
+            "value": "90",
+            "label": "90°"
+          },
+          {
+            "value": "180",
+            "label": "180°"
+          },
+          {
+            "value": "270",
+            "label": "270°"
+          }
+        ]
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Correct a PDF whose scanned or exported pages face the wrong direction. Choose a clockwise quarter-turn and apply it to all pages. The operation updates page rotation metadata rather than rasterizing page contents, preserving ordinary selectable text and vector artwork. Existing page rotation is taken into account instead of being overwritten with an unrelated absolute orientation."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Rotation applies to the entire document; extract a subset first if only some pages need correction. The maximum is 200 pages and 4 MiB of unencrypted PDF input. Interactive features may behave differently in viewers after an edit, and existing digital signatures will no longer validate. This tool changes viewing orientation rather than performing OCR, straightening a slightly skewed scan or changing the physical paper size."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Rotation applies to the entire document; extract a subset first if only some pages need correction."
+    },
+    "related": [
+      "/tools/pdf-page-extractor",
+      "/tools/pdf-resize"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "pdf-metadata-remover",
+    "title": "PDF Metadata Remover",
+    "description": "Remove the PDF information dictionary and catalog XMP metadata while keeping the document pages. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "example": "",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Create a copy of a PDF without its standard document-information dictionary and catalog-level XMP metadata stream. Those structures commonly contain title, author, producer and creation details. The tool rewrites the document without adding fresh informational metadata, then returns the resulting PDF for download."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Metadata removal is not anonymization or redaction. Names may remain in visible page text, images, annotations, attachments, form fields, embedded fonts or application-specific objects. This tool does not inspect or remove those other locations. Existing digital signatures become invalid when the file is rewritten. Only unencrypted PDFs up to 200 pages and 4 MiB are supported. Inspect the output with an independent metadata viewer when the result will be shared publicly."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Metadata removal is not anonymization or redaction."
+    },
+    "related": [
+      "/tools/pdf-watermark",
+      "/tools/pdf-page-extractor"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "pdf-resize",
+    "title": "PDF Page Size Converter",
+    "description": "Fit PDF page artwork onto A4 or Letter paper with preserved proportions and configurable margins. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "paper",
+        "label": "Target paper",
+        "default": "a4",
+        "type": "select",
+        "options": [
+          {
+            "value": "a4",
+            "label": "A4 portrait"
+          },
+          {
+            "value": "letter",
+            "label": "US Letter portrait"
+          }
+        ]
+      },
+      {
+        "key": "margin",
+        "label": "Margin (points)",
+        "default": "24",
+        "type": "number",
+        "min": 0,
+        "max": 100,
+        "step": "1"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Normalize a collection of differently sized PDF pages before printing or combining them with a standard report. Each source page is embedded as artwork on a new A4 or Letter page. The converter scales the content proportionally and centers it within the chosen margin rather than stretching text or cutting off the source rectangle."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "This creates new pages from page artwork. Interactive annotations, forms, links and document-level features are not carried over as interactive objects. Existing rotation is handled when positioning the artwork. The output has portrait paper dimensions; embedded source pages may be landscape within that frame. Input is limited to 200 unencrypted pages and 4 MiB. This is a page-fit operation, not a guaranteed reduction in file size."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "This creates new pages from page artwork."
+    },
+    "related": [
+      "/tools/pdf-merger",
+      "/tools/pdf-rotate"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "text-to-pdf",
+    "title": "Text to PDF Converter",
+    "description": "Create a paginated PDF from plain text with an embedded font supporting Latin and Cyrillic characters.",
+    "kind": "graphic",
+    "server": {
+      "input": "text"
+    },
+    "example": "Meeting notes\n\nHello, world!\nВітаємо! Це приклад тексту українською.\n\nThis document is generated from plain text.",
+    "fields": [
+      {
+        "key": "fontSize",
+        "label": "Font size (points)",
+        "default": "12",
+        "type": "number",
+        "min": 8,
+        "max": 24,
+        "step": "1"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Turn notes or a short plain-text export into a PDF that can be viewed consistently across devices. Text is wrapped to an A4 page with fixed margins and additional pages are added as needed. A bundled Noto Sans font is embedded in the document, supporting common Latin and Cyrillic text rather than relying on a font installed on the reader’s computer."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Input is plain text, not HTML or Markdown. The converter supports left-to-right text and rejects unsupported font characters and control codes instead of substituting missing-glyph boxes. Complex scripts, emoji, rich layout and right-to-left shaping are outside its scope. Tabs become spaces and explicit line breaks are retained. Text is limited to 20,000 characters and output to 50 pages. Review the PDF before sharing if exact typography is important."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Input is plain text, not HTML or Markdown."
+    },
+    "related": [
+      "/tools/text-to-docx",
+      "/tools/pdf-page-numbers"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "pdf-watermark",
+    "title": "PDF Text Watermark Tool",
+    "description": "Add a centered text watermark to every PDF page with adjustable opacity and an embedded Unicode font. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "text",
+        "label": "Watermark text",
+        "default": "DRAFT",
+        "type": "text"
+      },
+      {
+        "key": "opacity",
+        "label": "Opacity (%)",
+        "default": "20",
+        "type": "number",
+        "min": 5,
+        "max": 100,
+        "step": "1"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Mark a review copy or identify the intended use of a document with a visible text overlay. Enter a short watermark and choose its opacity. The tool adds the same centered, diagonal mark to every page using an embedded font. The existing page content remains beneath the overlay and is not converted into an image."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "A watermark is not encryption, ownership proof or access control, and it does not prevent copying or editing. The text is limited to 80 supported left-to-right characters and scales to fit the page. Existing page rotations affect the visual placement in some viewers, so inspect the output. Input must be unencrypted PDF within 200 pages and 4 MiB, and modification invalidates existing digital signatures."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "A watermark is not encryption, ownership proof or access control, and it does not prevent copying or editing."
+    },
+    "related": [
+      "/tools/image-watermark",
+      "/tools/pdf-page-numbers"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "pdf-page-numbers",
+    "title": "Add Page Numbers to PDF",
+    "description": "Add sequential footer page numbers to a PDF with a custom starting number and adjustable text size. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "start",
+        "label": "First printed number",
+        "default": "1",
+        "type": "number",
+        "min": 0,
+        "max": 999999,
+        "step": "1"
+      },
+      {
+        "key": "fontSize",
+        "label": "Number size (points)",
+        "default": "11",
+        "type": "number",
+        "min": 8,
+        "max": 24,
+        "step": "1"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Prepare a printable reference copy by adding visible page numbers to the bottom of each page. Choose the starting number to continue numbering from an earlier section. The footer is centered on the page’s unrotated coordinate area and uses an embedded font, while the underlying text and artwork remain available as PDF content."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Numbers are new page content and do not update PDF page-label metadata, tables of contents or existing printed numbering. The converter does not erase an old footer, so check that it will not cover important content. Rotated or unusually cropped documents need visual review. Input is limited to 200 unencrypted PDF pages and 4 MiB. Like other edits, adding numbers invalidates any original digital signatures."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Numbers are new page content and do not update PDF page-label metadata, tables of contents or existing printed numbering."
+    },
+    "related": [
+      "/tools/pdf-merger",
+      "/tools/pdf-page-extractor"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "image-to-avif",
+    "title": "Image to AVIF Converter",
+    "description": "Convert a PNG, JPEG or WebP image into AVIF with adjustable quality and preserved transparency where supported. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".png,.jpg,.jpeg,.webp"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "quality",
+        "label": "AVIF quality",
+        "default": "60",
+        "type": "number",
+        "min": 1,
+        "max": 100,
+        "step": "1"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "avif",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Create an AVIF version of an existing raster asset for a modern web workflow. Upload a PNG, JPEG or WebP and choose an encoder quality level. The converter applies orientation metadata before encoding and produces a single AVIF image. Transparent source pixels remain transparent rather than being flattened onto a background."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "The output is a still image; animated formats and unsupported input types are rejected. Uploads are limited to 4 MiB and decoded images to 16 million pixels. Encoding can change color and detail, and a higher quality value can produce a larger file. Source metadata is not copied by default. Compare the downloaded image to the original and provide fallback assets where the target software does not support AVIF."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "The output is a still image; animated formats and unsupported input types are rejected."
+    },
+    "related": [
+      "/tools/image-format-converter",
+      "/tools/image-compressor"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "tiff-to-image",
+    "title": "TIFF to PNG and JPEG Converter",
+    "description": "Extract a selected TIFF page as PNG or JPEG with explicit page selection and white-backed JPEG output. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".tif,.tiff"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "page",
+        "label": "TIFF page (1-based)",
+        "default": "1",
+        "type": "number",
+        "min": 1,
+        "max": 100,
+        "step": "1"
+      },
+      {
+        "key": "format",
+        "label": "Output",
+        "default": "png",
+        "type": "select",
+        "options": [
+          {
+            "value": "png",
+            "label": "PNG"
+          },
+          {
+            "value": "jpeg",
+            "label": "JPEG"
+          }
+        ]
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "png",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Convert a scan or a TIFF image into a format that is easier to view in ordinary applications. Select one page from a multipage TIFF and choose PNG or JPEG. PNG is suitable when retaining transparency matters; JPEG output is flattened onto white so transparent regions do not unexpectedly become black."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "One conversion produces one selected page, not a combined document or archive. TIFF codecs supported by the installed image engine are accepted, with a maximum of 4 MiB input and 16 million decoded pixels for the chosen page. Unsupported compression and invalid page numbers result in errors. Color conversion may change specialized scientific or print-oriented data, so retain the original TIFF for workflows that require its bit depth, channels or calibration metadata."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "One conversion produces one selected page, not a combined document or archive."
+    },
+    "related": [
+      "/tools/image-to-avif",
+      "/tools/image-format-converter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "gif-sprite-sheet",
+    "title": "GIF to Sprite Sheet Converter",
+    "description": "Arrange decoded GIF frames into a transparent PNG sprite sheet with configurable columns. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".gif"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "columns",
+        "label": "Columns",
+        "default": "4",
+        "type": "number",
+        "min": 1,
+        "max": 16,
+        "step": "1"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "png",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Turn an animated GIF into one PNG atlas for a game prototype, animation inspection or frame-based workflow. The decoder composites GIF frames to full canvases before arranging them in reading order, left to right and then top to bottom. Choose the column count to control the layout; unused cells in the final row remain transparent."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "The output contains frame pixels only. It does not preserve frame delays, looping rules or animation playback code. The converter supports up to 64 frames and a total decoded frame and output area of 16 million pixels, within a 4 MiB upload. Uneven final rows add transparent space to the sheet. A sprite sheet can be larger than the original compressed GIF, so this is a layout conversion rather than a compression tool."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "The output contains frame pixels only."
+    },
+    "related": [
+      "/tools/image-cropper",
+      "/tools/image-format-converter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "json5-to-json",
+    "title": "JSON5 to JSON Converter",
+    "description": "Convert JSON5 comments, trailing commas, unquoted keys and single-quoted strings into strict formatted JSON.",
+    "kind": "graphic",
+    "server": {
+      "input": "text"
+    },
+    "example": "// Development settings\n{ app: 'Utilixio', enabled: true, ports: [3000, 3001,], }",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Clean a JSON5 configuration for a program that accepts only strict JSON. The parser supports familiar JSON5 conveniences such as comments, trailing commas and quoted or unquoted object keys, then writes a consistently formatted JSON document. This is useful when moving a development configuration into a stricter import interface."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Only values that strict JSON can represent are accepted. Non-finite numbers and unsafe integer magnitudes are rejected rather than silently converted to null or rounded. Comments and original formatting are intentionally discarded in the output. Duplicate object keys follow the JSON5 parser’s last-value behavior, so review configurations where repeated keys may be significant. Input is limited to 2 MiB of text with bounded object depth."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Only values that strict JSON can represent are accepted."
+    },
+    "related": [
+      "/tools/json-validator",
+      "/tools/json-formatter"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "json-to-toml",
+    "title": "JSON to TOML Converter",
+    "description": "Convert JSON configuration objects into TOML tables with typed tables and explicit checks for unsupported null values.",
+    "kind": "graphic",
+    "server": {
+      "input": "text"
+    },
+    "example": "{\"app\":{\"name\":\"Utilixio\",\"enabled\":true},\"server\":{\"port\":3000,\"hosts\":[\"localhost\",\"example.com\"]}}",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "toml",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Prepare TOML configuration from a JSON object while retaining nested tables, strings, booleans and finite numbers. Paste the configuration and download a TOML file that can be reviewed in a text editor. Property names are handled by the serializer rather than manually concatenated, which helps preserve punctuation and escape characters in keys and string values."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "TOML has no null value, so null anywhere in the input is rejected. The root must be an object, and the serializer determines which arrays and nested structures are representable. Numbers must stay within JavaScript’s safe integer range when integral; larger identifiers should be strings. This converter does not infer date-time values from strings. The text limit is 2 MiB with a maximum nesting depth of 32."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "TOML has no null value, so null anywhere in the input is rejected."
+    },
+    "related": [
+      "/tools/toml-to-json",
+      "/tools/json-to-yaml"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "text-encoding-converter",
+    "title": "Text File Encoding Converter",
+    "description": "Convert text files between UTF-8, UTF-16, Windows-1251, Windows-1252 and Shift JIS with loss checks. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".txt,.csv,.json,.xml,.srt,.log"
+    },
+    "example": "",
+    "fields": [
+      {
+        "key": "from",
+        "label": "Source encoding",
+        "default": "utf8",
+        "type": "select",
+        "options": [
+          {
+            "value": "utf8",
+            "label": "UTF-8"
+          },
+          {
+            "value": "utf16le",
+            "label": "UTF-16 little-endian"
+          },
+          {
+            "value": "utf16be",
+            "label": "UTF-16 big-endian"
+          },
+          {
+            "value": "win1251",
+            "label": "Windows-1251"
+          },
+          {
+            "value": "win1252",
+            "label": "Windows-1252"
+          },
+          {
+            "value": "shift_jis",
+            "label": "Shift JIS"
+          }
+        ]
+      },
+      {
+        "key": "to",
+        "label": "Target encoding",
+        "default": "utf16le",
+        "type": "select",
+        "options": [
+          {
+            "value": "utf8",
+            "label": "UTF-8"
+          },
+          {
+            "value": "utf16le",
+            "label": "UTF-16 little-endian"
+          },
+          {
+            "value": "utf16be",
+            "label": "UTF-16 big-endian"
+          },
+          {
+            "value": "win1251",
+            "label": "Windows-1251"
+          },
+          {
+            "value": "win1252",
+            "label": "Windows-1252"
+          },
+          {
+            "value": "shift_jis",
+            "label": "Shift JIS"
+          }
+        ]
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "txt",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Fix a file whose encoding does not match the application that needs to read it. Select the source charset explicitly, then choose the target charset. This helps prepare legacy CSV imports, text exports and configuration files. The converter checks whether decoding and re-encoding can preserve the source and whether the target can represent the resulting characters."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Encoding detection is not guessed automatically: selecting the wrong but technically valid source charset can still produce incorrect text. Lossy target conversion and malformed source bytes are rejected using a roundtrip check. A leading byte-order mark is treated as an encoding signature rather than text. Output uses no BOM, so select the charset explicitly when importing it. Input is limited to 4 MiB and decoded text to two million characters."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Encoding detection is not guessed automatically: selecting the wrong but technically valid source charset can still produce incorrect text."
+    },
+    "related": [
+      "/tools/unicode-normalizer",
+      "/tools/unicode-escape"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "text-to-docx",
+    "title": "Text to Word DOCX Converter",
+    "description": "Create an editable DOCX document from plain text with paragraph and line-break preservation.",
+    "kind": "graphic",
+    "server": {
+      "input": "text"
+    },
+    "example": "Project notes\n\nHello, world!\nВітаємо! Текст залишиться редагованим.\n\nNext steps:\nReview the draft.\nShare the document.",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "docx",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Move plain notes into an editable Word document without manually copying them into a desktop editor. The output is a new DOCX containing normal paragraphs and explicit line breaks based on the source text. Unicode text is kept as document text, allowing an installed word processor to choose suitable fonts when the file is opened."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Input is plain text rather than HTML or Markdown, and formatting markers are not interpreted. Two consecutive line breaks separate paragraphs; a single line break remains within a paragraph. The converter does not create images, tables, headers, tracked changes or a template-specific layout. Text is limited to 20,000 characters and invalid XML control characters are rejected. Document appearance can vary with the fonts available on the reader’s device."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Input is plain text rather than HTML or Markdown, and formatting markers are not interpreted."
+    },
+    "related": [
+      "/tools/docx-converter",
+      "/tools/text-to-pdf"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "stereo-to-mono-wav",
+    "title": "Stereo to Mono WAV Converter",
+    "description": "Mix stereo WAV audio into a mono 16-bit PCM WAV file while preserving its sample rate. ",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".wav"
+    },
+    "example": "",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "wav",
+    "steps": [
+      "Choose the example or select your input files in the required format.",
+      "Check the options, then select Convert on server to upload and process the input.",
+      "Review the result and download the converted file."
+    ],
+    "sections": [
+      {
+        "heading": "What this conversion produces",
+        "body": "Create a mono version of a two-channel WAV recording for an audio workflow that expects one channel. Each output sample is the average of the left and right source samples, avoiding the doubling in level caused by simply adding channels. The output uses signed 16-bit PCM and retains the original sample rate. Mono input can also be normalized to the same output format."
+      },
+      {
+        "heading": "Supported input and practical limits",
+        "body": "Supported sources are uncompressed RIFF/WAVE PCM with 8-, 16-, 24- or 32-bit integer samples, or 32-bit IEEE float, with one or two channels. MP3, AAC, WAVE extensible, compressed WAV and RF64 are not decoded. Invalid non-finite samples are rejected. Input and output are capped at 4 MiB. Averaging phase-opposed stereo channels can reduce or cancel sound, so listen to the result before replacing a source recording."
+      }
+    ],
+    "faq": {
+      "question": "What should I know before converting?",
+      "answer": "Supported sources are uncompressed RIFF/WAVE PCM with 8-, 16-, 24- or 32-bit integer samples, or 32-bit IEEE float, with one or two channels."
+    },
+    "related": [
+      "/tools/file-checksum",
+      "/tools/file-to-base64"
+    ],
+    "modified": "2026-11-05"
+  },
+  {
+    "slug": "pdf-to-text",
+    "title": "PDF to Text Converter",
+    "description": "Extract selectable text from PDF pages into a UTF-8 text file without OCR or uploading to an external conversion provider.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "fields": [],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "txt",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Recover selectable text from a report, document or exported PDF for searching and editing. The converter reads text items in the order supplied by the PDF engine and keeps explicit line endings where available. Pages are separated by a form-feed character so a downstream editor or script can distinguish their boundaries without adding visible page headings to the content."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "This does not perform optical character recognition. A scan containing only images can produce an empty result. Columns, ligatures and unusual font encodings can affect reading order and spacing, so compare extracted text with the original before relying on it. Password-protected PDFs are unsupported. Input is limited to 4 MiB and 200 pages; processing is stopped if it exceeds the server worker time or memory allowance."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "This does not perform optical character recognition."
+    },
+    "related": [
+      "/tools/pdf-to-image",
+      "/tools/docx-converter"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "pdf-to-image",
+    "title": "PDF to PNG and JPEG Converter",
+    "description": "Render a selected PDF page as PNG or JPEG at 72 or 144 DPI with the page’s viewing rotation applied.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "fields": [
+      {
+        "key": "page",
+        "label": "Page number",
+        "default": "1",
+        "type": "number",
+        "min": 1,
+        "max": 200,
+        "step": "any"
+      },
+      {
+        "key": "dpi",
+        "label": "Resolution",
+        "default": "144",
+        "type": "select",
+        "options": [
+          {
+            "value": "72",
+            "label": "72 DPI"
+          },
+          {
+            "value": "144",
+            "label": "144 DPI"
+          }
+        ]
+      },
+      {
+        "key": "format",
+        "label": "Image format",
+        "default": "png",
+        "type": "select",
+        "options": [
+          {
+            "value": "png",
+            "label": "PNG"
+          },
+          {
+            "value": "jpeg",
+            "label": "JPEG"
+          }
+        ]
+      }
+    ],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "png",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Create a raster image of one PDF page for a presentation, thumbnail or review workflow. Choose its one-based page number and output resolution. The PDF renderer applies page orientation and draws onto a white background before the result is encoded. PNG retains sharp line work without JPEG compression artifacts, while JPEG can be convenient for photographic pages."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "The result is an image with no selectable text or interactive links. Each conversion renders one page, not a full archive of page files. Input must be an unencrypted PDF up to 4 MiB and 200 pages, and the rendered surface must stay within 16 million pixels. Fonts, transparency and complex drawing features can vary across renderers. Inspect the downloaded page before using it as an exact visual record."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "The result is an image with no selectable text or interactive links."
+    },
+    "related": [
+      "/tools/pdf-contact-sheet",
+      "/tools/image-to-pdf"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "pdf-contact-sheet",
+    "title": "PDF Contact Sheet Generator",
+    "description": "Create a PNG overview of PDF pages arranged as thumbnails in a readable grid.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "fields": [
+      {
+        "key": "columns",
+        "label": "Columns",
+        "default": "3",
+        "type": "number",
+        "min": 1,
+        "max": 6,
+        "step": "any"
+      },
+      {
+        "key": "thumbWidth",
+        "label": "Thumbnail width (px)",
+        "default": "180",
+        "type": "number",
+        "min": 80,
+        "max": 400,
+        "step": "any"
+      }
+    ],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "png",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Review a short PDF at a glance without opening every page individually. The tool renders page thumbnails in document order, then places them left to right and top to bottom on a white PNG sheet. Portrait and landscape pages fit inside the same thumbnail boxes, making the sheet useful for spotting page order, blank pages or repeated material."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "The sheet is a visual overview rather than a high-resolution replacement for the PDF. It supports at most twenty unencrypted pages and a 4 MiB upload. The output grid is limited to 16 million pixels, and thumbnails are fitted without stretching. Page text may be too small to read at reduced size. Use the separate PDF page-to-image converter when you need a full-resolution image of a specific page."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "The sheet is a visual overview rather than a high-resolution replacement for the PDF."
+    },
+    "related": [
+      "/tools/pdf-to-image",
+      "/tools/image-contact-sheet"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "pdf-form-to-json",
+    "title": "PDF Form Fields to JSON",
+    "description": "Export AcroForm field names, current values, types and choices from a fillable PDF into JSON.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "fields": [],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Inspect a fillable PDF before automating its completion. The report contains a values object and a field list with field names, types, read-only state and available choices where applicable. Text, checkboxes, radio groups, dropdowns and option lists are represented separately so their value types remain clear. The values object can be used as a starting point for the form-filling tool."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "This reads existing AcroForm fields, not text printed on an ordinary page or fields guessed from a scanned form. A PDF without form fields returns an empty collection. Signature fields and buttons are described without extracting cryptographic signature data. Password-protected and XFA-based workflows are unsupported. Input is limited to 4 MiB and 200 pages, and exported values are handled as server conversion data rather than saved to a history."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "This reads existing AcroForm fields, not text printed on an ordinary page or fields guessed from a scanned form."
+    },
+    "related": [
+      "/tools/pdf-form-filler",
+      "/tools/pdf-to-text"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "pdf-form-filler",
+    "title": "Fill PDF Form from JSON",
+    "description": "Fill existing PDF text fields, checkboxes and choice fields using a JSON map of field names and values.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf",
+      "textLabel": "Field values as a JSON object"
+    },
+    "fields": [
+      {
+        "key": "flatten",
+        "label": "Output form",
+        "default": "false",
+        "type": "select",
+        "options": [
+          {
+            "value": "false",
+            "label": "Keep editable fields"
+          },
+          {
+            "value": "true",
+            "label": "Flatten fields into page artwork"
+          }
+        ]
+      }
+    ],
+    "example": "{\"name\":\"Grace Hopper\",\"subscribed\":true}",
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Complete a small fillable PDF by pasting a JSON object whose keys match its AcroForm field names. String values fill text fields, booleans set checkboxes, and valid option names select dropdown, list or radio choices. Inspect the field-export tool first when you do not know the exact names or choices. No new fields are guessed or added to ordinary page text."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "Unknown, read-only and unsupported field types are rejected, as are choices outside the field’s available options. The bundled font supports common left-to-right Latin and Cyrillic text; unsupported glyphs or scripts are errors. Optional flattening removes editability. Editing invalidates existing digital signatures. The source must be an unencrypted AcroForm PDF within 4 MiB and 200 pages. Review the completed file in a PDF viewer before sharing."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "Unknown, read-only and unsupported field types are rejected, as are choices outside the field’s available options."
+    },
+    "related": [
+      "/tools/pdf-form-to-json",
+      "/tools/pdf-page-numbers"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "pdf-crop",
+    "title": "PDF Margin Crop Tool",
+    "description": "Adjust the visible CropBox of PDF pages by removing margins measured in PDF points.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "fields": [
+      {
+        "key": "top",
+        "label": "Top margin (points)",
+        "default": "12",
+        "type": "number",
+        "min": 0,
+        "max": 500,
+        "step": "any"
+      },
+      {
+        "key": "right",
+        "label": "Right margin (points)",
+        "default": "12",
+        "type": "number",
+        "min": 0,
+        "max": 500,
+        "step": "any"
+      },
+      {
+        "key": "bottom",
+        "label": "Bottom margin (points)",
+        "default": "12",
+        "type": "number",
+        "min": 0,
+        "max": 500,
+        "step": "any"
+      },
+      {
+        "key": "left",
+        "label": "Left margin (points)",
+        "default": "12",
+        "type": "number",
+        "min": 0,
+        "max": 500,
+        "step": "any"
+      }
+    ],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Hide consistent empty margins when a document has more space around its content than you need. Values are applied to each page’s current crop rectangle in the PDF’s unrotated coordinate system. One point is one seventy-second of an inch. The tool keeps the page content as PDF objects rather than rendering it into an image."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "Cropping changes visibility only and is not redaction. Hidden text, images, annotations and other objects can remain in the file and may be recoverable. Margins must leave a positive-width and positive-height rectangle on every page. Rotated pages use their underlying page coordinates, so inspect orientation carefully. Only unencrypted PDFs up to 4 MiB and 200 pages are supported, and rewriting the document invalidates existing digital signatures."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "Cropping changes visibility only and is not redaction."
+    },
+    "related": [
+      "/tools/pdf-resize",
+      "/tools/pdf-rotate"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "pdf-grayscale",
+    "title": "PDF to Grayscale Converter",
+    "description": "Render PDF pages in grayscale and create a new image-based PDF for a monochrome review or print workflow.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".pdf"
+    },
+    "fields": [],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "pdf",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Produce a grayscale copy of a short color document using a consistent rendering pipeline. Each page is rendered on white, converted to grayscale and embedded into a new PDF page with matching viewing proportions. This can help assess whether charts and artwork remain understandable when color is removed before printing or distribution."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "The new PDF contains raster page images, so selectable text, vector sharpness, form controls and links are not preserved. This is not a lossless color-profile edit or a guarantee of smaller file size. Up to twenty unencrypted pages and 4 MiB of input are supported, with a 16-million-pixel limit per rendered page. Fine details can soften at the fixed 72 DPI resolution; retain the original when text accessibility or editing matters."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "The new PDF contains raster page images, so selectable text, vector sharpness, form controls and links are not preserved."
+    },
+    "related": [
+      "/tools/pdf-to-image",
+      "/tools/image-grayscale"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "bmp-converter",
+    "title": "BMP Image Converter",
+    "description": "Convert uncompressed 24/32-bit BMP to PNG, or create a 24-bit BMP from a still PNG, JPEG or WebP image.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".bmp,.png,.jpg,.jpeg,.webp"
+    },
+    "fields": [
+      {
+        "key": "direction",
+        "label": "Direction",
+        "default": "bmp-png",
+        "type": "select",
+        "options": [
+          {
+            "value": "bmp-png",
+            "label": "BMP to PNG"
+          },
+          {
+            "value": "image-bmp",
+            "label": "PNG/JPEG/WebP to BMP"
+          }
+        ]
+      }
+    ],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "png",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Move a classic bitmap image into a common web format, or prepare a BMP for software that expects that file type. BMP-to-PNG mode reads uncompressed Windows bitmap rows with either bottom-up or top-down storage. The reverse mode creates a standard 24-bit BMP with padded rows and a white background for transparent source pixels."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "Supported BMP input uses a Windows DIB header, BI_RGB compression and 24 or 32 bits per pixel. Indexed palettes, bitfields, RLE and other BMP variants are rejected. The reserved fourth byte in BI_RGB 32-bit files is treated as opaque rather than interpreted as alpha. Source images and output are limited to 4 MiB and 16 million pixels. BMP files are uncompressed and can be much larger than their PNG or JPEG sources."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "Supported BMP input uses a Windows DIB header, BI_RGB compression and 24 or 32 bits per pixel."
+    },
+    "related": [
+      "/tools/image-format-converter",
+      "/tools/image-to-avif"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "image-contact-sheet",
+    "title": "Image Contact Sheet Generator",
+    "description": "Arrange multiple PNG, JPEG or WebP images into a white-backed PNG thumbnail grid with consistent cells.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".png,.jpg,.jpeg,.webp",
+      "multiple": true
+    },
+    "fields": [
+      {
+        "key": "columns",
+        "label": "Columns",
+        "default": "2",
+        "type": "number",
+        "min": 1,
+        "max": 4,
+        "step": "any"
+      },
+      {
+        "key": "cell",
+        "label": "Cell size (px)",
+        "default": "240",
+        "type": "number",
+        "min": 80,
+        "max": 600,
+        "step": "any"
+      }
+    ],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "png",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Combine a small set of pictures into one overview for a visual review, comparison or sharing task. Choose the file order with the list arrows and select a column count and square cell size. Each image is auto-oriented and fitted inside its cell with white padding, preserving the complete image rather than cutting it to a square."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "The contact sheet supports two to eight still PNG, JPEG or WebP images with a combined upload size of 4 MiB. Individual sources and the output sheet are limited to 16 million pixels. It does not include filenames or preserve source metadata, and transparent areas are flattened to white. The result is a new composite PNG, not an archive of originals. Keep the source images for detailed editing or full-resolution inspection."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "The contact sheet supports two to eight still PNG, JPEG or WebP images with a combined upload size of 4 MiB."
+    },
+    "related": [
+      "/tools/pdf-contact-sheet",
+      "/tools/image-resizer"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "transparent-png-trimmer",
+    "title": "Transparent PNG Border Trimmer",
+    "description": "Automatically remove transparent borders from a PNG using an adjustable alpha threshold without guessing a background color.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".png"
+    },
+    "fields": [
+      {
+        "key": "threshold",
+        "label": "Ignore alpha values at or below",
+        "default": "0",
+        "type": "number",
+        "min": 0,
+        "max": 254,
+        "step": "any"
+      }
+    ],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "png",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Tighten the canvas around a cutout, icon or transparent export without selecting crop coordinates manually. The tool scans the PNG alpha channel to find pixels above the chosen threshold, then crops to their combined bounding rectangle. At the default threshold, only fully transparent pixels are ignored, preserving faint antialiased edges."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "This does not remove an opaque background or detect an object by its color. Raising the threshold can trim faint shadows and translucent details, so compare the output with the original. A completely transparent image has no visible bounding rectangle and returns an error. Only still PNG input is supported, within 4 MiB and 16 million pixels. The result is re-encoded as PNG and does not preserve arbitrary source metadata."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "This does not remove an opaque background or detect an object by its color."
+    },
+    "related": [
+      "/tools/image-cropper",
+      "/tools/image-color-picker"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "image-exif-remover",
+    "title": "Image EXIF and Metadata Remover",
+    "description": "Re-encode a still JPEG, PNG or WebP without copied EXIF, XMP or source metadata and apply its orientation before export.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".jpg,.jpeg,.png,.webp"
+    },
+    "fields": [],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "jpg",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Make a sharing copy of an image without carrying its standard source metadata into the new file. The converter first applies orientation information so a rotated camera image stays upright after its EXIF tag is removed. It then re-encodes in the original supported format without requesting preservation of source EXIF, XMP or profile metadata."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "This is not anonymization: visible faces, text, locations or information hidden inside pixels can remain. JPEG and WebP are re-encoded with a fixed high-quality setting and are not lossless metadata-only edits. Color appearance can change when specialized profiles are converted. Animated images, unsupported formats and sources above 4 MiB or 16 million pixels are rejected. Inspect the downloaded copy and retain the original for archival use."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "This is not anonymization: visible faces, text, locations or information hidden inside pixels can remain."
+    },
+    "related": [
+      "/tools/pdf-metadata-remover",
+      "/tools/image-format-converter"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "wav-trimmer",
+    "title": "WAV Audio Trimmer",
+    "description": "Trim uncompressed PCM WAV audio to a time range while preserving channels, sample rate and sample bytes.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".wav"
+    },
+    "fields": [
+      {
+        "key": "start",
+        "label": "Start time (seconds)",
+        "default": "0",
+        "type": "number",
+        "min": 0,
+        "max": 100000,
+        "step": "any"
+      },
+      {
+        "key": "end",
+        "label": "End time (seconds; blank means file end)",
+        "default": "0.05",
+        "type": "text"
+      }
+    ],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "wav",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Keep a short portion of a WAV recording without re-encoding its sample values. Enter a start and end time in seconds. Boundaries are aligned to complete sample frames, so stereo channels remain synchronized. The output keeps the original sample rate, channel count and integer bit depth while writing a clean WAV container around the selected samples."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "Input must be classic RIFF/WAVE integer PCM with one or two channels and 8, 16, 24 or 32 bits per sample. Compressed WAV, RF64, extensible format and IEEE float are unsupported in this tool. An empty end field selects the file’s end. The interval must fit inside the recording and contain at least one frame. Input and output are capped at 4 MiB; original non-audio metadata chunks are omitted."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "Input must be classic RIFF/WAVE integer PCM with one or two channels and 8, 16, 24 or 32 bits per sample."
+    },
+    "related": [
+      "/tools/stereo-to-mono-wav",
+      "/tools/wav-normalizer"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "wav-normalizer",
+    "title": "WAV Peak Normalizer",
+    "description": "Adjust integer PCM WAV audio to a target peak level and export 16-bit PCM while preserving channels and sample rate.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".wav"
+    },
+    "fields": [
+      {
+        "key": "db",
+        "label": "Target peak (dBFS)",
+        "default": "-1",
+        "type": "number",
+        "min": -24,
+        "max": 0,
+        "step": "any"
+      }
+    ],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "wav",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Make a quieter WAV use more of the available sample range or reduce its maximum peak to a chosen level. The converter measures the largest absolute sample, computes one gain value and applies it consistently to every channel. A target below zero dBFS leaves peak headroom. The output uses 16-bit integer PCM at the source sample rate."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "Peak normalization is not perceived-loudness normalization, compression, limiting or noise removal. Stereo balance and relative dynamics are kept, while silent input remains silent. Source audio must be mono or stereo RIFF/WAVE integer PCM at 8, 16, 24 or 32 bits. Float, compressed and extensible WAV are unsupported. Quantization to 16 bits can change sample values. Files and output must stay within 4 MiB; listen before replacing an original."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "Peak normalization is not perceived-loudness normalization, compression, limiting or noise removal."
+    },
+    "related": [
+      "/tools/wav-trimmer",
+      "/tools/stereo-to-mono-wav"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "zip-creator",
+    "title": "ZIP Archive Creator",
+    "description": "Combine two to eight selected files into a downloadable ZIP archive with safe names and collision checks.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": "",
+      "multiple": true
+    },
+    "fields": [],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "zip",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Package a small set of files for sharing or transfer without installing an archive program. Add the files, review their names and generate one ZIP download. The archive uses ordinary Deflate compression and stores only each file’s final filename rather than a path from your device. It does not execute, interpret or convert the contents of the selected files."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "Choose two to eight files with at most 4 MiB combined input. Names are normalized to safe leaf names, and duplicate resulting names are rejected so one file does not silently overwrite another. Folder structures, passwords, encryption and split archives are not created. The final ZIP must also fit within 4 MiB; already compressed inputs can make the archive slightly larger rather than smaller."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "Choose two to eight files with at most 4 MiB combined input."
+    },
+    "related": [
+      "/tools/zip-extractor",
+      "/tools/file-checksum"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "zip-extractor",
+    "title": "ZIP File Inspector and Extractor",
+    "description": "List a ZIP archive’s entries or download one selected file without writing extracted paths to server storage.",
+    "kind": "graphic",
+    "server": {
+      "input": "files",
+      "accept": ".zip"
+    },
+    "fields": [
+      {
+        "key": "entry",
+        "label": "Exact entry path (blank lists entries)",
+        "default": "",
+        "type": "text"
+      }
+    ],
+    "example": "",
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Inspect a small ZIP before downloading a particular entry. Leave the path field blank to receive a JSON list of filenames and declared sizes, then copy an exact entry path into the field to extract that one file. Extraction returns the file bytes as a download and never recreates the archive’s directory tree on server storage."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "Encrypted archives are rejected. The ZIP must be no larger than 4 MiB, contain at most one thousand entries and declare at most 64 MiB of expanded contents. A selected entry must stay within 4 MiB while streaming. The listing is metadata, not a full integrity or malware scan; unselected file contents are not decompressed. Directories cannot be downloaded as individual files. Treat downloaded contents according to their original file type."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "Encrypted archives are rejected."
+    },
+    "related": [
+      "/tools/zip-creator",
+      "/tools/file-checksum"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "markdown-to-docx",
+    "title": "Markdown to Word DOCX Converter",
+    "description": "Convert Markdown headings, paragraphs, inline formatting, lists and basic tables into an editable Word document. ",
+    "kind": "graphic",
+    "server": {
+      "input": "text"
+    },
+    "fields": [],
+    "example": "# Project notes\n\nA **bold** idea and an *important* detail.\n\n- Review the draft\n- Share the result\n\n| Task | Owner |\n| --- | --- |\n| Review | Ada |",
+    "action": "Convert on server",
+    "extension": "docx",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Turn a Markdown draft into an editable DOCX for a review workflow that uses a word processor. The converter parses Markdown, sanitizes the generated HTML and maps supported text structures to document elements. It keeps headings, bold and italic runs, line breaks, code text, basic lists and simple tables rather than treating Markdown punctuation as ordinary text."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "This supports a deliberately limited document structure, not a pixel-perfect HTML or browser rendering. Images are omitted and raw HTML is treated as text. CSS and scripts are not executed, and complex table spans are rejected. Lists are limited in nesting depth and large tables are bounded. Input is limited to twenty thousand characters. Fonts and page layout can vary in the word processor used to open the file; review the result before distribution."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "This supports a deliberately limited document structure, not a pixel-perfect HTML or browser rendering."
+    },
+    "related": [
+      "/tools/html-to-docx",
+      "/tools/text-to-docx"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "html-to-docx",
+    "title": "HTML to Word DOCX Converter",
+    "description": "Convert a basic HTML fragment into an editable DOCX with headings, text formatting, lists and simple tables. ",
+    "kind": "graphic",
+    "server": {
+      "input": "text"
+    },
+    "fields": [],
+    "example": "<h1>Project notes</h1><p>Hello, <strong>world</strong>! Вітаємо.</p><ul><li>Review</li><li>Share</li></ul><table><tr><th>Task</th><th>Owner</th></tr><tr><td>Review</td><td>Ada</td></tr></table>",
+    "action": "Convert on server",
+    "extension": "docx",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Move a small HTML content fragment into a Word document without copying rendered content from a browser. The converter sanitizes the fragment and maps supported elements into document paragraphs, text runs, lists and tables. It keeps useful structure such as heading levels and inline emphasis while discarding active content and presentation-only markup."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "The tool does not render CSS, run JavaScript, fetch a URL or download linked resources. Images and unsupported elements are omitted, and complicated table spans are rejected instead of being guessed. Supported text is editable after conversion, but exact fonts, browser layout and interactive behavior are not reproduced. Use at most twenty thousand input characters and inspect the DOCX in your intended word processor, especially when lists or tables are involved."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "The tool does not render CSS, run JavaScript, fetch a URL or download linked resources."
+    },
+    "related": [
+      "/tools/markdown-to-docx",
+      "/tools/docx-converter"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "csv-to-vcard",
+    "title": "CSV to vCard Contacts Converter",
+    "description": "Convert contact rows with givenName, familyName, email, phone and organization columns into a multi-contact VCF file. ",
+    "kind": "graphic",
+    "server": {
+      "input": "text"
+    },
+    "fields": [],
+    "example": "givenName,familyName,email,phone,organization\nAda,Lovelace,ada@example.com,+44123456789,Analytical Engine\nGrace,Hopper,grace@example.com,+12025550123,Computing",
+    "action": "Convert on server",
+    "extension": "vcf",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Prepare a batch of contacts for software that imports vCard files. Paste comma-separated CSV with givenName and familyName columns, plus optional email, phone and organization columns. Each row becomes a separate vCard 3.0 contact with a structured name and a display name. Unicode names and quoted CSV cells are retained without manually creating one contact at a time."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "Every row needs at least one nonblank name component. Optional columns may be absent, but malformed email values and line breaks in phone or email fields are rejected. Text properties are escaped and long lines are folded by UTF-8 byte length. This does not merge contacts or detect duplicates already stored in another application. The limit is one thousand contacts and fifty thousand CSV cells; check the receiving application’s import behavior."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "Every row needs at least one nonblank name component."
+    },
+    "related": [
+      "/tools/vcard-generator",
+      "/tools/csv-column-extractor"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "csv-to-icalendar",
+    "title": "CSV to iCalendar Events Converter",
+    "description": "Convert CSV events with UTC start and end timestamps into an importable ICS calendar file. ",
+    "kind": "graphic",
+    "server": {
+      "input": "text"
+    },
+    "fields": [],
+    "example": "summary,start,end,location\nProject review,2026-11-06T10:00:00Z,2026-11-06T11:00:00Z,Meeting room\nPlanning,2026-11-07T09:00:00Z,2026-11-07T09:30:00Z,Online",
+    "action": "Convert on server",
+    "extension": "ics",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Create a batch of calendar events from a simple table without entering them individually in a calendar application. Required columns are summary, start and end. Start and end use explicit UTC timestamps with seconds, such as 2026-11-06T10:00:00Z. Optional description and location columns become escaped calendar text, and each exported event receives a unique identifier."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "End times must be later than start times and all dates must be valid Gregorian UTC values. Local times, recurrence rules, reminders and all-day dates are not inferred. The converter writes one calendar containing at most one thousand events and folds long lines to the iCalendar byte limit. Importing the same export repeatedly may create duplicate events because identifiers are generated for each export; review the target calendar before repeating an import."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "End times must be later than start times and all dates must be valid Gregorian UTC values."
+    },
+    "related": [
+      "/tools/icalendar-generator",
+      "/tools/time-zone-converter"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "json-to-geojson",
+    "title": "JSON Records to GeoJSON Converter",
+    "description": "Convert records with latitude and longitude columns into a GeoJSON Point FeatureCollection with preserved properties. ",
+    "kind": "graphic",
+    "server": {
+      "input": "text"
+    },
+    "fields": [
+      {
+        "key": "latitude",
+        "label": "Latitude property",
+        "default": "lat",
+        "type": "text"
+      },
+      {
+        "key": "longitude",
+        "label": "Longitude property",
+        "default": "lon",
+        "type": "text"
+      }
+    ],
+    "example": "[{\"name\":\"Kyiv\",\"lat\":50.4501,\"lon\":30.5234},{\"name\":\"Bratislava\",\"lat\":48.1486,\"lon\":17.1077}]",
+    "action": "Convert on server",
+    "extension": "geojson",
+    "steps": [
+      "Load the working example or provide your own input.",
+      "Review the format options, then select Convert on server to process the input.",
+      "Check the result and download the output file."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool does",
+        "body": "Prepare location records for a mapping tool that accepts GeoJSON. Select the top-level property names containing latitude and longitude. Each record becomes a Point feature using the required longitude-first coordinate order, while its other properties remain available for labels or styling. The output is a FeatureCollection that can be downloaded with a GeoJSON extension."
+      },
+      {
+        "heading": "Supported formats and limits",
+        "body": "Coordinates must be finite numbers or plain numeric strings, with latitude between minus ninety and ninety and longitude between minus one hundred eighty and one hundred eighty. Missing or invalid coordinates reject the conversion instead of silently dropping records. This assumes geographic longitude and latitude and does not reproject a grid coordinate system or geocode addresses. Input must be an array of at most ten thousand objects with bounded JSON depth and safe integer values."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before using the result?",
+      "answer": "Coordinates must be finite numbers or plain numeric strings, with latitude between minus ninety and ninety and longitude between minus one hundred eighty and one hundred eighty."
+    },
+    "related": [
+      "/tools/json-to-csv",
+      "/tools/json-array-filter"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "json-schema-validator",
+    "title": "JSON Schema Validator",
+    "description": "Validate JSON against Draft 7 or Draft 2020-12 schemas and inspect precise instance paths without modifying the document.",
+    "kind": "graphic",
+    "example": "{\"name\":\"Ada\",\"email\":\"ada@example.com\",\"age\":36}",
+    "fields": [
+      {
+        "key": "draft",
+        "label": "JSON Schema draft",
+        "default": "7",
+        "type": "select",
+        "options": [
+          {
+            "value": "7",
+            "label": "Draft 7"
+          },
+          {
+            "value": "2020",
+            "label": "Draft 2020-12"
+          }
+        ]
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Check whether a JSON document satisfies an actual schema rather than merely parsing as JSON. Paste the document and schema into separate editors, choose the matching draft, and inspect validation errors with their instance and schema paths. Common string formats such as email and date-time are checked through the validator’s format definitions."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "Schemas are compiled in strict mode. Unsupported keywords, unknown formats and unresolved references are errors instead of silently ignored rules. External schemas are not downloaded. Validation does not insert defaults, coerce types or remove properties from the document. Input depth and worker resources are bounded, and JSON numbers use JavaScript numeric precision. The result is a diagnostic report, not a security certification or proof that an API request will be accepted."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "Schemas are compiled in strict mode."
+    },
+    "related": [
+      "/tools/json-schema-generator",
+      "/tools/json-validator"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    },
+    "exampleB": "{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"email\":{\"type\":\"string\",\"format\":\"email\"},\"age\":{\"type\":\"integer\",\"minimum\":0}},\"required\":[\"name\",\"email\"],\"additionalProperties\":false}",
+    "inputLabel": "JSON document",
+    "secondInputLabel": "JSON Schema"
+  },
+  {
+    "slug": "json-to-messagepack",
+    "title": "JSON to MessagePack Converter",
+    "description": "Encode JSON values as a downloadable MessagePack binary file with finite-number and depth checks.",
+    "kind": "graphic",
+    "example": "{\"name\":\"Ada\",\"active\":true,\"scores\":[3,5,8]}",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "msgpack",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Prepare a small binary payload for a system that accepts MessagePack instead of textual JSON. Objects, arrays, strings, booleans, null and supported numbers retain their JSON meaning while the encoder chooses appropriate MessagePack representations. The result is a binary file for download, not a Base64 string or a simulated size estimate."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "Only JSON values are accepted; this tool does not infer dates, binary buffers or application-specific extension types from strings. Integral numbers outside JavaScript’s safe range are rejected, so preserve large identifiers as strings. Nesting is limited to 32 levels and total text to 2 MiB. MessagePack interoperability can depend on the receiving implementation’s type expectations; compare the decoded structure before using a payload in an integration."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "Only JSON values are accepted; this tool does not infer dates, binary buffers or application-specific extension types from strings."
+    },
+    "related": [
+      "/tools/messagepack-to-json",
+      "/tools/json-formatter"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "messagepack-to-json",
+    "title": "MessagePack to JSON Converter",
+    "description": "Decode a single MessagePack value into JSON with explicit representations for binary data, timestamps and large integers.",
+    "kind": "graphic",
+    "example": "",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Inspect a MessagePack export without manually reading binary tags. Upload one binary value and download formatted JSON. JSON-compatible numbers, strings, arrays and maps retain their values. Binary byte arrays become objects containing Base64 text; timestamps and integers that JSON cannot represent exactly use explicit tagged representations so those distinctions are visible."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "The input must contain exactly one complete MessagePack value. Non-string map keys, unsafe object keys, unsupported extension types and oversized containers are rejected. A decoded binary wrapper is a report representation and is not automatically interpreted as binary by the separate JSON encoder. Upload and output limits apply independently, so Base64 expansion can make a result too large. This does not decompress a surrounding archive or guess a framing protocol."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "The input must contain exactly one complete MessagePack value."
+    },
+    "related": [
+      "/tools/json-to-messagepack",
+      "/tools/file-to-base64"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": ".msgpack,.mpack,.bin"
+    }
+  },
+  {
+    "slug": "plist-converter",
+    "title": "XML Property List and JSON Converter",
+    "description": "Convert JSON to an XML plist or parse supported XML plist values into JSON without fetching its DTD.",
+    "kind": "graphic",
+    "example": "{\"name\":\"Utilixio\",\"enabled\":true,\"ports\":[3000,3001]}",
+    "fields": [
+      {
+        "key": "direction",
+        "label": "Direction",
+        "default": "to-plist",
+        "type": "select",
+        "options": [
+          {
+            "value": "to-plist",
+            "label": "JSON to XML plist"
+          },
+          {
+            "value": "to-json",
+            "label": "XML plist to JSON"
+          }
+        ]
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Move basic configuration values between JSON and Apple’s XML property-list format. Dictionaries, arrays, strings, booleans and finite numeric values are supported in both directions. XML plist dates and data values are exported with explicit tagged JSON objects instead of silently becoming unrelated ordinary strings. Dictionary key order is preserved where the output format permits it."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "This handles XML plist, not binary plist or application preference synchronization. JSON null has no plist equivalent and is rejected. Tagged date/data reports are not automatically inferred when encoding JSON back to plist. The standard Apple plist DOCTYPE may be recognized and removed locally; other DTDs, entity declarations and external resource loading are not supported. Malformed structures, duplicate dictionary keys and excessive depth are errors."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "This handles XML plist, not binary plist or application preference synchronization."
+    },
+    "related": [
+      "/tools/json-to-toml",
+      "/tools/xml-to-json"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "jmespath-tester",
+    "title": "JMESPath Query Tester",
+    "description": "Run JMESPath projections, filters and built-in functions against a JSON document and download the selected result.",
+    "kind": "graphic",
+    "example": "{\"users\":[{\"name\":\"Ada\",\"active\":true},{\"name\":\"Grace\",\"active\":false},{\"name\":\"Linus\",\"active\":true}]}",
+    "fields": [
+      {
+        "key": "query",
+        "label": "JMESPath expression",
+        "default": "users[?active].name",
+        "type": "text"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Explore a JSON response using the query language commonly found in command-line and cloud tooling. A projection can pick nested fields, a filter can select matching records, and built-in functions can shape the result without writing a JavaScript program. The example selects names from active users and returns a JSON array ready for another processing step."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "The tool uses the JMESPath library’s supported language and functions, not JSONPath or arbitrary JavaScript. Invalid expressions and type mismatches return errors. Missing selections can legitimately produce null or empty arrays. The source document is not modified, and no URLs are fetched. Input depth, numeric safety and worker resources are bounded; validate important queries against the exact implementation used by the receiving command or service."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "The tool uses the JMESPath library’s supported language and functions, not JSONPath or arbitrary JavaScript."
+    },
+    "related": [
+      "/tools/json-pointer-extractor",
+      "/tools/json-array-filter"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "regex-replace",
+    "title": "Regex Find and Replace",
+    "description": "Apply a JavaScript regular expression and replacement string, including numbered and named capture references.",
+    "kind": "graphic",
+    "example": "Ada Lovelace\nGrace Hopper",
+    "fields": [
+      {
+        "key": "pattern",
+        "label": "JavaScript pattern",
+        "default": "(\\w+) (\\w+)",
+        "type": "text"
+      },
+      {
+        "key": "flags",
+        "label": "Flags",
+        "default": "gu",
+        "type": "text"
+      },
+      {
+        "key": "replacement",
+        "label": "Replacement string",
+        "default": "$2, $1",
+        "type": "text"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "txt",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Reformat repeated text using capture groups rather than a literal search. Supply a pattern without surrounding slashes, optional JavaScript flags, and a replacement string such as $2, $1. The global flag replaces all matches; omitting it replaces the first. The output is the transformed text itself so it can be copied into an editor or downloaded."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "Replacement strings follow JavaScript substitution rules; this tool does not execute a replacement callback or user code. Patterns are limited in length and source text to two hundred thousand characters. Expensive expressions run in the bounded conversion worker and may time out. JavaScript regex behavior can differ from PCRE, Python or other engines. Use the literal replacement tool when regex syntax is unnecessary."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "Replacement strings follow JavaScript substitution rules; this tool does not execute a replacement callback or user code."
+    },
+    "related": [
+      "/tools/regex-tester",
+      "/tools/text-find-replace"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "x509-certificate-decoder",
+    "title": "X.509 Certificate Decoder",
+    "description": "Inspect a public PEM certificate’s subject, issuer, validity dates, fingerprints and public key without performing trust validation.",
+    "kind": "graphic",
+    "example": "-----BEGIN CERTIFICATE-----\nMIIDWTCCAkGgAwIBAgIUBZ9jz9avx7VTbL3eloKyCSYukM4wDQYJKoZIhvcNAQEL\nBQAwPDEYMBYGA1UEAwwPZXhhbXBsZS5pbnZhbGlkMSAwHgYDVQQKDBdDb252ZXJz\naW9uIFRvb2wgRXhhbXBsZTAeFw0yNjExMDYwOTM4MzZaFw0yNzExMDYwOTM4MzZa\nMDwxGDAWBgNVBAMMD2V4YW1wbGUuaW52YWxpZDEgMB4GA1UECgwXQ29udmVyc2lv\nbiBUb29sIEV4YW1wbGUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCT\nbug30ZEiqF3MxzsmN3UFhaYLZq5kK2affD2OU5/m2KOlb3tb62fgjj0fnGprkQdF\nNR5wIFq9H1N415ZkL62ZNft9XXEiVUHi3YdjP8Rht7OwRum80+8HBtBYxyI2Opjq\nBdpFrT0i/Kf054RZnMMjGxUOR2+mkq/9xQqc5VtfCUZuIb+4egAUfOX2BFBSJtkC\nXO81wHeNlGYvsHNRVFnohQAaAWi6l1XEFhPqwS+fpXBGDEyPk2zHxDapLzUiC16X\n/bfIycHdPq85y3Pklm4/OmyUZv5XpnoLmIzCHZJSdiHkTT4vwofPhI34xLkTd0ZJ\nWs9XrjXPCYIQHwlPonLvAgMBAAGjUzBRMB0GA1UdDgQWBBQURW51dn9Zyldmsh5F\nY84DJyRK2zAfBgNVHSMEGDAWgBQURW51dn9Zyldmsh5FY84DJyRK2zAPBgNVHRMB\nAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQAJ6fcj4jhqXj6OKb03X7JLkphJ\ns8D71fJegsCn4RwSqJa2QVuDLk+efP/4wjdf0nmJdpb0PtDYRvKAa82Kh8W9Ahwd\nxNHkeuiTkXTfoUFhXTp+B9qm5kXnXa7McifZiTDk8aFqiOjnW8EbmFHlzSXvGkxo\nf61diWE8KoO55u0GZkZvFDUXo4fotC5J0Xhkmb+Jm9UCizRqKXDY56QTGnHV/RrQ\nN+KJLJOiSqISNR8ik7Zb0t5G5zOr3SGJ1mco5scaZK23zUf2KcMmW0W7WlFgX9Np\nTAghh5Zrmj43allGGuEAB1PKctL/eN8DLfcRLYaqboYP7qcdpg/z4Is93TG7\n-----END CERTIFICATE-----\n",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Read the metadata inside one public X.509 certificate when checking a certificate export or documenting a TLS configuration. The result includes subject and issuer names, serial number, validity interval, fingerprints and the public key. The supplied example is self-signed for example.invalid and does not represent the certificate currently used by this website."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "Paste a single public CERTIFICATE PEM block only. Private keys and certificate chains are not accepted. Displaying validity dates does not establish trust: the tool does not verify a chain, hostname, revocation status or possession of the private key. Input is limited to 64 KiB and processed under the server conversion limits. Compare critical certificate information with a trusted local client before making an operational security decision."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "Paste a single public CERTIFICATE PEM block only."
+    },
+    "related": [
+      "/tools/ssh-key-fingerprint",
+      "/tools/file-checksum"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "ssh-key-fingerprint",
+    "title": "SSH Public Key Fingerprint Tool",
+    "description": "Calculate SHA-256 and legacy MD5 fingerprints from an OpenSSH public key and inspect its wire-format fields.",
+    "kind": "graphic",
+    "example": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINdamAGCsQq31Uv+08lkBzoO4XLz2qYjJa8CGmj3B1Ea example-key",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Compare an exported public key with a fingerprint shown by another system. Paste one OpenSSH public-key line, including its key type and Base64 payload. The tool calculates a SHA-256 fingerprint from the decoded SSH wire data and also provides the legacy colon-separated MD5 form for older comparison workflows. A trailing comment is treated as a label rather than key material."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "Supported key layouts are Ed25519, RSA and uncompressed NIST ECDSA public keys. The declared type must match the encoded type and the wire fields must have valid lengths. This inspects representation, not mathematical key strength, ownership or host authenticity. MD5 is supplied only for legacy comparison. Private keys, authorized_keys option prefixes and multi-key input are unsupported. Use a trusted channel to confirm fingerprints when authenticating a host."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "Supported key layouts are Ed25519, RSA and uncompressed NIST ECDSA public keys."
+    },
+    "related": [
+      "/tools/x509-certificate-decoder",
+      "/tools/hash-generator"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "csv-to-html-table",
+    "title": "CSV to HTML Table Converter",
+    "description": "Convert a rectangular CSV table into escaped semantic HTML with an optional caption and header row.",
+    "kind": "graphic",
+    "example": "name,role\nAda,Engineer\nGrace,Researcher",
+    "fields": [
+      {
+        "key": "caption",
+        "label": "Table caption",
+        "default": "Team",
+        "type": "text"
+      },
+      {
+        "key": "header",
+        "label": "First row is a header",
+        "default": "true",
+        "type": "select",
+        "options": [
+          {
+            "value": "true",
+            "label": "Yes"
+          },
+          {
+            "value": "false",
+            "label": "No"
+          }
+        ]
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "html",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Prepare a small spreadsheet export for a web article or an HTML template. The converter writes a table, an optional caption, header cells when enabled and a body row for each remaining CSV record. Cell text is escaped as text content, so pasted angle brackets and ampersands do not become active HTML markup."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "Input uses comma-separated CSV with ordinary quoting and a consistent number of cells per row. The limit is fifty thousand cells, and no number or date types are guessed. Line breaks inside quoted cells become explicit HTML line breaks. The output is a table fragment rather than a full styled webpage. CSS, sorting behavior, merged cells and formulas are not generated; review semantics and presentation in the destination document."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "Input uses comma-separated CSV with ordinary quoting and a consistent number of cells per row."
+    },
+    "related": [
+      "/tools/html-table-to-csv",
+      "/tools/json-to-html-table"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "csv-delimiter-converter",
+    "title": "CSV Delimiter Converter",
+    "description": "Convert comma, semicolon or tab-separated data while preserving quoted cell contents and optional UTF-8 BOM output.",
+    "kind": "graphic",
+    "example": "id;name;note\n001;Ada;\"one;two\"",
+    "fields": [
+      {
+        "key": "from",
+        "label": "Input delimiter",
+        "default": ";",
+        "type": "select",
+        "options": [
+          {
+            "value": ",",
+            "label": "Comma"
+          },
+          {
+            "value": ";",
+            "label": "Semicolon"
+          },
+          {
+            "value": "\t",
+            "label": "Tab"
+          }
+        ]
+      },
+      {
+        "key": "to",
+        "label": "Output delimiter",
+        "default": ",",
+        "type": "select",
+        "options": [
+          {
+            "value": ",",
+            "label": "Comma"
+          },
+          {
+            "value": ";",
+            "label": "Semicolon"
+          },
+          {
+            "value": "\t",
+            "label": "Tab"
+          }
+        ]
+      },
+      {
+        "key": "bom",
+        "label": "UTF-8 BOM",
+        "default": "false",
+        "type": "select",
+        "options": [
+          {
+            "value": "false",
+            "label": "No BOM"
+          },
+          {
+            "value": "true",
+            "label": "Include BOM"
+          }
+        ]
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "csv",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Adapt a CSV export to an application that expects a different separator. Choose the actual input delimiter and the required output delimiter. The parser reads quoted cells before rewriting separators, so a semicolon inside a quoted value remains data rather than becoming an extra column. Leading zeroes, empty cells and embedded line breaks are retained as text."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "This does not guess the separator, infer headers or convert numeric formats. Rows must be rectangular and the table must stay within fifty thousand cells. Output uses CRLF record endings and quotes values where the chosen separator or a line break requires it. Optional BOM output can help some spreadsheet importers identify UTF-8. It does not convert the file into a legacy character set; use the separate encoding converter for that."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "This does not guess the separator, infer headers or convert numeric formats."
+    },
+    "related": [
+      "/tools/text-encoding-converter",
+      "/tools/csv-to-json"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "xml-xpath-tester",
+    "title": "XML XPath Tester",
+    "description": "Evaluate XPath 1.0 expressions against XML with an explicit namespace map and structured node or scalar results.",
+    "kind": "graphic",
+    "example": "<catalog><book id=\"a\"><title>First</title></book><book id=\"b\"><title>Second</title></book></catalog>",
+    "fields": [
+      {
+        "key": "expression",
+        "label": "XPath 1.0 expression",
+        "default": "//book/title/text()",
+        "type": "text"
+      },
+      {
+        "key": "namespaces",
+        "label": "Prefix-to-namespace JSON map",
+        "default": "{}",
+        "type": "text"
+      }
+    ],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Test a query against XML data rather than a browser-repaired HTML fragment. Enter an XPath expression and, when needed, map prefixes to namespace URIs in a JSON object. The result identifies selected nodes or a scalar string, number or boolean. A prefix in the query must be explicitly mapped even when the source uses a default namespace."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "The evaluator supports XPath 1.0 and does not add XSLT functions, JavaScript or network access. DTDs and entity declarations are rejected. XML must be well formed, with bounded node count and depth; result node lists are limited to one thousand entries. Namespace-aware XML queries differ from the existing HTML XPath tester, which parses HTML. Inspect serialized node results as data rather than inserting untrusted markup into a live page."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "The evaluator supports XPath 1.0 and does not add XSLT functions, JavaScript or network access."
+    },
+    "related": [
+      "/tools/xpath-tester",
+      "/tools/xml-formatter"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "json-canonicalizer",
+    "title": "Canonical JSON Generator",
+    "description": "Generate compact deterministic JSON using UTF-16 key ordering and ECMAScript number serialization, with duplicate-key checks.",
+    "kind": "graphic",
+    "example": "{\"z\":3,\"a\":{\"y\":2,\"x\":1},\"values\":[true,null,\"text\"]}",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Prepare a stable JSON representation when formatting and object-key order must not vary between equivalent parsed documents. Object keys are sorted by UTF-16 code units, arrays retain their order, and insignificant whitespace is removed. Strings and finite numbers use ECMAScript serialization, following the central JSON Canonicalization Scheme rules."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "Duplicate keys and unpaired Unicode surrogates are rejected. Numbers are interpreted as IEEE-754 values by the JSON parser, so original decimal spelling and arbitrary-precision distinctions are not preserved. Use strings for exact large identifiers. Canonicalization does not normalize Unicode or prove that two business records mean the same thing. Input depth and node count are bounded. The output is canonical text only; hashing, signing and protocol-specific validation remain separate operations."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "Duplicate keys and unpaired Unicode surrogates are rejected."
+    },
+    "related": [
+      "/tools/json-sorter",
+      "/tools/hash-generator"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "env-diff",
+    "title": "Environment File Diff",
+    "description": "Compare single-line .env assignments locally, report missing or changed keys and hide values by default.",
+    "kind": "text",
+    "example": "APP_NAME=Utilixio\nPORT=3000\nTOKEN=\"example-only\"",
+    "fields": [
+      {
+        "key": "showValues",
+        "label": "Include values in the report",
+        "default": "false",
+        "type": "checkbox"
+      }
+    ],
+    "action": "Run tool",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Check the settings and run the tool.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Compare two flat environment configurations before moving a small application between environments. The report separates added keys, removed keys, changed assignments and an unchanged count. Values are redacted by default, making it easier to discuss configuration drift without copying credentials into a report. The conversion runs locally and does not send the configuration to a conversion API."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "This supports one assignment per line, optional export prefixes, comments and single-quoted or JSON-escaped double-quoted values. Multiline values, duplicate keys and malformed assignments are rejected. It does not expand variables, read process environment settings or interpret shell commands. Exact parsed string values are compared, so intentional differences such as whitespace inside quotes remain meaningful. Enabling value display includes those strings in the downloadable result; review it before sharing."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "This supports one assignment per line, optional export prefixes, comments and single-quoted or JSON-escaped double-quoted values."
+    },
+    "related": [
+      "/tools/env-parser",
+      "/tools/text-diff"
+    ],
+    "modified": "2026-11-06",
+    "exampleB": "APP_NAME=Utilixio\nPORT=8080\nREGION=eu",
+    "inputLabel": "Before .env",
+    "secondInputLabel": "After .env"
+  },
+  {
+    "slug": "shell-argument-escaper",
+    "title": "POSIX Shell Argument Escaper",
+    "description": "Turn a JSON array of strings into safely single-quoted POSIX shell arguments without executing a command.",
+    "kind": "text",
+    "example": "[\"hello world\",\"O'Brien\",\"$HOME\",\"$(example)\"]",
+    "fields": [],
+    "action": "Run tool",
+    "extension": "sh",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Check the settings and run the tool.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Prepare literal command arguments that contain spaces, quotes or shell punctuation. Paste a JSON array in which each item is one argument. The output quotes every item independently and joins them with spaces, including a special sequence for embedded apostrophes. It can be appended to a command in a POSIX-compatible shell after reviewing the intended program and arguments."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "This only encodes argument boundaries and does not execute or validate the resulting command. It targets POSIX shells such as sh and Bash, not PowerShell or Windows cmd. NUL characters cannot be passed as ordinary process arguments and are rejected. Quoting does not prevent an invoked program from interpreting a leading dash as an option; use that program’s argument conventions, such as an option terminator where supported."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "This only encodes argument boundaries and does not execute or validate the resulting command."
+    },
+    "related": [
+      "/tools/backslash-escape",
+      "/tools/curl-to-fetch"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "sms-segment-calculator",
+    "title": "SMS Segment Calculator",
+    "description": "Estimate GSM-7 or Unicode SMS segments, accounting for extension characters and whole surrogate pairs.",
+    "kind": "text",
+    "example": "Hello! Your appointment is confirmed.",
+    "fields": [],
+    "action": "Run tool",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Check the settings and run the tool.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Check how a message’s characters affect its likely SMS segment count before pasting it into a sending platform. Basic GSM characters consume one unit and extension-table characters consume two. Text outside that alphabet switches to a Unicode count based on UTF-16 units. The report includes encoding, character and unit counts, segment count and remaining space in the last segment."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "The calculator uses typical capacities of 160 or 70 units for a single segment and 153 or 67 for concatenated segments. It avoids splitting a GSM escape pair or a supplementary Unicode character across a boundary. Sender types, carrier routes and concatenation headers can change real limits. It does not send messages, apply smart-character substitutions, validate delivery or calculate a bill. Your text is processed locally in the browser."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "The calculator uses typical capacities of 160 or 70 units for a single segment and 153 or 67 for concatenated segments."
+    },
+    "related": [
+      "/tools/word-counter",
+      "/tools/unicode-normalizer"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "css-specificity-calculator",
+    "title": "CSS Selector Specificity Calculator",
+    "description": "Calculate ID, class and type specificity vectors for selectors, including modern functional pseudo-classes.",
+    "kind": "graphic",
+    "example": "#app .card > a:hover\n:where(#app) .card\n:is(#app, .card) a",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "json",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Inspect the specificity contribution of CSS selectors when debugging why one style competes with another. Enter one selector per line and compare the three-part vector for ID selectors, class-like selectors and type-like selectors. Modern functional pseudo-classes are handled by the selector parser, including the zero specificity of where and the argument behavior of is and has."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "This is a selector calculation rather than a complete cascade simulator. Origin, importance, cascade layers, scope, inheritance and source order can still decide which declaration wins. Supply one complex selector on each line rather than a top-level comma-separated list. Unsupported or malformed syntax is rejected. Values are reported as separate components, not a decimal score where ten classes would incorrectly carry into the ID component."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "This is a selector calculation rather than a complete cascade simulator."
+    },
+    "related": [
+      "/tools/css-selector-tester",
+      "/tools/css-to-react-style"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "css-media-query-generator",
+    "title": "CSS Media Query Generator",
+    "description": "Build combined viewport, orientation, color-scheme and reduced-motion queries with a live match indicator.",
+    "kind": "design",
+    "example": "",
+    "fields": [
+      {
+        "key": "minWidth",
+        "label": "Minimum width (px; zero omits)",
+        "default": "768",
+        "type": "number",
+        "min": 0,
+        "max": 10000,
+        "step": "any"
+      },
+      {
+        "key": "maxWidth",
+        "label": "Maximum width (px; zero omits)",
+        "default": "0",
+        "type": "number",
+        "min": 0,
+        "max": 10000,
+        "step": "any"
+      },
+      {
+        "key": "orientation",
+        "label": "Orientation",
+        "default": "any",
+        "type": "select",
+        "options": [
+          {
+            "value": "any",
+            "label": "Any"
+          },
+          {
+            "value": "portrait",
+            "label": "Portrait"
+          },
+          {
+            "value": "landscape",
+            "label": "Landscape"
+          }
+        ]
+      },
+      {
+        "key": "scheme",
+        "label": "Preferred color scheme",
+        "default": "any",
+        "type": "select",
+        "options": [
+          {
+            "value": "any",
+            "label": "Any"
+          },
+          {
+            "value": "light",
+            "label": "Light"
+          },
+          {
+            "value": "dark",
+            "label": "Dark"
+          }
+        ]
+      },
+      {
+        "key": "motion",
+        "label": "Motion preference",
+        "default": "any",
+        "type": "select",
+        "options": [
+          {
+            "value": "any",
+            "label": "Any"
+          },
+          {
+            "value": "reduce",
+            "label": "Reduced motion"
+          }
+        ]
+      }
+    ],
+    "action": "Run tool",
+    "extension": "css",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Check the settings and run the tool.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Assemble a CSS media condition without repeatedly typing its syntax. Choose viewport width bounds and optional device preference conditions. The tool combines the selected conditions with and and returns a stylesheet scaffold ready for your own rules. A live indicator checks the generated query against the current browser, updating when the viewport or relevant preference changes."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "Width conditions refer to CSS pixels, not physical screen pixels or an element’s container size. Zero disables a width bound, and an enabled maximum cannot be below the minimum. Matching a query does not guarantee a suitable layout; test the styles you add on real content. This generator does not modify the page stylesheet. Browser support for individual media features can differ, so review the target environment before deployment."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "Width conditions refer to CSS pixels, not physical screen pixels or an element’s container size."
+    },
+    "related": [
+      "/tools/css-clamp-calculator",
+      "/tools/css-grid-generator"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "color-harmony-generator",
+    "title": "Color Harmony Palette Generator",
+    "description": "Generate complementary, analogous, triadic or tetradic palettes from a HEX color with swatches and CSS variables.",
+    "kind": "design",
+    "example": "",
+    "fields": [
+      {
+        "key": "base",
+        "label": "Base HEX color",
+        "default": "#6366f1",
+        "type": "color"
+      },
+      {
+        "key": "harmony",
+        "label": "Harmony",
+        "default": "triadic",
+        "type": "select",
+        "options": [
+          {
+            "value": "complementary",
+            "label": "Complementary"
+          },
+          {
+            "value": "analogous",
+            "label": "Analogous"
+          },
+          {
+            "value": "triadic",
+            "label": "Triadic"
+          },
+          {
+            "value": "split",
+            "label": "Split complementary"
+          },
+          {
+            "value": "tetradic",
+            "label": "Tetradic"
+          }
+        ]
+      }
+    ],
+    "action": "Run tool",
+    "extension": "css",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Check the settings and run the tool.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Explore related colors for an interface or illustration by rotating the base color’s hue while keeping its saturation and lightness. Choose a harmony and inspect the swatches alongside the generated HEX values and CSS custom properties. The original base color is retained exactly for its zero-degree position instead of being replaced by a rounded approximation."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "This uses the HSL color model and simple hue relationships, not a perceptually uniform color space or a trained design recommendation. Gray, white and black have no meaningful chromatic hue, so some results can repeat. A harmonious palette is not automatically readable or accessible: check foreground/background combinations with the contrast tool. The generator runs locally, accepts six-digit HEX input and does not change an uploaded image."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "This uses the HSL color model and simple hue relationships, not a perceptually uniform color space or a trained design recommendation."
+    },
+    "related": [
+      "/tools/color-contrast-checker",
+      "/tools/color-converter"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "html-to-markdown",
+    "title": "HTML to Markdown Converter",
+    "description": "Convert sanitized HTML content into Markdown with headings, links, lists, code blocks and supported tables.",
+    "kind": "graphic",
+    "example": "<h1>Project notes</h1><p>Hello, <strong>world</strong>!</p><ul><li>Review</li><li>Share</li></ul><pre><code>console.log(\"Hello\");</code></pre>",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "md",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Move a small HTML article or content fragment into a Markdown workflow. The converter sanitizes the source, then maps supported headings, emphasis, links, lists and code blocks to Markdown. Common tables and strike-through use the GitHub-flavored extensions. URLs remain references in the output and are not fetched while converting the fragment."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "This does not render a page, execute scripts, download resources or reproduce CSS layout. Complex table geometry and unsupported structures may fall back to simpler text or sanitized markup, so inspect the result in the intended Markdown renderer. Images can remain as URL references rather than embedded image files. Input is limited to two hundred thousand characters. Conversion is structural and can change whitespace and presentation."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "This does not render a page, execute scripts, download resources or reproduce CSS layout."
+    },
+    "related": [
+      "/tools/markdown-to-html",
+      "/tools/markdown-to-docx"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "css-to-react-style",
+    "title": "CSS to React Style Object Converter",
+    "description": "Convert a CSS declaration list into a JavaScript style object with camelCase names and preserved custom properties.",
+    "kind": "graphic",
+    "example": "background-color: #6366f1; color: white; padding: 12px 20px; -webkit-user-select: none; --accent: #f59e0b;",
+    "fields": [],
+    "action": "Convert on server",
+    "extension": "js",
+    "steps": [
+      "Load the example or paste your own input.",
+      "Review the settings, then select Convert on server to send input for processing.",
+      "Review the result, then copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "What this tool helps you do",
+        "body": "Translate an inline declaration list into a React-compatible style object without manually renaming every property. Standard hyphenated names become camelCase, recognized vendor prefixes use the expected JavaScript casing and custom property names beginning with two dashes stay unchanged. Values remain CSS strings, preserving units and functions rather than guessing numeric conversions."
+      },
+      {
+        "heading": "Format rules and limitations",
+        "body": "Paste declarations only, without a selector block, media rule or stylesheet wrapper. Important declarations are rejected because React’s ordinary style object cannot represent their cascade priority directly. Repeated properties use the last declaration and are placed in its final source order. The parser checks syntax rather than proving browser support for every property or value. The output is source code for review; this tool never applies those declarations to the live page."
+      }
+    ],
+    "faq": {
+      "question": "What should I check before relying on the output?",
+      "answer": "Paste declarations only, without a selector block, media rule or stylesheet wrapper."
+    },
+    "related": [
+      "/tools/html-to-jsx",
+      "/tools/css-specificity-calculator"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "text"
+    }
+  },
+  {
+    "slug": "openapi-operation-extractor",
+    "title": "OpenAPI Operation Extractor",
+    "description": "Extract methods, paths, operation IDs, tags and deprecated flags from OpenAPI or Swagger JSON. Build an API inventory locally.",
+    "kind": "text",
+    "example": "{\n  \"openapi\": \"3.1.0\",\n  \"info\": {\n    \"title\": \"Sample\",\n    \"version\": \"1.0\"\n  },\n  \"paths\": {\n    \"/users\": {\n      \"get\": {\n        \"operationId\": \"listUsers\",\n        \"summary\": \"List users\",\n        \"tags\": [\n          \"Users\"\n        ]\n      }\n    },\n    \"/users/{id}\": {\n      \"delete\": {\n        \"operationId\": \"deleteUser\",\n        \"deprecated\": true\n      }\n    }\n  }\n}",
+    "action": "Analyze input",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Create an endpoint inventory",
+        "body": "Paste an OpenAPI 3.x or Swagger 2.0 document in JSON form to list the operations under paths. The result retains each exact path, HTTP method, operation identifier, summary, tags and deprecation flag. Use the inventory when reviewing an unfamiliar API, preparing migration notes or checking which methods belong to a resource. Path-level metadata is not mistakenly counted as an operation."
+      },
+      {
+        "heading": "Know what is outside the inventory",
+        "body": "The extractor inspects the supplied document without fetching references or contacting API servers. Referenced path items are listed separately because their operations may live elsewhere. Callbacks, webhooks, inherited security rules and parameter resolution are not expanded. This is an inventory helper rather than a complete OpenAPI validator. Convert YAML to JSON first, and use the original specification when interpreting authentication or request requirements."
+      }
+    ],
+    "faq": {
+      "question": "Does OpenAPI Operation Extractor upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/json-schema-validator",
+      "/tools/json-to-yaml",
+      "/blog/openapi-paths-operations"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "har-analyzer",
+    "title": "HAR File Analyzer",
+    "description": "Analyze HAR JSON locally: slow requests, HTTP errors, host counts and known response-body bytes. No requests are replayed.",
+    "kind": "text",
+    "example": "{\n  \"log\": {\n    \"version\": \"1.2\",\n    \"entries\": [\n      {\n        \"request\": {\n          \"method\": \"GET\",\n          \"url\": \"https://example.com/app.js?version=2\"\n        },\n        \"response\": {\n          \"status\": 200,\n          \"bodySize\": 18000\n        },\n        \"time\": 120\n      },\n      {\n        \"request\": {\n          \"method\": \"GET\",\n          \"url\": \"https://example.com/api/users\"\n        },\n        \"response\": {\n          \"status\": 503,\n          \"bodySize\": 120\n        },\n        \"time\": 850\n      }\n    ]\n  }\n}",
+    "action": "Analyze input",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Find requests worth investigating",
+        "body": "Export a HAR capture from browser developer tools, then paste its JSON to summarize up to ten thousand recorded requests. The report lists status failures, counts requests by host and ranks the twenty slowest entries. Response body sizes are summed only when the capture reports a known nonnegative size. Unknown sizes stay visible instead of silently becoming evidence of a zero-byte response."
+      },
+      {
+        "heading": "Interpret timings and sensitive data carefully",
+        "body": "Requests frequently overlap, so their individual durations cannot be added to obtain page load time. Body size also differs from total network transfer because headers, compression and caching affect the capture. The report omits query strings, credentials, headers and bodies, but path names can still contain identifiers. Processing stays local and never replays captured requests. Review the capture before sharing it or its derived report."
+      }
+    ],
+    "faq": {
+      "question": "Does HAR File Analyzer upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/cache-control-parser",
+      "/tools/http-headers-to-json",
+      "/blog/read-har-network-requests"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "cache-control-parser",
+    "title": "Cache-Control Header Parser",
+    "description": "Parse Cache-Control directives, quoted values, duplicate directives and numeric freshness settings with practical interpretation hints.",
+    "kind": "text",
+    "example": "Cache-Control: public, max-age=3600, stale-while-revalidate=60",
+    "action": "Analyze input",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Inspect a cache policy one directive at a time",
+        "body": "Paste a single Cache-Control field value with or without its header name. The parser separates directives without splitting commas inside quoted strings, keeps extension directives and identifies repeated names. Common age and stale-window directives are checked for nonnegative integer values. This helps diagnose a copied response header without confusing a quoted field list with several unrelated directives."
+      },
+      {
+        "heading": "Distinguish storage from revalidation",
+        "body": "A no-cache directive asks for validation before reuse; it does not itself prohibit storing a response. No-store addresses storage. The report provides these narrow interpretation hints and flags obvious conflicts such as public together with private. It does not calculate the complete cache outcome, which also depends on status, request headers, Age, freshness, Vary and cache implementation. Check actual responses after changing a server or CDN configuration."
+      }
+    ],
+    "faq": {
+      "question": "Does Cache-Control Header Parser upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/http-headers-to-json",
+      "/tools/har-analyzer",
+      "/blog/cache-control-no-cache-no-store"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "email-header-parser",
+    "title": "Email Header Parser",
+    "description": "Unfold raw email headers, retain repeated fields and inspect Received order locally. No mailbox connection or message upload required.",
+    "kind": "text",
+    "example": "From: Ada <ada@example.com>\r\nTo: team@example.net\r\nSubject: Release notes\r\n for this week\r\nReceived: from relay.example by mx.example.net; Tue, 3 Nov 2026 10:00:00 +0000\r\nReceived: from client.example by relay.example; Tue, 3 Nov 2026 09:59:58 +0000",
+    "action": "Analyze input",
+    "extension": "json",
+    "fields": [],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Read raw header structure",
+        "body": "Copy the raw header block from a message source view rather than the rendered message display. Continuation lines beginning with a space or tab are unfolded into the previous field. Repeated fields remain separate and in their original order, which is important for Received chains and other trace information. The parser stops at the first empty line and does not parse the message body."
+      },
+      {
+        "heading": "Do not equate parsing with authentication",
+        "body": "Received fields are shown newest first as they appeared in the input; the tool does not establish which relay is trustworthy. Authentication-Results and From values remain claims in the supplied text. Encoded words are preserved, not decoded, and timestamp differences are not treated as verified delivery delays. Use trusted mailbox diagnostics for sender authentication and redact addresses or identifiers before sharing the resulting report."
+      }
+    ],
+    "faq": {
+      "question": "Does Email Header Parser upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/http-headers-to-json",
+      "/tools/text-frequency-analyzer",
+      "/blog/read-email-received-headers"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "curl-command-builder",
+    "title": "cURL Command Builder",
+    "description": "Build a POSIX-shell cURL command from a URL, method, JSON headers and request body. Quote arguments safely without sending the request.",
+    "kind": "text",
+    "example": "{\"name\":\"Ada\",\"active\":true}",
+    "action": "Analyze input",
+    "extension": "sh",
+    "fields": [
+      {
+        "key": "url",
+        "label": "Request URL",
+        "default": "https://example.com/api/users",
+        "type": "text"
+      },
+      {
+        "key": "method",
+        "label": "HTTP method",
+        "default": "POST",
+        "type": "select",
+        "options": [
+          {
+            "value": "GET",
+            "label": "GET"
+          },
+          {
+            "value": "POST",
+            "label": "POST"
+          },
+          {
+            "value": "PUT",
+            "label": "PUT"
+          },
+          {
+            "value": "PATCH",
+            "label": "PATCH"
+          },
+          {
+            "value": "DELETE",
+            "label": "DELETE"
+          },
+          {
+            "value": "HEAD",
+            "label": "HEAD"
+          }
+        ]
+      },
+      {
+        "key": "headers",
+        "label": "Headers as a JSON object",
+        "default": "{\"Content-Type\":\"application/json\"}",
+        "type": "text"
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Build a reproducible request template",
+        "body": "Enter an absolute HTTP or HTTPS URL, select a method and provide headers as a JSON object of string values. The main editor supplies an optional raw body. The result includes explicit URL and method options, disables URL globbing, and quotes each shell argument independently. This is useful for preparing a documented example or recreating a request outside a browser without sending it during generation."
+      },
+      {
+        "heading": "Match the generated command to your shell",
+        "body": "The generated quoting targets POSIX shells such as sh and bash; it is not a PowerShell or Windows cmd quoting format. A raw body is passed with data-raw, so an initial at sign is not interpreted as a local filename. Headers reject embedded line breaks, and URL credentials are rejected. Review secrets before saving the command to documentation, terminal history or a shared issue tracker."
+      }
+    ],
+    "faq": {
+      "question": "Does cURL Command Builder upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/curl-to-fetch",
+      "/tools/shell-argument-escaper",
+      "/blog/curl-post-json-command"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "sql-placeholder-converter",
+    "title": "SQL Placeholder Converter",
+    "description": "Convert question-mark SQL bind placeholders to PostgreSQL $1 parameters, or back to ? with a parameter-order report.",
+    "kind": "text",
+    "example": "SELECT * FROM users WHERE email = ? AND active = ? AND note <> '?';",
+    "action": "Analyze input",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "direction",
+        "label": "Conversion direction",
+        "default": "to-postgres",
+        "type": "select",
+        "options": [
+          {
+            "value": "to-postgres",
+            "label": "? → $1, $2"
+          },
+          {
+            "value": "to-question",
+            "label": "$1, $2 → ?"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Convert prepared-statement placeholders",
+        "body": "Use a prepared-statement SQL template to switch between anonymous question-mark parameters and PostgreSQL numbered parameters. Quoted strings, quoted identifiers, line comments, nested block comments and dollar-quoted strings are preserved. In the reverse direction the report includes an occurrence-based parameter order, so a repeated or out-of-order numbered parameter can be bound correctly by an anonymous-placeholder driver."
+      },
+      {
+        "heading": "Keep binding separate from SQL text",
+        "body": "This utility never substitutes values or executes SQL. Bind parameters through the receiving database driver after converting the template. SQL dialects disagree about quoting and operators; standalone PostgreSQL question-mark JSON operators cannot be distinguished from anonymous placeholders and must not be used as source placeholders. Question-mark pipe and ampersand operators are rejected. Review the output and its parameter order before changing an application query."
+      }
+    ],
+    "faq": {
+      "question": "Does SQL Placeholder Converter upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/sql-formatter",
+      "/tools/sql-in-clause-generator",
+      "/blog/sql-bind-placeholder-styles"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "json-key-case-converter",
+    "title": "JSON Key Case Converter",
+    "description": "Recursively convert JSON property names to camelCase, snake_case, kebab-case or PascalCase with collision detection.",
+    "kind": "text",
+    "example": "{\"user_name\":\"Ada\",\"HTTPStatus\":200,\"profile_data\":{\"last_login\":null}}",
+    "action": "Analyze input",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "style",
+        "label": "Property naming",
+        "default": "camel",
+        "type": "select",
+        "options": [
+          {
+            "value": "camel",
+            "label": "camelCase"
+          },
+          {
+            "value": "snake",
+            "label": "snake_case"
+          },
+          {
+            "value": "kebab",
+            "label": "kebab-case"
+          },
+          {
+            "value": "pascal",
+            "label": "PascalCase"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Change property conventions recursively",
+        "body": "Convert keys in objects nested inside arrays and other objects while keeping scalar values unchanged. The converter recognizes common camel-case boundaries, uppercase acronym boundaries and punctuation separators before applying the selected naming convention. Use it for reviewing an API response, preparing a fixture or adapting a small configuration document. Array positions and ordinary string values are not treated as property names."
+      },
+      {
+        "heading": "Detect collisions before exporting",
+        "body": "Different source keys can produce the same destination name, for example user-name and user_name. Instead of silently overwriting a value, the converter stops with a collision error. Keys that contain no usable letters or numbers are also rejected. Input is limited to thirty-two nesting levels and fifty thousand visited values. JSON numeric precision follows the browser parser; encode long identifiers as strings before transformation."
+      }
+    ],
+    "faq": {
+      "question": "Does JSON Key Case Converter upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/json-key-renamer",
+      "/tools/json-to-typescript-interface",
+      "/tools/json-array-sorter"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "json-array-sorter",
+    "title": "JSON Array Sorter",
+    "description": "Stably sort JSON objects by a numeric or string property. Keep missing and null values last in either sort direction.",
+    "kind": "text",
+    "example": "[{\"name\":\"Ada\",\"score\":90},{\"name\":\"Grace\",\"score\":100},{\"name\":\"Linus\",\"score\":90}]",
+    "action": "Analyze input",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "key",
+        "label": "Exact property name",
+        "default": "score",
+        "type": "text"
+      },
+      {
+        "key": "type",
+        "label": "Value type",
+        "default": "number",
+        "type": "select",
+        "options": [
+          {
+            "value": "number",
+            "label": "Number"
+          },
+          {
+            "value": "string",
+            "label": "String"
+          }
+        ]
+      },
+      {
+        "key": "order",
+        "label": "Sort direction",
+        "default": "desc",
+        "type": "select",
+        "options": [
+          {
+            "value": "asc",
+            "label": "Ascending"
+          },
+          {
+            "value": "desc",
+            "label": "Descending"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Sort records without converting their values",
+        "body": "Provide an array of JSON objects and select an exact top-level property name. Numeric mode compares finite numbers rather than their formatted strings, so ten sorts after two. String mode compares JavaScript string order without a language-specific collation. The entire original record travels with its sort key, making the result suitable for inspecting API fixtures, reports and test data."
+      },
+      {
+        "heading": "Make ties and absent keys predictable",
+        "body": "Equal sort keys retain their original relative order. Missing properties and explicit null values move to the end in both ascending and descending modes. Other value types must match the chosen mode, preventing an accidental mixture of numbers and numeric-looking strings. Nested property paths and locale-aware alphabetic ordering are not implemented. Inputs are bounded to ten thousand objects and still use ordinary browser JSON number precision."
+      }
+    ],
+    "faq": {
+      "question": "Does JSON Array Sorter upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/json-array-filter",
+      "/tools/json-group-by",
+      "/tools/json-key-case-converter"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "csv-to-json-lines",
+    "title": "CSV to JSON Lines Converter",
+    "description": "Convert CSV or TSV rows directly to NDJSON records while preserving quoted fields, line breaks and numeric-looking text.",
+    "kind": "text",
+    "example": "id,name,note\n001,Ada,\"hello, team\"\n002,Grace,\"two lines\nin a cell\"",
+    "action": "Analyze input",
+    "extension": "ndjson",
+    "fields": [
+      {
+        "key": "delimiter",
+        "label": "Input delimiter",
+        "default": ",",
+        "type": "select",
+        "options": [
+          {
+            "value": ",",
+            "label": "Comma"
+          },
+          {
+            "value": ";",
+            "label": "Semicolon"
+          },
+          {
+            "value": "\t",
+            "label": "Tab"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Export one complete object per line",
+        "body": "Use the first row as the property-name header and convert each following row to a complete JSON object. Quoted delimiters, doubled quotes and line breaks inside cells are handled by the shared separated-value parser. Each output record occupies one physical line because line breaks inside strings are JSON-escaped. A final newline is included for compatibility with common text-processing workflows."
+      },
+      {
+        "heading": "Preserve spreadsheet text deliberately",
+        "body": "All CSV cells remain strings, including leading zeros, dates, booleans and empty cells. This avoids silently guessing a schema while moving records into an ingestion pipeline. Header names must be unique and nonempty, and every record must have the same number of cells as the header. The tool processes up to fifty thousand data cells in memory; it is not a streaming importer for multi-gigabyte files."
+      }
+    ],
+    "faq": {
+      "question": "Does CSV to JSON Lines Converter upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/json-to-ndjson",
+      "/tools/csv-to-json",
+      "/blog/csv-to-ndjson-preserve-text"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "ascii-table-generator",
+    "title": "ASCII Table Generator",
+    "description": "Turn CSV or TSV into a bordered plain-text table for README files, terminal notes and text-only documentation.",
+    "kind": "text",
+    "example": "Name,Language,Year\nAda,English,1815\nGrace,English,1906",
+    "action": "Analyze input",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "delimiter",
+        "label": "Input delimiter",
+        "default": ",",
+        "type": "select",
+        "options": [
+          {
+            "value": ",",
+            "label": "Comma"
+          },
+          {
+            "value": ";",
+            "label": "Semicolon"
+          },
+          {
+            "value": "\t",
+            "label": "Tab"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Make a table for plain-text destinations",
+        "body": "Paste comma-, semicolon- or tab-separated cells to create a table with plus, minus and pipe borders. Column widths are calculated across all rows, and the first row is followed by a header separator. Cell line breaks and tabs are replaced with spaces so each record occupies one table row. This is useful in terminal notes, text emails and documentation that does not render Markdown tables."
+      },
+      {
+        "heading": "Understand display width limitations",
+        "body": "The output is designed for a monospace font. Widths count Unicode code points, which is appropriate for simple Latin text but not a full terminal-width algorithm. Combining marks, emoji and East Asian wide characters can still appear misaligned. Inputs are limited to two hundred rows, twenty columns and eighty UTF-16 units per cell. Control characters are removed instead of being allowed to affect a terminal display."
+      }
+    ],
+    "faq": {
+      "question": "Does ASCII Table Generator upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/csv-to-markdown",
+      "/tools/markdown-table-generator",
+      "/tools/csv-to-html-table"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "fraction-calculator",
+    "title": "Fraction Calculator",
+    "description": "Add, subtract, multiply and divide fractions with exact BigInt arithmetic. Return a simplified fraction and decimal approximation.",
+    "kind": "design",
+    "example": "",
+    "action": "Calculate",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "left",
+        "label": "First fraction",
+        "default": "1/3",
+        "type": "text"
+      },
+      {
+        "key": "operation",
+        "label": "Operation",
+        "default": "add",
+        "type": "select",
+        "options": [
+          {
+            "value": "add",
+            "label": "Add"
+          },
+          {
+            "value": "subtract",
+            "label": "Subtract"
+          },
+          {
+            "value": "multiply",
+            "label": "Multiply"
+          },
+          {
+            "value": "divide",
+            "label": "Divide"
+          }
+        ]
+      },
+      {
+        "key": "right",
+        "label": "Second fraction",
+        "default": "1/6",
+        "type": "text"
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Calculate an exact rational result",
+        "body": "Enter integer fractions such as 1/3 or signed integers and choose addition, subtraction, multiplication or division. Numerators and denominators are calculated with BigInt rather than floating-point arithmetic. The final numerator and denominator are reduced by their greatest common divisor, and a negative sign is normalized to the numerator. This keeps common arithmetic results exact even when their decimals repeat."
+      },
+      {
+        "heading": "Distinguish exact output from approximation",
+        "body": "The fraction fields are exact strings. The decimal field is an ordinary approximate number for convenience and may round a repeating or very large rational value. Each input integer is limited to fifty digits, denominators cannot be zero, and division by a zero fraction is rejected. Mixed-number syntax and decimal inputs are not supported; rewrite a mixed number as an improper fraction before using this calculator."
+      }
+    ],
+    "faq": {
+      "question": "Does Fraction Calculator upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/gcd-lcm-calculator",
+      "/tools/percentage-calculator",
+      "/blog/exact-fraction-arithmetic"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "prime-factorization",
+    "title": "Prime Factorization Calculator",
+    "description": "Find prime factors, exponents and primality for whole numbers from 2 to one trillion. All calculations stay in your browser.",
+    "kind": "design",
+    "example": "",
+    "action": "Calculate",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "integer",
+        "label": "Integer to factor",
+        "default": "360",
+        "type": "number",
+        "min": 2,
+        "max": 1000000000000
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Break an integer into prime powers",
+        "body": "Enter a whole number from two through one trillion to obtain its prime factors and repeated-factor exponents. The result includes a readable multiplication expression as well as structured factor objects. If the input has exactly one factor with exponent one, it is identified as prime. Use the factorization to inspect divisibility, reduce arithmetic problems or compare the building blocks of several integers."
+      },
+      {
+        "heading": "Use the supported size range",
+        "body": "Trial division removes powers of two and then tests odd divisors only while their square can divide the remaining value. This bounded approach is predictable for the advertised range, which stays inside exact JavaScript integer precision. It is not intended for cryptographic-size integers or arbitrary-precision primality testing. Zero, one, negative numbers, fractions and larger values are rejected instead of producing misleading prime-factor reports."
+      }
+    ],
+    "faq": {
+      "question": "Does Prime Factorization Calculator upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/gcd-lcm-calculator",
+      "/tools/fraction-calculator",
+      "/tools/number-base-converter"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "matrix-calculator",
+    "title": "Matrix Calculator",
+    "description": "Transpose matrices, multiply two matrices or calculate a determinant from JSON arrays. Supports numeric matrices up to 10 × 10.",
+    "kind": "text",
+    "example": "[[1,2],[3,4]]",
+    "action": "Analyze input",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "operation",
+        "label": "Operation",
+        "default": "multiply",
+        "type": "select",
+        "options": [
+          {
+            "value": "transpose",
+            "label": "Transpose A"
+          },
+          {
+            "value": "multiply",
+            "label": "A × B"
+          },
+          {
+            "value": "determinant",
+            "label": "Determinant of A"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Provide matrices as JSON arrays",
+        "body": "Write each matrix as an outer array of row arrays. Every row must contain the same number of finite numeric cells. The first editor supplies matrix A; the second supplies matrix B when multiplying. Transposition exchanges rows and columns. Multiplication requires the number of columns in A to equal the number of rows in B, and returns the resulting rectangular matrix."
+      },
+      {
+        "heading": "Interpret numerical determinants carefully",
+        "body": "A determinant requires a square matrix and is calculated with row pivoting and elimination. Row swaps change the sign, and an exact zero pivot produces a zero determinant. These operations use floating-point numbers, so nearly singular matrices can accumulate rounding error. Dimensions are limited to ten by ten, extreme magnitudes are bounded, and overflowing results are rejected. This is a numerical helper rather than a symbolic algebra system."
+      }
+    ],
+    "faq": {
+      "question": "Does Matrix Calculator upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/quadratic-equation-solver",
+      "/tools/fraction-calculator",
+      "/tools/ascii-table-generator"
+    ],
+    "modified": "2026-11-06",
+    "exampleB": "[[2,0],[1,2]]",
+    "inputLabel": "Matrix A (JSON)",
+    "secondInputLabel": "Matrix B (JSON)"
+  },
+  {
+    "slug": "quadratic-equation-solver",
+    "title": "Quadratic Equation Solver",
+    "description": "Solve ax² + bx + c = 0 for real, repeated or complex roots. Handles linear and degenerate equations explicitly.",
+    "kind": "design",
+    "example": "",
+    "action": "Calculate",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "a",
+        "label": "Coefficient a",
+        "default": "1",
+        "type": "number",
+        "min": -1e+150,
+        "max": 1e+150
+      },
+      {
+        "key": "b",
+        "label": "Coefficient b",
+        "default": "-3",
+        "type": "number",
+        "min": -1e+150,
+        "max": 1e+150
+      },
+      {
+        "key": "c",
+        "label": "Coefficient c",
+        "default": "2",
+        "type": "number",
+        "min": -1e+150,
+        "max": 1e+150
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Identify the kind of equation first",
+        "body": "Supply the coefficients of ax squared plus bx plus c equals zero. A nonzero quadratic coefficient leads to two real roots, one repeated root or a complex conjugate pair according to the discriminant. If the quadratic coefficient is zero, the calculator handles the remaining linear equation separately. The all-zero identity and an inconsistent constant equation also receive explicit results rather than division errors."
+      },
+      {
+        "heading": "Reduce avoidable floating-point cancellation",
+        "body": "Coefficients are scaled before evaluating the discriminant, and distinct real roots use a cancellation-resistant formulation with the second root derived from their product. This improves ordinary numerical results but does not create symbolic exactness. Very unequal coefficients, near-zero discriminants and extreme roots can still lose precision or exceed the supported range. Check sensitive results by substituting them into the original equation using an appropriate numerical tolerance."
+      }
+    ],
+    "faq": {
+      "question": "Does Quadratic Equation Solver upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/matrix-calculator",
+      "/tools/fraction-calculator",
+      "/tools/scientific-notation-converter"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "binomial-probability-calculator",
+    "title": "Binomial Probability Calculator",
+    "description": "Calculate exactly, at most or at least k successes in n independent trials, with expected value and standard deviation.",
+    "kind": "design",
+    "example": "",
+    "action": "Calculate",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "trials",
+        "label": "Number of trials n",
+        "default": "10",
+        "type": "number",
+        "min": 0,
+        "max": 1000
+      },
+      {
+        "key": "successes",
+        "label": "Successes k",
+        "default": "3",
+        "type": "number",
+        "min": 0,
+        "max": 1000
+      },
+      {
+        "key": "probability",
+        "label": "Success probability p",
+        "default": "0.5",
+        "type": "number",
+        "min": 0,
+        "max": 1
+      },
+      {
+        "key": "mode",
+        "label": "Probability to calculate",
+        "default": "exactly",
+        "type": "select",
+        "options": [
+          {
+            "value": "exactly",
+            "label": "Exactly k"
+          },
+          {
+            "value": "at-most",
+            "label": "At most k"
+          },
+          {
+            "value": "at-least",
+            "label": "At least k"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Choose the probability event precisely",
+        "body": "Set the number of trials, the target number of successes and a success probability from zero through one. Exactly counts only the chosen outcome. At most includes that outcome and every smaller count, while at least includes it and every larger count. The report also gives the expected number of successes and standard deviation, which describe the distribution rather than guaranteeing a particular outcome."
+      },
+      {
+        "heading": "Check the binomial assumptions",
+        "body": "Trials must be independent and share the same success probability. Sampling without replacement or changing conditions may require another distribution. The calculator supports up to one thousand trials and evaluates probabilities through logarithms rather than overflowing factorials. Very tiny tail probabilities can underflow to zero in floating-point arithmetic. Endpoint probabilities zero and one are handled explicitly, and a target count cannot exceed the number of trials."
+      }
+    ],
+    "faq": {
+      "question": "Does Binomial Probability Calculator upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/percentage-calculator",
+      "/tools/fraction-calculator",
+      "/blog/binomial-at-least-probability"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "css-pattern-generator",
+    "title": "CSS Background Pattern Generator",
+    "description": "Generate repeating dots, diagonal stripes or checkerboard backgrounds with live CSS previews and custom colors.",
+    "kind": "design",
+    "example": "",
+    "action": "Generate CSS",
+    "extension": "css",
+    "fields": [
+      {
+        "key": "pattern",
+        "label": "Pattern style",
+        "default": "dots",
+        "type": "select",
+        "options": [
+          {
+            "value": "dots",
+            "label": "Dots"
+          },
+          {
+            "value": "stripes",
+            "label": "Diagonal stripes"
+          },
+          {
+            "value": "checker",
+            "label": "Checkerboard"
+          }
+        ]
+      },
+      {
+        "key": "size",
+        "label": "Pattern tile size (px)",
+        "default": "24",
+        "type": "number",
+        "min": 4,
+        "max": 200
+      },
+      {
+        "key": "base",
+        "label": "Background color",
+        "default": "#101827",
+        "type": "color"
+      },
+      {
+        "key": "ink",
+        "label": "Pattern color",
+        "default": "#6379a8",
+        "type": "color"
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Create a repeating background without an image",
+        "body": "Choose dots, diagonal stripes or a checkerboard and set a tile size plus two colors. The generator builds a CSS gradient background and shows it in a live browser preview. A background shorthand includes the generated image, tile size and base color, so the copied rule can be applied to a section or decorative element without downloading an additional raster asset."
+      },
+      {
+        "heading": "Keep patterns subordinate to content",
+        "body": "Dense patterns can make text difficult to read even when each chosen color looks attractive alone. Use a separate solid surface behind long text, test the actual foreground contrast and inspect the design at different browser sizes. The dot radius is fixed while tile spacing changes. These patterns are decorative and convey no information on their own; provide semantic content independently of the generated background."
+      }
+    ],
+    "faq": {
+      "question": "Does CSS Background Pattern Generator upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/css-gradient-generator",
+      "/tools/color-contrast-checker",
+      "/tools/css-border-generator"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "css-border-generator",
+    "title": "CSS Border Generator",
+    "description": "Create solid, dashed, dotted or double CSS borders with custom width, color and corner radius. Preview and copy the rule.",
+    "kind": "design",
+    "example": "",
+    "action": "Generate CSS",
+    "extension": "css",
+    "fields": [
+      {
+        "key": "width",
+        "label": "Width (px)",
+        "default": "3",
+        "type": "number",
+        "min": 0,
+        "max": 40
+      },
+      {
+        "key": "style",
+        "label": "Line style",
+        "default": "solid",
+        "type": "select",
+        "options": [
+          {
+            "value": "solid",
+            "label": "Solid"
+          },
+          {
+            "value": "dashed",
+            "label": "Dashed"
+          },
+          {
+            "value": "dotted",
+            "label": "Dotted"
+          },
+          {
+            "value": "double",
+            "label": "Double"
+          }
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Line color",
+        "default": "#7c9cff",
+        "type": "color"
+      },
+      {
+        "key": "radius",
+        "label": "Corner radius (px)",
+        "default": "16",
+        "type": "number",
+        "min": 0,
+        "max": 100
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Preview a consistent border rule",
+        "body": "Choose a border width, line style, color and corner radius to generate a reusable CSS class. The preview uses the same properties that appear in the output, so changes to the controls can be inspected directly. All four sides use one consistent border. Use the generated rule for a card, input container or small component, then adjust the class name to match your stylesheet."
+      },
+      {
+        "heading": "Account for the box model",
+        "body": "A border normally contributes to the rendered element size unless box sizing is configured appropriately. The generated rule does not change the surrounding layout or force a box-sizing convention. Double borders need enough width for both strokes and the separating gap to appear clearly; dotted and dashed patterns depend partly on browser rendering. A zero-width choice deliberately hides the border while preserving the selected radius value."
+      }
+    ],
+    "faq": {
+      "question": "Does CSS Border Generator upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/css-outline-generator",
+      "/tools/css-border-radius-generator",
+      "/tools/css-box-shadow-generator"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "css-outline-generator",
+    "title": "CSS Outline Generator",
+    "description": "Generate CSS outlines with width, style, offset and rounded-corner preview. Useful for reviewing focus-ring treatments.",
+    "kind": "design",
+    "example": "",
+    "action": "Generate CSS",
+    "extension": "css",
+    "fields": [
+      {
+        "key": "width",
+        "label": "Width (px)",
+        "default": "3",
+        "type": "number",
+        "min": 0,
+        "max": 40
+      },
+      {
+        "key": "style",
+        "label": "Line style",
+        "default": "solid",
+        "type": "select",
+        "options": [
+          {
+            "value": "solid",
+            "label": "Solid"
+          },
+          {
+            "value": "dashed",
+            "label": "Dashed"
+          },
+          {
+            "value": "dotted",
+            "label": "Dotted"
+          },
+          {
+            "value": "double",
+            "label": "Double"
+          }
+        ]
+      },
+      {
+        "key": "color",
+        "label": "Line color",
+        "default": "#7c9cff",
+        "type": "color"
+      },
+      {
+        "key": "radius",
+        "label": "Corner radius (px)",
+        "default": "16",
+        "type": "number",
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "offset",
+        "label": "Outline offset (px)",
+        "default": "4",
+        "type": "number",
+        "min": -20,
+        "max": 40
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Explore an outline without changing layout size",
+        "body": "An outline is drawn around an element without taking up the box-model space used by a border. Choose its width, style, color and offset to see how the ring sits around the preview. A positive offset moves it outward; a negative offset draws it inward. The generated class includes a corner radius for the underlying element as well as the outline properties."
+      },
+      {
+        "heading": "Test focus treatments in the real interface",
+        "body": "The generator produces a general outline class rather than automatically changing focus styles or removing browser defaults. When adapting it for focus-visible, verify that keyboard users can locate focus on every relevant background and at zoomed sizes. Parent clipping and overflow rules may cut off an outward outline. Do not assume a decorative ring meets accessibility requirements merely because it looks clear in this isolated preview."
+      }
+    ],
+    "faq": {
+      "question": "Does CSS Outline Generator upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/css-border-generator",
+      "/tools/color-contrast-checker",
+      "/tools/css-box-shadow-generator"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "unix-timestamp-batch-converter",
+    "title": "Batch Unix Timestamp Converter",
+    "description": "Convert up to 1,000 Unix timestamps to ISO UTC dates. Explicitly choose seconds or milliseconds and retain each source value.",
+    "kind": "text",
+    "example": "0\n1700000000\n-1",
+    "action": "Analyze input",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "unit",
+        "label": "Input timestamp unit",
+        "default": "seconds",
+        "type": "select",
+        "options": [
+          {
+            "value": "seconds",
+            "label": "Seconds"
+          },
+          {
+            "value": "milliseconds",
+            "label": "Milliseconds"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Convert a log column consistently",
+        "body": "Paste one integer timestamp per line and explicitly select seconds or milliseconds. Every result retains its original text alongside an ISO-formatted UTC date, which makes it easier to compare a converted log column with the source. Negative timestamps represent times before the Unix epoch. The tool does not guess units based on digit count, because historical and future values make that shortcut unreliable."
+      },
+      {
+        "heading": "Preserve exact input precision",
+        "body": "Both the parsed integer and its millisecond representation must fit JavaScript safe-integer precision, and the resulting date must be inside the browser date range. A malformed line stops the conversion with its original line number instead of silently dropping a record. Fractional timestamps and locale-dependent date strings are not accepted. For display in a regional time zone, use the separate time-zone converter after obtaining the UTC instant."
+      }
+    ],
+    "faq": {
+      "question": "Does Batch Unix Timestamp Converter upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/date-to-unix-timestamp",
+      "/tools/time-zone-converter",
+      "/blog/unix-seconds-vs-milliseconds"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "text-frequency-analyzer",
+    "title": "Word and Character Frequency Analyzer",
+    "description": "Rank repeated words or Unicode characters with counts and percentages. Choose case-sensitive matching and export the frequency report.",
+    "kind": "text",
+    "example": "Useful tools save time. Useful examples make tools easier to use.",
+    "action": "Analyze input",
+    "extension": "json",
+    "fields": [
+      {
+        "key": "mode",
+        "label": "Count units",
+        "default": "words",
+        "type": "select",
+        "options": [
+          {
+            "value": "words",
+            "label": "Words"
+          },
+          {
+            "value": "characters",
+            "label": "Characters"
+          }
+        ]
+      },
+      {
+        "key": "caseSensitive",
+        "label": "Case-sensitive matching",
+        "default": "false",
+        "type": "select",
+        "options": [
+          {
+            "value": "false",
+            "label": "Ignore case"
+          },
+          {
+            "value": "true",
+            "label": "Preserve case"
+          }
+        ]
+      },
+      {
+        "key": "limit",
+        "label": "Maximum ranked results",
+        "default": "50",
+        "type": "number",
+        "min": 1,
+        "max": 500
+      }
+    ],
+    "steps": [
+      "Load the included example or provide your own input and settings.",
+      "Choose the operation and review the supported format below.",
+      "Run the tool, inspect the result, and copy or download it."
+    ],
+    "sections": [
+      {
+        "heading": "Find repeated terms in a text sample",
+        "body": "Analyze word or character frequency to spot repetitive wording, inspect a dataset label column or summarize a small text corpus. Results are ranked by descending count, with a deterministic string-order tie break. Percentages use the total number of counted tokens as their denominator. A result limit shortens the displayed ranking without changing the total token count or the reported number of unique tokens."
+      },
+      {
+        "heading": "Understand the counting units",
+        "body": "Word mode groups Unicode letters and numbers and retains apostrophes inside words. It is not a language-aware tokenizer for scripts that normally omit spaces. Character mode counts Unicode code points after NFC normalization and excludes whitespace; a visual emoji sequence or combining cluster may contain several counted units. Case folding is optional and uses ordinary Unicode lowercase conversion rather than a language-specific linguistic analysis."
+      }
+    ],
+    "faq": {
+      "question": "Does Word and Character Frequency Analyzer upload my input?",
+      "answer": "No. This tool processes input locally in your browser without calling a conversion API."
+    },
+    "related": [
+      "/tools/word-counter",
+      "/tools/unicode-normalizer",
+      "/tools/invisible-character-detector"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "pdf-compressor",
+    "title": "PDF Compressor",
+    "description": "Reduce scanned PDF size with JPEG downsampling. Choose resolution and quality; keep the original when it is already smaller.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "pdf",
+    "fields": [
+      {
+        "key": "dpi",
+        "label": "Output resolution",
+        "default": "96",
+        "type": "select",
+        "options": [
+          {
+            "value": "72",
+            "label": "72 DPI · small"
+          },
+          {
+            "value": "96",
+            "label": "96 DPI · balanced"
+          },
+          {
+            "value": "144",
+            "label": "144 DPI · clearer"
+          }
+        ]
+      },
+      {
+        "key": "quality",
+        "label": "JPEG quality",
+        "default": "65",
+        "type": "number",
+        "min": 30,
+        "max": 90,
+        "step": "1"
+      },
+      {
+        "key": "keepOriginal",
+        "label": "Return the original if smaller",
+        "default": "true",
+        "type": "checkbox"
+      }
+    ],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Make an image-heavy PDF easier to send",
+        "body": "Scanned documents and photo-heavy PDFs often contain more image detail than a recipient needs for on-screen reading. This compressor renders each page at your chosen resolution and stores it as a compressed JPEG inside a new PDF. Lower resolution and quality can reduce size, but also make small writing harder to read. Inspect the downloaded result before using it for an application or sharing important records."
+      },
+      {
+        "heading": "Understand the raster conversion",
+        "body": "The rebuilt PDF contains page images rather than selectable text, live form fields or vector artwork. Original links, annotations and signatures are not carried into that rebuilt output. The operation supports up to twenty pages and cannot promise a specific final size. By default the original is returned unchanged when rebuilding would increase its size; its download name identifies that case. This method is most appropriate for scans, not text-preserving optimization."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/pdf-splitter",
+      "/tools/pdf-to-word",
+      "/tools/image-target-size"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": "application/pdf,.pdf",
+      "warning": "Rebuilt pages become images: selectable text, forms, links and signatures are not preserved. Maximum 20 pages. If the original is smaller, it is returned unchanged by default."
+    }
+  },
+  {
+    "slug": "pdf-splitter",
+    "title": "Split PDF",
+    "description": "Split a PDF into separate files by page count and download them together in a ZIP. Original page content is copied without rasterizing.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "zip",
+    "fields": [
+      {
+        "key": "pagesPerFile",
+        "label": "Pages per output PDF",
+        "default": "1",
+        "type": "number",
+        "min": 1,
+        "max": 200,
+        "step": "1"
+      }
+    ],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Separate one document into usable pieces",
+        "body": "Choose how many consecutive pages belong in each output file. A setting of one creates a separate PDF for every page; a larger setting groups pages into consecutive chunks. The final chunk can contain fewer pages when the total is not divisible by the chosen group size. All resulting files are packaged in a ZIP with page-range names, making it easy to identify and send the intended section."
+      },
+      {
+        "heading": "Keep the page count and file boundaries clear",
+        "body": "The splitter copies page content instead of rendering screenshots, so ordinary text and vector artwork remain available. Document-level bookmarks, signatures and interactive form relationships are not guaranteed to survive a copy into separate documents. Inputs may contain up to two hundred pages and the operation creates at most fifty output files. Choose a larger group size if a long document would exceed that count; output size is also bounded."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/pdf-merger",
+      "/tools/pdf-page-remover",
+      "/tools/pdf-page-extractor"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": "application/pdf,.pdf"
+    }
+  },
+  {
+    "slug": "pdf-page-remover",
+    "title": "Delete PDF Pages",
+    "description": "Remove unwanted pages from a PDF using page numbers or ranges. Download one PDF containing the remaining pages in their original order.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "pdf",
+    "fields": [
+      {
+        "key": "pages",
+        "label": "Pages to delete, for example 2, 4-6",
+        "default": "2",
+        "type": "text"
+      }
+    ],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Remove pages without rebuilding the visible artwork",
+        "body": "Enter one-based page numbers or ascending ranges separated by commas. The listed pages are deleted, while all remaining pages keep their original order in one downloadable PDF. This is useful for removing an empty scan, an unneeded cover page or an appendix before sharing a document. The operation copies surviving page content rather than taking screenshots, preserving ordinary text and vector shapes on those pages."
+      },
+      {
+        "heading": "Review the document after removal",
+        "body": "At least one page must remain, and a page cannot be listed twice. Selections outside the document are errors rather than silently ignored instructions. Page copying does not guarantee preservation of document-level bookmarks, digital signatures or interactive form relationships. Removing a page is also different from redacting information within a page. Use the original document as a backup and check the final page count and reading order before sending the result."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/pdf-splitter",
+      "/tools/pdf-merger",
+      "/tools/pdf-page-extractor"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": "application/pdf,.pdf"
+    }
+  },
+  {
+    "slug": "pdf-to-word",
+    "title": "PDF to Word Converter",
+    "description": "Turn selectable PDF text into an editable Word DOCX file. Exports text and page breaks; complex layouts and scanned images are not recreated.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "docx",
+    "fields": [],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Create a document you can edit",
+        "body": "This converter reads an existing PDF text layer and writes its extracted lines into a DOCX document. The resulting text can be edited in Word or another compatible word processor. Source page boundaries become page breaks, so it remains possible to compare the draft with the original PDF. It is useful for recovering paragraphs from reports, notes and other documents that already contain selectable text."
+      },
+      {
+        "heading": "Choose the right conversion expectation",
+        "body": "This is text reconstruction, not a layout-faithful recreation of the PDF. Tables, columns, typography, diagrams and images are not reproduced as editable Word objects. Reading order depends on the text order stored in the source, so review multi-column documents carefully. Scanned pages without text require OCR first. Exports are limited to fifty pages and one hundred thousand extracted characters; empty extraction reports an error instead of producing a blank Word document."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/pdf-to-text",
+      "/tools/image-to-text",
+      "/tools/docx-converter"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": "application/pdf,.pdf",
+      "warning": "Exports existing selectable text and page breaks only. Scanned images need OCR. Tables, pictures, columns and original formatting are not recreated."
+    }
+  },
+  {
+    "slug": "pdf-to-powerpoint",
+    "title": "PDF to PowerPoint Converter",
+    "description": "Convert PDF pages into a PowerPoint PPTX presentation. Each page becomes a clear slide image with its aspect ratio preserved.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "pptx",
+    "fields": [],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Present existing PDF pages as slides",
+        "body": "Each PDF page is rendered to an image and placed on its own PowerPoint slide. The first page determines the presentation proportions. Later pages with different proportions are centered with unused space around them rather than being stretched. This is useful for presenting a finished handout, illustrated report or other PDF whose appearance is already appropriate for an audience."
+      },
+      {
+        "heading": "Understand what can be edited afterward",
+        "body": "The slide contains an image of the page, not individual text boxes or reconstructed charts. You can add new PowerPoint objects around it, but cannot edit the source wording as native slide text through this conversion. Links, forms, video and document signatures are not retained. A maximum of twenty pages is supported, with bounded image dimensions and output size. For a native editable presentation, use the original authoring file when available."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/pdf-to-image",
+      "/tools/pdf-to-word",
+      "/tools/pdf-compressor"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": "application/pdf,.pdf",
+      "warning": "Each slide contains a page image. Text and charts are not separate editable PowerPoint objects. Maximum 20 pages."
+    }
+  },
+  {
+    "slug": "excel-to-pdf",
+    "title": "Excel to PDF Converter",
+    "description": "Export a worksheet from XLSX to a readable PDF table. Choose orientation, font size and columns per page; repeat headers on continued pages.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "pdf",
+    "fields": [
+      {
+        "key": "sheet",
+        "label": "Worksheet number",
+        "default": "1",
+        "type": "number",
+        "min": 1,
+        "max": 100,
+        "step": "1"
+      },
+      {
+        "key": "orientation",
+        "label": "Page orientation",
+        "default": "landscape",
+        "type": "select",
+        "options": [
+          {
+            "value": "portrait",
+            "label": "Portrait A4"
+          },
+          {
+            "value": "landscape",
+            "label": "Landscape A4"
+          }
+        ]
+      },
+      {
+        "key": "columns",
+        "label": "Columns per page band",
+        "default": "6",
+        "type": "number",
+        "min": 1,
+        "max": 10,
+        "step": "1"
+      },
+      {
+        "key": "fontSize",
+        "label": "Text size",
+        "default": "9",
+        "type": "number",
+        "min": 7,
+        "max": 14,
+        "step": "1"
+      }
+    ],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Make a worksheet easy to share or print",
+        "body": "Choose one worksheet by its one-based position in the XLSX workbook. The converter writes its stored cell values into a PDF table, wrapping text within each cell and repeating the first row as a header on continuation pages. Wide worksheets are split into consecutive column bands according to your setting. This keeps the text readable without squeezing every column onto a single page."
+      },
+      {
+        "heading": "Export stored values rather than the Excel print layout",
+        "body": "This table export does not reproduce workbook charts, images, merged-cell layouts, conditional formatting or Excel-specific print areas. Formulas use their saved cached results and are not recalculated; recalculate and save the workbook first if needed. Inputs are restricted to two MiB compressed and validated expanded content. The selected worksheet may contain at most one thousand rows, one hundred thousand text characters and sixty exported PDF pages."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/xlsx-to-csv",
+      "/tools/xlsx-to-json",
+      "/tools/pdf-merger"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "warning": "Exports the selected worksheet as a new table, not its original print layout. Charts, images and merged-cell formatting are not reproduced. Formulas need saved results."
+    }
+  },
+  {
+    "slug": "heic-to-jpg",
+    "title": "HEIC to JPG Converter",
+    "description": "Convert an iPhone HEIC or HEIF photo to a widely compatible JPG image. Select JPEG quality and download a previewable result.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "jpg",
+    "fields": [
+      {
+        "key": "quality",
+        "label": "JPEG quality",
+        "default": "90",
+        "type": "number",
+        "min": 40,
+        "max": 100,
+        "step": "1"
+      }
+    ],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Make an iPhone photo easier to open",
+        "body": "HEIC is common in phone photo libraries, but a form, email workflow or older application may require JPEG. Upload a HEIC or HEIF image and choose the output quality to create a normal JPG. The converter decodes the image on this site’s server and returns the resulting file with a browser preview. It does not ask for access to your phone library or an external photo account."
+      },
+      {
+        "heading": "Know what the JPEG contains",
+        "body": "Only the first top-level image is exported; a multi-image container or Live Photo is not converted into a video or animation. JPEG is a lossy still-image format, and transparent pixels are placed over white. The decoded photo must stay within sixteen million pixels. Unsupported HEIF compression variants can fail even when the filename has the expected extension. Original container metadata and auxiliary depth or motion data are not carried into the new JPEG."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/image-target-size",
+      "/tools/image-dpi-converter",
+      "/tools/passport-photo-maker"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": ".heic,.heif,image/heic,image/heif",
+      "warning": "Exports the first still image as JPEG. Auxiliary depth, motion and multi-image content are not retained."
+    }
+  },
+  {
+    "slug": "image-to-text",
+    "title": "Image to Text Converter (OCR)",
+    "description": "Extract printed English text from a JPG, PNG or WebP image using OCR. Copy or download the recognized text without an external OCR provider.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "txt",
+    "fields": [],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Recover text from a clear picture",
+        "body": "Upload a still image of printed English text, such as a receipt, screenshot or photographed note. The OCR engine reads the picture and returns editable plain text that you can copy or download. Keep the text upright, well lit and large enough to read; crop unnecessary surroundings before uploading. A sharp source usually matters more than simply increasing the file size."
+      },
+      {
+        "heading": "Check every important recognition result",
+        "body": "OCR can confuse similar characters, miss faint lines and reorder text in complex layouts. This tool uses a bundled English recognition model and does not promise handwriting recognition or support for every language. Inputs are limited to six million pixels and are reduced to a bounded working size. Review names, amounts and identifiers against the original image before reuse. The model runs on this server without calling an external OCR service or saving an OCR history."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/pdf-to-word",
+      "/tools/pdf-to-text",
+      "/tools/image-cropper"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": "image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp",
+      "warning": "Printed English text only. OCR can make mistakes; check names, numbers and totals against the source. Maximum 6 million pixels."
+    }
+  },
+  {
+    "slug": "image-target-size",
+    "title": "Compress Image to KB",
+    "description": "Make a JPG smaller than your chosen KB limit. Automatically adjust JPEG quality and optionally resize dimensions for upload requirements.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "jpg",
+    "fields": [
+      {
+        "key": "kilobytes",
+        "label": "Maximum size (KB, 1 KB = 1,024 bytes)",
+        "default": "100",
+        "type": "number",
+        "min": 10,
+        "max": 5000,
+        "step": "1"
+      },
+      {
+        "key": "allowResize",
+        "label": "Allow smaller pixel dimensions if needed",
+        "default": "true",
+        "type": "checkbox"
+      }
+    ],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Meet a form’s file-size limit",
+        "body": "Some forms accept a photograph only when it is below a particular upload limit. Set the desired size in kibibyte-style units of one thousand twenty-four bytes and upload a PNG, JPEG or WebP image. The tool searches JPEG quality settings for an output below that limit. If permitted, it also reduces the pixel dimensions when quality changes alone cannot achieve the requested size."
+      },
+      {
+        "heading": "Review the actual output before submitting",
+        "body": "The result is always JPEG, so transparent backgrounds become white and some image detail is lost. A strict byte limit and a strict pixel-size requirement can conflict; turn off resizing when a form requires the original dimensions. If the target cannot be met under those conditions, the tool reports an error instead of returning an oversized file. The size summary compares input and output, and the preview helps you check that important details remain readable."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/image-compressor",
+      "/tools/image-resizer",
+      "/tools/heic-to-jpg"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": "image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp",
+      "warning": "Outputs JPEG. Transparency becomes white; dimensions may shrink if resizing is enabled. Confirm any separate pixel-dimension requirement."
+    }
+  },
+  {
+    "slug": "image-dpi-converter",
+    "title": "Image DPI Converter",
+    "description": "Set image print resolution to 300 DPI or another value. Keep pixels unchanged or fit a specified print size in millimeters.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "jpg",
+    "fields": [
+      {
+        "key": "dpi",
+        "label": "Print resolution (DPI)",
+        "default": "300",
+        "type": "number",
+        "min": 72,
+        "max": 1200,
+        "step": "1"
+      },
+      {
+        "key": "mode",
+        "label": "Pixel dimensions",
+        "default": "metadata",
+        "type": "select",
+        "options": [
+          {
+            "value": "metadata",
+            "label": "Keep existing pixels; change DPI metadata"
+          },
+          {
+            "value": "resize",
+            "label": "Fit a specified print size"
+          }
+        ]
+      },
+      {
+        "key": "widthMm",
+        "label": "Print width (mm; resize mode)",
+        "default": "100",
+        "type": "number",
+        "min": 1,
+        "max": 1000,
+        "step": "1"
+      },
+      {
+        "key": "heightMm",
+        "label": "Print height (mm; resize mode)",
+        "default": "150",
+        "type": "number",
+        "min": 1,
+        "max": 1000,
+        "step": "1"
+      }
+    ],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Separate pixel dimensions from print resolution",
+        "body": "DPI metadata tells a printing application how densely to place an image’s pixels on paper. Changing that number alone does not add detail. In the keep-pixels mode, the oriented image retains its pixel width and height while the output JPEG receives your selected density. A six-hundred-pixel width at three hundred DPI describes a two-inch print width, regardless of how large the same image appears on screen."
+      },
+      {
+        "heading": "Resize only when the destination needs it",
+        "body": "In print-size mode, millimeter dimensions and DPI determine the new pixel canvas. The image is fitted inside that canvas with white padding so it is not stretched out of proportion. Enlarging a small source interpolates existing detail rather than recovering information that was never captured. JPEG output flattens transparency over white. The final canvas is bounded to sixteen million pixels, and actual printer scaling settings can still affect the physical output size."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/passport-photo-maker",
+      "/tools/image-resizer",
+      "/tools/image-target-size"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": "image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+    }
+  },
+  {
+    "slug": "passport-photo-maker",
+    "title": "Passport Photo Maker",
+    "description": "Crop a photo to chosen millimeter dimensions and DPI, or create a 4 × 6 inch print sheet. Size preparation without a compliance guarantee.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "jpg",
+    "fields": [
+      {
+        "key": "widthMm",
+        "label": "Photo width (mm)",
+        "default": "35",
+        "type": "number",
+        "min": 20,
+        "max": 70,
+        "step": "1"
+      },
+      {
+        "key": "heightMm",
+        "label": "Photo height (mm)",
+        "default": "45",
+        "type": "number",
+        "min": 20,
+        "max": 70,
+        "step": "1"
+      },
+      {
+        "key": "dpi",
+        "label": "Print DPI",
+        "default": "300",
+        "type": "number",
+        "min": 150,
+        "max": 600,
+        "step": "1"
+      },
+      {
+        "key": "output",
+        "label": "Download format",
+        "default": "single",
+        "type": "select",
+        "options": [
+          {
+            "value": "single",
+            "label": "Single sized photo"
+          },
+          {
+            "value": "sheet",
+            "label": "4 × 6 inch print sheet"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Prepare a photo at a known physical size",
+        "body": "Choose the required width and height in millimeters and a printing resolution. The tool crops the source around its center, resizes it to the corresponding pixel dimensions and writes JPEG density metadata. Select a single photo or a four-by-six-inch sheet with repeated copies and white gaps. This helps prepare an already suitable photograph for printing without manually calculating pixels from millimeters."
+      },
+      {
+        "heading": "Check official photo requirements separately",
+        "body": "Correct dimensions are only one part of an identification photo requirement. This tool does not verify head position, facial expression, lighting, background, age of the photo or a particular authority’s acceptance rules. It does not detect a face or replace the background. Position the subject appropriately before uploading, review the centered crop and consult the receiving authority’s current requirements. When printing, disable fit-to-page scaling so the intended physical dimensions are retained."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/image-cropper",
+      "/tools/image-dpi-converter",
+      "/tools/image-target-size"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": "image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp",
+      "warning": "Sizing and center cropping only. No face detection, background replacement or official passport/visa compliance check. Check the receiving authority’s photo rules."
+    }
+  },
+  {
+    "slug": "split-image",
+    "title": "Split Image into a Grid",
+    "description": "Cut a photo into rows and columns and download all tiles in a ZIP. Choose PNG for lossless tiles or JPG for smaller files.",
+    "kind": "graphic",
+    "example": "",
+    "action": "Convert on server",
+    "extension": "zip",
+    "fields": [
+      {
+        "key": "columns",
+        "label": "Columns",
+        "default": "3",
+        "type": "number",
+        "min": 1,
+        "max": 6,
+        "step": "1"
+      },
+      {
+        "key": "rows",
+        "label": "Rows",
+        "default": "1",
+        "type": "number",
+        "min": 1,
+        "max": 6,
+        "step": "1"
+      },
+      {
+        "key": "format",
+        "label": "Tile image format",
+        "default": "jpeg",
+        "type": "select",
+        "options": [
+          {
+            "value": "jpeg",
+            "label": "JPG"
+          },
+          {
+            "value": "png",
+            "label": "PNG"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Choose your file or load the example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Convert on server and download the result."
+    ],
+    "sections": [
+      {
+        "heading": "Divide a photograph into separate tiles",
+        "body": "Choose the number of rows and columns to partition an image into a regular grid. Every source pixel belongs to a tile, including edge pixels when the dimensions are not evenly divisible by the grid. Files are named by row and column and packaged in a ZIP. This is useful for image panels, a multi-part design or preparing separate picture sections for another layout."
+      },
+      {
+        "heading": "Match the tile format to the next step",
+        "body": "PNG preserves tile pixels and transparency but can create larger downloads. JPEG usually produces smaller photographic tiles and places transparency over white. The input is normalized for orientation before cutting, and each grid direction supports up to six tiles. Platform-specific posting order, profile cropping and display ratios are outside the conversion; check the destination layout before publishing. The combined tile data and final archive are subject to the standard output size limit."
+      }
+    ],
+    "faq": {
+      "question": "Where is my file processed?",
+      "answer": "The selected file is sent to this site only when you run the server conversion. Processing uses memory without a saved conversion history."
+    },
+    "related": [
+      "/tools/image-cropper",
+      "/tools/image-resizer",
+      "/tools/zip-extractor"
+    ],
+    "modified": "2026-11-06",
+    "server": {
+      "input": "files",
+      "accept": "image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+    }
+  },
+  {
+    "slug": "age-calculator",
+    "title": "Age Calculator",
+    "description": "Calculate age in years, months and days, total days lived and the next birthday from two calendar dates.",
+    "kind": "design",
+    "example": "",
+    "action": "Calculate",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "birth",
+        "label": "Date of birth",
+        "default": "1995-06-15",
+        "type": "date"
+      },
+      {
+        "key": "asOf",
+        "label": "As of date (leave blank for today)",
+        "default": "",
+        "type": "date"
+      }
+    ],
+    "steps": [
+      "Enter your values or reset the included example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Calculate, then inspect or copy the result."
+    ],
+    "sections": [
+      {
+        "heading": "Calculate a calendar age rather than dividing days",
+        "body": "Enter a birth date and optionally a reference date. Leaving the reference date empty uses today in your browser’s local calendar. The result separates completed years, completed additional months and remaining days, then gives the total elapsed day count and the next birthday. This is more informative than dividing days by three hundred sixty-five, which ignores leap years and the varying lengths of months."
+      },
+      {
+        "heading": "Understand the date convention",
+        "body": "All calculations compare calendar dates without time-of-day or daylight-saving offsets. Month-end anniversaries are clamped to the final valid day of the destination month. A February twenty-ninth birthday is treated as February twenty-eighth in a non-leap year for this tool. Legal birthday and eligibility rules can differ, so the result is not an official age determination. Birth and reference dates must be valid and fall between nineteen hundred and twenty-one ninety-nine."
+      }
+    ],
+    "faq": {
+      "question": "Where is my calculation performed?",
+      "answer": "The calculation runs locally in your browser without a conversion API request."
+    },
+    "related": [
+      "/tools/date-difference-calculator",
+      "/tools/business-days-calculator",
+      "/tools/iso-week-calculator"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "discount-calculator",
+    "title": "Discount Calculator",
+    "description": "Calculate a sale price and how much you save from an original price and percentage discount. Supports common currencies.",
+    "kind": "design",
+    "example": "",
+    "action": "Calculate",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "price",
+        "label": "Original price",
+        "default": "120",
+        "type": "number",
+        "min": 0.01,
+        "max": 1000000000.0,
+        "step": ".01"
+      },
+      {
+        "key": "discount",
+        "label": "Discount (%)",
+        "default": "25",
+        "type": "number",
+        "min": 0,
+        "max": 100,
+        "step": ".01"
+      },
+      {
+        "key": "currency",
+        "label": "Currency",
+        "default": "USD",
+        "type": "select",
+        "options": [
+          {
+            "value": "USD",
+            "label": "USD"
+          },
+          {
+            "value": "EUR",
+            "label": "EUR"
+          },
+          {
+            "value": "GBP",
+            "label": "GBP"
+          },
+          {
+            "value": "UAH",
+            "label": "UAH"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Enter your values or reset the included example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Calculate, then inspect or copy the result."
+    ],
+    "sections": [
+      {
+        "heading": "See the price after one discount",
+        "body": "Enter the original price and a discount percentage to calculate the amount saved and the final sale price. Currency selection controls display formatting rather than performing an exchange-rate conversion. A twenty-five percent discount on one hundred twenty units saves thirty and leaves ninety to pay. This simple comparison helps interpret a sale label without confusing the amount saved with the price you actually owe."
+      },
+      {
+        "heading": "Keep checkout extras separate",
+        "body": "The calculator applies one percentage reduction to a positive original amount with at most two decimal places. Savings are rounded to the nearest minor currency unit, then subtracted from the original amount. Sales tax, delivery costs, loyalty credits and stacked promotions are excluded. Successive discounts are not generally equivalent to adding their percentages together. Use the real checkout rules when comparing a multi-offer promotion or a price that changes with shipping or tax."
+      }
+    ],
+    "faq": {
+      "question": "Where is my calculation performed?",
+      "answer": "The calculation runs locally in your browser without a conversion API request."
+    },
+    "related": [
+      "/tools/tip-calculator",
+      "/tools/percentage-calculator",
+      "/tools/loan-calculator"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "tip-calculator",
+    "title": "Tip Calculator and Bill Splitter",
+    "description": "Calculate a tip, total bill and each person’s share. Split remaining cents fairly so all shares add up to the exact total.",
+    "kind": "design",
+    "example": "",
+    "action": "Calculate",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "bill",
+        "label": "Bill before tip",
+        "default": "85.5",
+        "type": "number",
+        "min": 0.01,
+        "max": 1000000000.0,
+        "step": ".01"
+      },
+      {
+        "key": "tip",
+        "label": "Tip (%)",
+        "default": "15",
+        "type": "number",
+        "min": 0,
+        "max": 100,
+        "step": ".01"
+      },
+      {
+        "key": "people",
+        "label": "People splitting the bill",
+        "default": "3",
+        "type": "number",
+        "min": 1,
+        "max": 100,
+        "step": "1"
+      },
+      {
+        "key": "currency",
+        "label": "Currency",
+        "default": "USD",
+        "type": "select",
+        "options": [
+          {
+            "value": "USD",
+            "label": "USD"
+          },
+          {
+            "value": "EUR",
+            "label": "EUR"
+          },
+          {
+            "value": "GBP",
+            "label": "GBP"
+          },
+          {
+            "value": "UAH",
+            "label": "UAH"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Enter your values or reset the included example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Calculate, then inspect or copy the result."
+    ],
+    "sections": [
+      {
+        "heading": "Calculate the full amount before dividing",
+        "body": "Enter the bill amount, choose a percentage tip and set the number of people sharing it. The tip is calculated on the amount you enter, rounded to the nearest minor currency unit and added to the bill. The result shows the tip, total and average per person. If a service charge is already included, decide whether another tip is appropriate before entering a percentage; the calculator cannot infer that from a receipt."
+      },
+      {
+        "heading": "Keep every cent accounted for",
+        "body": "Equal-looking rounded shares can add up to one cent more or less than the actual bill. This tool divides the total in whole minor currency units and allocates any remaining cents to the first people in the list. Individual shares therefore differ by at most one cent and sum exactly to the total. It does not split by individual ordered items, apply local tipping customs or add taxes beyond the bill amount you supplied."
+      }
+    ],
+    "faq": {
+      "question": "Where is my calculation performed?",
+      "answer": "The calculation runs locally in your browser without a conversion API request."
+    },
+    "related": [
+      "/tools/discount-calculator",
+      "/tools/percentage-calculator",
+      "/tools/recipe-scaler"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "loan-calculator",
+    "title": "Loan Payment Calculator",
+    "description": "Estimate a fixed-rate monthly loan payment, total interest and amortization schedule. Enter an amount, annual rate and term in months.",
+    "kind": "design",
+    "example": "",
+    "action": "Calculate",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "principal",
+        "label": "Loan amount",
+        "default": "10000",
+        "type": "number",
+        "min": 0.01,
+        "max": 1000000000.0,
+        "step": ".01"
+      },
+      {
+        "key": "annualRate",
+        "label": "Nominal annual interest (%)",
+        "default": "6",
+        "type": "number",
+        "min": 0,
+        "max": 100,
+        "step": ".01"
+      },
+      {
+        "key": "months",
+        "label": "Term in months",
+        "default": "36",
+        "type": "number",
+        "min": 1,
+        "max": 600,
+        "step": "1"
+      },
+      {
+        "key": "currency",
+        "label": "Currency",
+        "default": "USD",
+        "type": "select",
+        "options": [
+          {
+            "value": "USD",
+            "label": "USD"
+          },
+          {
+            "value": "EUR",
+            "label": "EUR"
+          },
+          {
+            "value": "GBP",
+            "label": "GBP"
+          },
+          {
+            "value": "UAH",
+            "label": "UAH"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Enter your values or reset the included example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Calculate, then inspect or copy the result."
+    ],
+    "sections": [
+      {
+        "heading": "Compare a fixed monthly repayment example",
+        "body": "Enter the borrowed principal, a fixed nominal annual interest percentage and the number of monthly payments. The calculator divides the annual rate by twelve and uses equal period-end payments to amortize the principal. The report includes the monthly payment, total interest, total amount repaid and a payment-by-payment schedule. A zero interest rate is handled as an even division of principal across the selected term."
+      },
+      {
+        "heading": "Treat the result as an illustration",
+        "body": "The schedule assumes the same monthly rate for the entire term and no extra repayments. It excludes origination fees, insurance, taxes, late charges, variable-rate resets and lender-specific day-count or rounding conventions. A quoted APR can include costs beyond the nominal interest rate expected by this formula. Amounts are displayed to two decimals, while internal calculations retain more precision. Use the lender’s official disclosures and schedule when making a borrowing decision."
+      }
+    ],
+    "faq": {
+      "question": "Where is my calculation performed?",
+      "answer": "The calculation runs locally in your browser without a conversion API request."
+    },
+    "related": [
+      "/tools/compound-interest-calculator",
+      "/tools/discount-calculator",
+      "/tools/percentage-calculator"
+    ],
+    "modified": "2026-11-06",
+    "reference": "https://www.consumerfinance.gov/ask-cfpb/what-is-amortization-and-how-could-it-affect-my-auto-loan-en-771/"
+  },
+  {
+    "slug": "compound-interest-calculator",
+    "title": "Compound Interest Calculator",
+    "description": "Project a balance with an initial amount, monthly contributions and monthly compounding. See contributions and growth year by year.",
+    "kind": "design",
+    "example": "",
+    "action": "Calculate",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "initial",
+        "label": "Initial balance",
+        "default": "1000",
+        "type": "number",
+        "min": 0,
+        "max": 1000000000.0,
+        "step": ".01"
+      },
+      {
+        "key": "monthly",
+        "label": "Monthly contribution",
+        "default": "100",
+        "type": "number",
+        "min": 0,
+        "max": 1000000000.0,
+        "step": ".01"
+      },
+      {
+        "key": "annualRate",
+        "label": "Nominal annual rate (%)",
+        "default": "5",
+        "type": "number",
+        "min": 0,
+        "max": 50,
+        "step": ".01"
+      },
+      {
+        "key": "years",
+        "label": "Years",
+        "default": "10",
+        "type": "number",
+        "min": 1,
+        "max": 50,
+        "step": "1"
+      },
+      {
+        "key": "currency",
+        "label": "Currency",
+        "default": "USD",
+        "type": "select",
+        "options": [
+          {
+            "value": "USD",
+            "label": "USD"
+          },
+          {
+            "value": "EUR",
+            "label": "EUR"
+          },
+          {
+            "value": "GBP",
+            "label": "GBP"
+          },
+          {
+            "value": "UAH",
+            "label": "UAH"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Enter your values or reset the included example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Calculate, then inspect or copy the result."
+    ],
+    "sections": [
+      {
+        "heading": "Separate money contributed from hypothetical growth",
+        "body": "Enter a starting balance, a regular monthly contribution, a fixed nominal annual rate and a period in years. Interest is applied monthly, then the contribution is added at the end of that month. The report separates the money you put in from the modeled growth and lists the balance at each year end. Currency selection affects formatting only and does not convert between currencies."
+      },
+      {
+        "heading": "Understand the projection assumptions",
+        "body": "A constant rate is a simplifying input, not a forecast or a promise. Real accounts and investments can have fees, taxes, changing returns, withdrawal rules and different compounding conventions. Inflation also changes what a future amount can buy. This calculator does not choose a product or recommend an allocation. Its bounded monthly simulation supports up to fifty years and rejects amounts outside the supported range; compare actual terms before relying on a financial projection."
+      }
+    ],
+    "faq": {
+      "question": "Where is my calculation performed?",
+      "answer": "The calculation runs locally in your browser without a conversion API request."
+    },
+    "related": [
+      "/tools/loan-calculator",
+      "/tools/percentage-calculator",
+      "/tools/discount-calculator"
+    ],
+    "modified": "2026-11-06",
+    "reference": "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator"
+  },
+  {
+    "slug": "final-grade-calculator",
+    "title": "Final Grade Calculator",
+    "description": "Find the final-exam percentage needed to reach your target course grade. Includes weighted coursework and an attainable-target check.",
+    "kind": "design",
+    "example": "",
+    "action": "Calculate",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "current",
+        "label": "Current grade excluding final (%)",
+        "default": "82",
+        "type": "number",
+        "min": 0,
+        "max": 100,
+        "step": ".01"
+      },
+      {
+        "key": "target",
+        "label": "Target overall grade (%)",
+        "default": "85",
+        "type": "number",
+        "min": 0,
+        "max": 100,
+        "step": ".01"
+      },
+      {
+        "key": "weight",
+        "label": "Final exam weight (%)",
+        "default": "30",
+        "type": "number",
+        "min": 0.01,
+        "max": 100,
+        "step": ".01"
+      }
+    ],
+    "steps": [
+      "Enter your values or reset the included example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Calculate, then inspect or copy the result."
+    ],
+    "sections": [
+      {
+        "heading": "Start with the grade outside the final exam",
+        "body": "Enter your current coursework percentage, the overall course percentage you want and the final exam’s share of the complete grade. The current percentage must describe only the work outside that final. The calculator solves the weighted-average equation for the final-exam result. It also identifies a target that is already met with a zero on the final, or one requiring more than one hundred percent under the ordinary scale."
+      },
+      {
+        "heading": "Check your syllabus before interpreting the number",
+        "body": "Some courses weight several assignment groups, drop low scores, apply a grading curve or round at specific stages. Those rules can make a simple two-part calculation inappropriate. The required result is rounded upward to one hundredth of a percentage point, and the model does not assume extra credit is available. A final weight of one hundred percent makes the existing coursework irrelevant. Use the documented grading policy to decide which current grade belongs in the input."
+      }
+    ],
+    "faq": {
+      "question": "Where is my calculation performed?",
+      "answer": "The calculation runs locally in your browser without a conversion API request."
+    },
+    "related": [
+      "/tools/gpa-calculator",
+      "/tools/weighted-average-calculator",
+      "/tools/percentage-calculator"
+    ],
+    "modified": "2026-11-06"
+  },
+  {
+    "slug": "gpa-calculator",
+    "title": "GPA Calculator",
+    "description": "Calculate a credit-weighted GPA from course grades. Enter letter grades or numeric grade points in an editable course table.",
+    "kind": "text",
+    "example": "Course,Credits,Grade\nMathematics,3,A\nEnglish,4,B+\nHistory,3,A-",
+    "action": "Calculate",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "scale",
+        "label": "A+ grade point value",
+        "default": "4",
+        "type": "select",
+        "options": [
+          {
+            "value": "4",
+            "label": "4.0 scale · A+ = 4.0"
+          },
+          {
+            "value": "4.3",
+            "label": "4.3 scale · A+ = 4.3"
+          }
+        ]
+      }
+    ],
+    "steps": [
+      "Enter your values or reset the included example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Calculate, then inspect or copy the result."
+    ],
+    "sections": [
+      {
+        "heading": "Weight each course by its credits",
+        "body": "Add a course name, a positive credit value and either a supported letter grade or numeric grade points. The calculator multiplies each grade point value by its credits, sums those quality points and divides by the total credits. This produces a credit-weighted GPA rather than a simple average of letter labels. The editable table lets you add or remove courses without preparing a spreadsheet or writing code."
+      },
+      {
+        "heading": "Use the mapping that fits your institution",
+        "body": "The built-in mapping uses A as four, B as three, C as two and common plus/minus increments. A-plus is four or four-point-three according to your setting. Numeric inputs must fit that scale. Institutional policies can treat repeats, withdrawals, pass/fail courses and rounding differently, so include only the courses that should contribute to this calculation. The result is a planning aid rather than an official transcript, and it does not infer transfer-credit rules."
+      }
+    ],
+    "faq": {
+      "question": "Where is my calculation performed?",
+      "answer": "The calculation runs locally in your browser without a conversion API request."
+    },
+    "related": [
+      "/tools/final-grade-calculator",
+      "/tools/weighted-average-calculator",
+      "/tools/percentage-calculator"
+    ],
+    "modified": "2026-11-06",
+    "tableInput": {
+      "headers": [
+        "Course",
+        "Credits",
+        "Grade"
+      ]
+    },
+    "inputLabel": "Course grades"
+  },
+  {
+    "slug": "recipe-scaler",
+    "title": "Recipe Scaler",
+    "description": "Scale ingredient quantities to a new number of servings. Edit ingredients in a table; supports decimals, fractions and mixed numbers.",
+    "kind": "text",
+    "example": "Amount,Unit,Ingredient\n2,cups,Flour\n1/2,cup,Milk\n1 1/2,tbsp,Olive oil\nto taste,,Salt",
+    "action": "Calculate",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "originalServings",
+        "label": "Original servings",
+        "default": "4",
+        "type": "number",
+        "min": 0.1,
+        "max": 1000,
+        "step": ".1"
+      },
+      {
+        "key": "targetServings",
+        "label": "New servings",
+        "default": "8",
+        "type": "number",
+        "min": 0.1,
+        "max": 1000,
+        "step": ".1"
+      }
+    ],
+    "steps": [
+      "Enter your values or reset the included example.",
+      "Review the settings and the format notes before continuing.",
+      "Select Calculate, then inspect or copy the result."
+    ],
+    "sections": [
+      {
+        "heading": "Adjust ingredient amounts for a different yield",
+        "body": "Enter the recipe’s original servings and your desired servings, then edit the ingredient table. Each numeric quantity is multiplied by the ratio between those two yields. Amounts can be decimals, simple fractions or mixed numbers such as one and one half. Units and ingredient names stay unchanged, so the tool does not invent a conversion between cups, grams or different ingredient densities."
+      },
+      {
+        "heading": "Use practical judgment beyond the arithmetic",
+        "body": "A blank amount or the phrase to taste is retained without numeric scaling. Other quantities are rounded to four decimal places for a readable result. Cooking duration, pan geometry, oven temperature and food-safety requirements do not scale by the serving ratio, and seasonings or leavening can need separate adjustment in a large batch. The tool handles ingredient arithmetic only. Review indivisible items such as eggs and choose an appropriate preparation method for the new yield."
+      }
+    ],
+    "faq": {
+      "question": "Where is my calculation performed?",
+      "answer": "The calculation runs locally in your browser without a conversion API request."
+    },
+    "related": [
+      "/tools/fraction-calculator",
+      "/tools/unit-converter",
+      "/tools/tip-calculator"
+    ],
+    "modified": "2026-11-06",
+    "tableInput": {
+      "headers": [
+        "Amount",
+        "Unit",
+        "Ingredient"
+      ]
+    },
+    "inputLabel": "Recipe ingredients"
+  },
+  {
+    "slug": "stopwatch-timer",
+    "title": "Online Stopwatch and Countdown Timer",
+    "description": "Run a live countdown or stopwatch with start, pause, resume, reset and stopwatch laps. Works locally in your browser.",
+    "kind": "design",
+    "example": "",
+    "action": "Open timer",
+    "extension": "txt",
+    "fields": [
+      {
+        "key": "mode",
+        "label": "Mode",
+        "default": "countdown",
+        "type": "select",
+        "options": [
+          {
+            "value": "countdown",
+            "label": "Countdown timer"
+          },
+          {
+            "value": "stopwatch",
+            "label": "Stopwatch"
+          }
+        ]
+      },
+      {
+        "key": "minutes",
+        "label": "Countdown minutes",
+        "default": "2",
+        "type": "number",
+        "min": 0,
+        "max": 1440,
+        "step": "1"
+      },
+      {
+        "key": "seconds",
+        "label": "Countdown seconds",
+        "default": "0",
+        "type": "number",
+        "min": 0,
+        "max": 59,
+        "step": "1"
+      }
+    ],
+    "steps": [
+      "Choose countdown or stopwatch and select Open timer.",
+      "Set a countdown duration when using countdown mode.",
+      "Use the live Start, Pause, Resume and Reset controls; record laps in stopwatch mode."
+    ],
+    "sections": [
+      {
+        "heading": "Measure a duration with live controls",
+        "body": "Choose a countdown to run toward zero, or a stopwatch to count upward. Start, pause and resume the live display without losing the elapsed duration, or reset it to begin again. Stopwatch mode can keep up to one hundred lap readings. The copy-time control copies the displayed time rather than only the setup values. These controls work locally and do not send timing data to the conversion server."
+      },
+      {
+        "heading": "Keep the browser timing limits in mind",
+        "body": "The display uses a monotonic browser clock to reduce ordinary interval drift while the page is running. Browser throttling, operating-system sleep, tab closure and page reloads can still affect what is displayed or stop the session. It does not provide a guaranteed background alarm, notification or saved timer history. Countdowns support one second through twenty-four hours. Changing the setup and reopening the timer starts a new session, so keep the current page open when timing matters."
+      }
+    ],
+    "faq": {
+      "question": "Does the timer work after I close the page?",
+      "answer": "No. Keep the page open. The timer is a local browser session and does not create a server alarm or persistent notification."
+    },
+    "related": [
+      "/tools/time-duration-converter",
+      "/tools/date-difference-calculator",
+      "/tools/time-zone-converter"
+    ],
+    "modified": "2026-11-07"
   }
-];
+] as const;

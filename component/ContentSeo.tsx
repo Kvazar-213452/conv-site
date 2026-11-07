@@ -4,12 +4,17 @@ import { MAIN_DOMEN_NO, NAME_MAKE } from '@/lib/config';
 import { expansionArticles, type ExpansionArticle } from '@/lib/expansion-articles';
 import { type ExpansionTool } from '@/lib/expansion-tools';
 import '@/style/main.css';
+import Image from 'next/image';
+import { blogVisual, blogDate, articleMinutes } from '@/lib/blog-catalog';
 export function pageMetadata(title: string, description: string, path: string, article = false): Metadata {
+  const post = article ? expansionArticles.find(a => path === '/blog/' + a.slug) : undefined;
+  const visual = article ? blogVisual(path.split('/').pop()!) : undefined;
+  const image = visual?.image ?? '/og-image.png';
   return {
     title, description, alternates: { canonical: path },
     robots: { index: true, follow: true },
-    openGraph: { title, description, url: MAIN_DOMEN_NO + path, type: article ? 'article' : 'website', images: [{ url: '/og-image.png', width: 1024, height: 1024, alt: title }], ...(article ? { publishedTime: '2026-11-03T00:00:00Z', modifiedTime: '2026-11-03T00:00:00Z' } : {}) },
-    twitter: { card: 'summary_large_image', title, description, images: ['/og-image.png'] },
+    openGraph: { title, description, url: MAIN_DOMEN_NO + path, type: article ? 'article' : 'website', images: [{ url: image, width: article ? 1440 : 1024, height: article ? 900 : 1024, alt: visual?.alt ?? title }], ...(post ? { publishedTime: post.date + 'T00:00:00Z', modifiedTime: '2026-11-06T00:00:00Z' } : {}) },
+    twitter: { card: 'summary_large_image', title, description, images: [image] },
   };
 }
 export function PageSchema({ title, description, path, kind, date }: { title: string; description: string; path: string; kind: 'article' | 'tool'; date?: string }) {
@@ -18,7 +23,7 @@ export function PageSchema({ title, description, path, kind, date }: { title: st
   const section = kind === 'tool' ? { name: 'Developer tools', path: '/' } : { name: 'Developer blog', path: '/blog' };
   const data = {
     '@context': 'https://schema.org', '@graph': [
-      kind === 'tool' ? { '@type': 'WebApplication', '@id': url + '#app', name: title, description, url, ...(date ? { dateModified: date } : {}), applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires JavaScript and a modern browser', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } } : { '@type': 'BlogPosting', '@id': url + '#article', headline: title, description, url, mainEntityOfPage: url, image: MAIN_DOMEN_NO + '/og-image.png', datePublished: date, dateModified: date, author: organization, publisher: organization, inLanguage: 'en' },
+      kind === 'tool' ? { '@type': 'WebApplication', '@id': url + '#app', name: title, description, url, ...(date ? { dateModified: date } : {}), applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires JavaScript and a modern browser', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } } : { '@type': 'BlogPosting', '@id': url + '#article', headline: title, description, url, mainEntityOfPage: url, image: MAIN_DOMEN_NO + blogVisual(path.split('/').pop()!).image, datePublished: date, dateModified: '2026-11-06', author: organization, publisher: organization, inLanguage: 'en' },
       { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: section.name, item: MAIN_DOMEN_NO + section.path }, { '@type': 'ListItem', position: 2, name: title, item: url }] },
     ],
   };
@@ -37,20 +42,18 @@ export function ToolGuide({ tool }: { tool: ExpansionTool }) {
   </section>;
 }
 export function ArticleContent({ article }: { article: ExpansionArticle }) {
-  const related = expansionArticles.filter(a => a.tool === article.tool && a.slug !== article.slug);
-  return <article>
-    <nav aria-label="Breadcrumb"><Link href="/">Home</Link> / <Link href="/blog">Blog</Link> / <span>{article.title}</span></nav>
-    <header className="hero"><div className="hero-eyebrow">Practical developer guide</div><h1>{article.title}</h1><p>{article.description}</p><p>By {NAME_MAKE} · <time dateTime={article.date}>November 3, 2026</time></p></header>
-    <div className="seo-content">
-      <p>{article.intro}</p>
-      <nav aria-label="Table of contents"><h2>In this guide</h2><ul>{article.sections.map((s, i) => <li key={s.heading}><a href={'#section-' + i}>{s.heading}</a></li>)}</ul></nav>
-      {article.sections.map((s, i) => <section key={s.heading} aria-labelledby={'section-' + i}><h2 id={'section-' + i}>{s.heading}</h2><p>{s.body}</p></section>)}
-      <h2>Worked example</h2><pre className="output-pre">{article.example}</pre>
-      <p><Link className="btn-secondary" href={'/tools/' + article.tool}>Try the related tool</Link></p>
-      <h2>{article.question}</h2><p>{article.answer}</p>
-      <h2>Reference and further reading</h2><p><a href={article.source} target="_blank" rel="noopener noreferrer">Official specification or documentation</a></p>
-      <ul>{related.map(a => <li key={a.slug}><Link href={'/blog/' + a.slug}>{a.title}</Link></li>)}</ul>
-      <p><Link href="/blog">Browse all developer guides</Link></p>
-    </div>
+  const related = expansionArticles.filter(a => a.slug !== article.slug).map(a=>({article:a,score:(a.tool===article.tool?2:0)+(blogVisual(a.slug).topic===blogVisual(article.slug).topic?1:0)})).sort((a,b)=>b.score-a.score).slice(0,3).map(a=>a.article);
+  const visual=blogVisual(article.slug);
+  return <article className="journal-article">
+    <nav className="journal-breadcrumb" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><Link href="/blog">Journal</Link><span>/</span><span>{visual.topic}</span></nav>
+    <header className="journal-article-header"><span className="journal-tag">{visual.topic}</span><h1>{article.title}</h1><p className="journal-deck">{article.description}</p><div className="journal-byline"><span className="journal-avatar" aria-hidden="true">U</span><span>By {NAME_MAKE}<small><time dateTime={article.date}>{blogDate(article.date)}</time><span> · {articleMinutes(article)} min read</span></small></span></div></header>
+    <figure className="journal-cover"><Image src={visual.image} alt={visual.alt} width={1440} height={900} sizes="(max-width: 800px) 100vw, 1100px" preload/><figcaption>{visual.topic} · Practical ideas for your next build</figcaption></figure>
+    <div className="journal-reading-layout"><aside className="journal-toc"><nav aria-label="Table of contents"><p className="journal-kicker">IN THIS GUIDE</p><ol>{article.sections.map((section,i)=><li key={section.heading}><a href={'#section-'+i}>{section.heading}</a></li>)}<li><a href="#worked-example">Worked example</a></li><li><a href="#common-question">Common question</a></li></ol></nav><Link className="journal-tool-link" href={'/tools/'+article.tool}>Try the related tool ↗</Link></aside>
+    <div className="journal-prose"><p className="journal-lead">{article.intro}</p>{article.sections.map((section,i)=><section key={section.heading} aria-labelledby={'section-'+i}><h2 id={'section-'+i}>{section.heading}</h2><p>{section.body}</p></section>)}
+    <section aria-labelledby="worked-example"><h2 id="worked-example">Worked example</h2><div className="journal-code"><div>EXAMPLE</div><pre tabIndex={0}><code>{article.example}</code></pre></div></section>
+    <aside className="journal-callout"><span>PUT IT INTO PRACTICE</span><h3>See the result with your own data.</h3><p>Open the matching tool, load its example, then try a small sample.</p><Link href={'/tools/'+article.tool}>Open the tool <span aria-hidden="true">↗</span></Link></aside>
+    <section aria-labelledby="common-question"><h2 id="common-question">{article.question}</h2><p>{article.answer}</p></section><section><h2>Reference and further reading</h2><p><a href={article.source} target="_blank" rel="noopener noreferrer">Read the official documentation ↗</a></p></section></div></div>
+    <section className="journal-related"><p className="journal-kicker">KEEP EXPLORING</p><h2>Another useful idea.</h2><div className="journal-grid">{related.map(a=>{const v=blogVisual(a.slug);return <Link className="journal-card" key={a.slug} href={'/blog/'+a.slug}><div className="journal-card-image"><Image src={v.image} alt={v.alt} width={720} height={450} sizes="(max-width: 640px) 100vw, 33vw"/></div><div className="journal-card-copy"><span className="journal-topic">{v.topic}</span><h3>{a.title}</h3><p>{a.description}</p></div></Link>;})}</div></section>
+    <footer className="journal-article-footer"><Link href="/blog">← Explore all guides</Link><span>Photography via Unsplash</span></footer>
   </article>;
 }

@@ -1,3 +1,5 @@
+import { blogVisual } from "@/lib/blog-catalog";
+import BlogArticleFrame from "@/component/BlogArticleFrame";
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
@@ -24,15 +26,17 @@ export const metadata: Metadata = {
     description: "A developer's guide to JSON Web Tokens — anatomy, signing, pitfalls.",
     url: `${MAIN_DOMEN}blog/understanding-jwt`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Understanding JWT" }],
+    modifiedTime: "2026-11-06T00:00:00Z",
+    images: [{ url: blogVisual("understanding-jwt").image, width: 1440, height: 900, alt: blogVisual("understanding-jwt").alt }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [blogVisual("understanding-jwt").image],
     title: "Understanding JWT",
     description: "Anatomy, signing, and the usual mistakes.",
   },
 };
 
 export default function UnderstandingJwtPage() {
-  return <UnderstandingJwt />;
+  return <BlogArticleFrame slug="understanding-jwt"><UnderstandingJwt /></BlogArticleFrame>;
 }

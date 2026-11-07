@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   // which avoids "Page with redirect" and "Duplicate without canonical"
   // in Search Console coverage reports.
   trailingSlash: false,
+  serverExternalPackages: ['exceljs','pdf-lib','@pdf-lib/fontkit','mammoth','sanitize-html','html-to-text','sharp','json5','smol-toml','iconv-lite','docx','yauzl','pdfjs-dist','@napi-rs/canvas','markdown-it','htmlparser2','csv-parse','jszip','ajv','ajv-formats','@msgpack/msgpack','@xmldom/xmldom','xpath','jmespath','jsonc-parser','specificity','css-tree','turndown','turndown-plugin-gfm','heic-decode','libheif-js','tesseract.js','tesseract.js-core','@tesseract.js-data/eng','pptxgenjs'],
+  outputFileTracingIncludes: { '/api/convert/*': ['./server/conversion-worker.mjs', './server/conversions.mjs', './server/extended-conversions.mjs', './server/protocol-conversions.mjs', './server/popular-conversions.mjs', './server/assets/example.heic', './node_modules/tesseract.js/src/**/*', './node_modules/tesseract.js-core/*.js', './node_modules/tesseract.js-core/*.wasm', './node_modules/@tesseract.js-data/eng/4.0.0/eng.traineddata.gz', './node_modules/libheif-js/**/*', './public/fonts/NotoSans-Regular.ttf', './node_modules/pdfjs-dist/legacy/build/*.mjs', './node_modules/pdfjs-dist/standard_fonts/**/*', './node_modules/pdfjs-dist/cmaps/**/*', './node_modules/pdfjs-dist/wasm/**/*'] },
 
   async redirects() {
     return [

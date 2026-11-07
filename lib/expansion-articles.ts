@@ -778,6 +778,266 @@ export const expansionArticles = [
     "source": "https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest",
     "tool": "file-checksum",
     "date": "2026-11-03"
+  },
+  {
+    "slug": "read-har-network-requests",
+    "title": "How to Read a HAR File and Find Slow Network Requests",
+    "description": "Read a HAR export, identify slow or failed requests, and distinguish response body size from page-load timing.",
+    "intro": "A HAR file is a JSON record of network activity captured during a browser session. It is useful when a page feels slow on another machine or an API request fails intermittently. Start by identifying the capture window and the action being recorded. A log from initial navigation answers a different question from a log captured after a button click. Our local analyzer produces a shortlist for investigation without replaying requests or contacting the captured hosts.",
+    "sections": [
+      {
+        "heading": "Capture a useful reproduction",
+        "body": "Open the browser Network panel before reproducing the problem. Decide whether preserving navigation requests or disabling the browser cache matches the issue you want to investigate. Repeat the exact action once and export the relevant requests. Browser exports may offer sanitized and sensitive variants, but even sanitized URLs can contain identifiers in paths or queries. Review the file before sharing it with a colleague. A minimal capture makes it easier to connect each request with the user action that triggered it."
+      },
+      {
+        "heading": "Rank requests without summing overlapping time",
+        "body": "Inspect request URLs, methods, response statuses and recorded durations. A long duration identifies a candidate, not automatically the cause of the visible delay. Requests run concurrently, and some resources are fetched after the main content is already usable. Adding all durations therefore does not produce a meaningful page-load duration. Use the DevTools waterfall and its dependency information to establish which requests block the interaction. Compare failed statuses with application behavior, since a deliberately missing resource and a failed essential API call have different consequences."
+      },
+      {
+        "heading": "Interpret size fields and missing measurements",
+        "body": "HAR bodySize records response-body bytes when the exporter knows them; negative values indicate unavailable measurements. That field is not a complete transfer-cost measurement. Headers, compression, caching and exporter behavior can change what a capture reports. Our analyzer totals known nonnegative body sizes and reports how many sizes are unknown. It removes credentials, queries and fragments from report URLs, but a path can still be sensitive. Keep the original capture available locally when deeper timing or header inspection is required."
+      }
+    ],
+    "example": "{\"request\":{\"method\":\"GET\",\"url\":\"https://example.com/api/users\"},\n \"response\":{\"status\":503,\"bodySize\":120},\"time\":850}",
+    "question": "Does the slowest request always explain a slow page?",
+    "answer": "No. A request may run in parallel or after the visible interaction completes. Check its dependency and timing in the waterfall before treating it as the bottleneck.",
+    "source": "https://developer.chrome.com/docs/devtools/network/reference/",
+    "tool": "har-analyzer",
+    "date": "2026-11-06"
+  },
+  {
+    "slug": "cache-control-no-cache-no-store",
+    "title": "Cache-Control: no-cache vs no-store vs max-age",
+    "description": "Understand cache storage, revalidation and freshness, with concrete examples for HTML, private responses and versioned assets.",
+    "intro": "Cache-Control describes how a response may be stored and reused. Confusion usually starts with the name no-cache: it does not simply mean that a response must never be stored. Separate two questions before changing a policy. May a cache retain the representation, and under what conditions may it reuse that representation? The distinction makes deployment troubleshooting much easier than adding every directive that appears to mention freshness.",
+    "sections": [
+      {
+        "heading": "Separate storage permission from reuse",
+        "body": "A response with no-store instructs caches not to store it. A response with no-cache may be retained, but reuse requires successful validation with the origin. When validators such as an ETag are available, that validation can result in a small 304 response instead of transferring the representation again. These directives serve different purposes. Review the sensitivity of the response and the desired reuse behavior rather than assuming their names are interchangeable. Also remember that a newly delivered directive does not magically delete every previously stored copy."
+      },
+      {
+        "heading": "Use freshness for resources with a clear lifetime",
+        "body": "A max-age value specifies a freshness lifetime in seconds. It does not mean the browser must download the resource after precisely that wall-clock interval; it controls whether a stored response is considered fresh for reuse. Versioned static assets can often tolerate a long freshness lifetime because a content change produces a different URL. Frequently changing HTML may instead require revalidation. Shared-cache rules such as s-maxage and private require additional attention when a CDN sits between the browser and origin."
+      },
+      {
+        "heading": "Verify the actual response path",
+        "body": "Inspect the response received by the browser, including Age and Vary when present. A CDN, reverse proxy or framework can add or replace the origin header, so editing one configuration file may not change the final policy. Avoid contradictory duplicate directives and test both a fresh navigation and a subsequent request. Our parser separates directives and flags malformed age values, but cannot determine the complete effective policy from one header string. Request context, status, validators and the behavior of the caches in the path still matter."
+      }
+    ],
+    "example": "HTML requiring validation:\nCache-Control: no-cache\n\nResponse that must not be stored:\nCache-Control: no-store\n\nVersioned asset freshness:\nCache-Control: public, max-age=31536000",
+    "question": "Does max-age=0 mean the same thing as no-store?",
+    "answer": "No. A zero freshness lifetime makes a stored response immediately stale; it does not itself prohibit storage.",
+    "source": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control",
+    "tool": "cache-control-parser",
+    "date": "2026-11-06"
+  },
+  {
+    "slug": "openapi-paths-operations",
+    "title": "OpenAPI Paths and Operations: Build an Endpoint Inventory",
+    "description": "Extract an API endpoint list from OpenAPI JSON without confusing path metadata, references or HTTP operations.",
+    "intro": "An API inventory should identify each supported method and path together. GET /users and POST /users are separate operations even though they share a resource path. OpenAPI puts these definitions under the paths object, alongside path-level metadata and sometimes references. A small operation list helps reviewers navigate a large description, but it should retain enough context to avoid overstating what has actually been resolved.",
+    "sections": [
+      {
+        "heading": "Treat a method and path as one operation",
+        "body": "Walk each path item and inspect its HTTP method fields. Keep the method, exact templated path, operation identifier, summary, tags and deprecation marker. A parameters array at the path level is shared configuration rather than an additional endpoint. Likewise, a summary or vendor extension is not an operation. Preserve path templates such as /users/{id} instead of replacing them with an example identifier. The inventory should describe the API contract, not a single observed request."
+      },
+      {
+        "heading": "Handle referenced definitions explicitly",
+        "body": "A path item may refer to a definition elsewhere. Reading only its local properties can therefore miss operations. Our extractor lists unresolved path references instead of fetching remote documents or pretending that the inventory is complete. It also excludes callbacks and webhooks from the paths inventory. If you need a complete dependency-resolved description, use a dedicated OpenAPI processor with an explicit reference-resolution policy, then inspect its resulting document. Resolving references is a separate task from collecting visible method entries."
+      },
+      {
+        "heading": "Use the inventory as a review aid",
+        "body": "Compare the extracted list with the intended migration or release scope. Deprecated operations can be prioritized for client review, while missing operation identifiers may make generated clients less convenient. An operation list does not establish whether authentication, response schemas or parameters are correct. Keep the full source document alongside the report and validate it with tooling appropriate to its OpenAPI version. Our extractor accepts JSON documents; convert YAML carefully before use and retain meaningful string values and reference paths."
+      }
+    ],
+    "example": "{\"openapi\":\"3.1.0\",\"paths\":{\"/users\":{\"get\":{\"operationId\":\"listUsers\"},\"post\":{\"operationId\":\"createUser\"}}}}\n\nInventory: GET /users; POST /users",
+    "question": "Does an empty inventory prove that an API has no operations?",
+    "answer": "No. The document may use unresolved references or describe other features outside the inspected paths. Check the source and the extractor’s unresolved-reference report.",
+    "source": "https://spec.openapis.org/oas/v3.0",
+    "tool": "openapi-operation-extractor",
+    "date": "2026-11-06"
+  },
+  {
+    "slug": "read-email-received-headers",
+    "title": "How to Read Email Received Headers Without Trusting Every Claim",
+    "description": "Unfold message headers, understand Received order and separate raw trace information from verified sender authentication.",
+    "intro": "The visible sender name in an email application is only a small part of the message source. Raw headers include addressing fields, trace entries and authentication-related claims. Reading those fields helps investigate delivery problems, but parsing text is different from establishing trust. Start with the original header block supplied by your mailbox provider and preserve the ordering of repeated fields before trying to draw conclusions.",
+    "sections": [
+      {
+        "heading": "Unfold wrapped fields before reading them",
+        "body": "Internet message headers can continue onto following lines that begin with a space or tab. Those lines belong to the preceding field rather than representing new headers. A parser unfolds them to make the value easier to inspect. Stop at the empty line that separates the header block from the message body. Preserve repeated fields instead of merging them into a single map entry: doing so would lose the order and potentially discard information needed to understand a relay chain."
+      },
+      {
+        "heading": "Read relay order with a trust boundary",
+        "body": "Received fields are typically prepended by receiving systems, so the newest entry appears first. Reading downward moves toward earlier claimed hops. However, a sender can place misleading fields into a message before it reaches trusted infrastructure. Identify which entries were added by systems you trust before accepting a route or timing claim. Do not infer a verified geographic origin from a hostname alone. Our parser retains the raw order and makes no claim that the route or timestamps are authentic."
+      },
+      {
+        "heading": "Keep authentication and interpretation separate",
+        "body": "From, Return-Path and Authentication-Results answer different questions. A raw Authentication-Results value is useful only when you know which trusted system produced it and how your provider treats upstream fields. The local parser does not run SPF, DKIM or DMARC checks, decode encoded words or contact mail servers. It simply exposes unfolded field values. Before sharing a report, remove addresses, identifiers and other private details. For a delivery investigation, combine the parsed view with your provider’s trusted diagnostics and the actual received message."
+      }
+    ],
+    "example": "Received: from relay.example by mx.example.net;\n Tue, 3 Nov 2026 10:00:00 +0000\nReceived: from client.example by relay.example;\n Tue, 3 Nov 2026 09:59:58 +0000",
+    "question": "Can a parsed From field prove who sent a message?",
+    "answer": "No. It is an asserted message field. Authentication depends on trusted verification and context outside simple header parsing.",
+    "source": "https://www.rfc-editor.org/rfc/rfc5322",
+    "tool": "email-header-parser",
+    "date": "2026-11-06"
+  },
+  {
+    "slug": "curl-post-json-command",
+    "title": "How to Build a cURL POST Request with a JSON Body",
+    "description": "Construct a reproducible cURL JSON request, quote POSIX shell arguments and keep headers, method and body behavior explicit.",
+    "intro": "A short cURL command is often the fastest way to share a reproducible API request. It also passes through two independent parsers: your shell first, then cURL. JSON punctuation, apostrophes in values and special URL characters can therefore break an otherwise valid example. Build the command from explicit arguments, keep the intended shell in mind and review the final request before running it.",
+    "sections": [
+      {
+        "heading": "Specify the URL, headers and payload deliberately",
+        "body": "For a JSON API example, provide the target HTTP method, an absolute URL, a Content-Type header when appropriate, and the exact JSON text you want to send. A header does not validate or transform the body into JSON. Check the body independently before testing the API. Our builder accepts headers as a JSON object of string values and puts the body in a raw-data argument. It generates a command only; it does not contact the URL or reveal how the server will respond."
+      },
+      {
+        "heading": "Quote for the shell that will run the command",
+        "body": "POSIX single quotes protect most characters from shell expansion. A literal apostrophe requires ending the quoted segment, emitting that apostrophe through a different quoted segment and resuming the original quoting. This detail matters for names such as O’Connor when an ASCII apostrophe is present. The generated command targets shells such as sh and bash. PowerShell and Windows cmd have different parsing rules, so do not assume that a command copied from a POSIX example is directly portable."
+      },
+      {
+        "heading": "Know why raw data and explicit URL options help",
+        "body": "A data-raw argument avoids interpreting a leading at sign as a filename. The globoff option prevents cURL from treating braces or square brackets in the URL as URL-globbing patterns. An explicit URL option also makes the argument’s purpose clear. These choices improve reproducibility without making an arbitrary request safe to run. Commands can contain credentials in headers or bodies and can change remote data. Keep real tokens out of documentation and terminal history, and use a nonproduction endpoint for experiments when possible."
+      }
+    ],
+    "example": "curl --globoff --request 'POST' --url 'https://example.com/api/users' --header 'Content-Type: application/json' --data-raw '{\"name\":\"Ada\"}'",
+    "question": "Does Content-Type: application/json make an invalid body valid JSON?",
+    "answer": "No. It declares the representation type. You must still construct valid JSON and satisfy the receiving API’s schema.",
+    "source": "https://curl.se/docs/manpage.html",
+    "tool": "curl-command-builder",
+    "date": "2026-11-06"
+  },
+  {
+    "slug": "sql-bind-placeholder-styles",
+    "title": "SQL ? vs $1 Parameters: Convert Placeholders Without Reordering Values",
+    "description": "Understand anonymous and numbered SQL parameters, repeated bindings and why string replacement is unsafe around literals and comments.",
+    "intro": "SQL parameter markers are part of the interface between a query and a database driver. Some drivers use anonymous question marks; PostgreSQL commonly uses numbered markers such as $1. Changing marker syntax can appear trivial until a query contains repeated parameters, a question mark in a string or a database-specific operator. Treat conversion as a template transformation and keep value binding separate from the SQL text.",
+    "sections": [
+      {
+        "heading": "Count occurrences and parameter identities separately",
+        "body": "In a question-mark template, each marker normally consumes the next bound value. In a numbered template, the same parameter can appear more than once. Converting WHERE a = $2 OR b = $2 to anonymous markers creates two occurrences that both need the original second value. The converter therefore returns an occurrence-based parameter-order list in the numbered-to-anonymous direction. Use that list to build the destination bindings rather than copying the original array unchanged."
+      },
+      {
+        "heading": "Preserve quoted SQL and comments",
+        "body": "A question mark inside a quoted string is data, not a parameter. Marker-like text may also appear in quoted identifiers, line comments, block comments or PostgreSQL dollar-quoted strings. A lexical converter must skip those regions rather than applying a global replacement. Our tool recognizes these common forms and rejects unclosed quoted regions. It is still not a full parser for every SQL dialect. Database-specific quoting extensions and ambiguous operator syntax require review before the transformed query is used."
+      },
+      {
+        "heading": "Do not confuse placeholders with escaped values",
+        "body": "The generated SQL should still be passed to a database driver together with a separate binding collection. This tool never inserts values, executes a query or establishes that a query is valid for the destination server. PostgreSQL question-mark JSON operators are particularly ambiguous when interpreting question marks as source placeholders; provide a prepared-statement template without those operators. After conversion, test a query with representative values through the actual driver and verify both the result and the binding count."
+      }
+    ],
+    "example": "Input:  SELECT * FROM t WHERE a = $2 OR b = $2 AND c = $1;\nOutput: SELECT * FROM t WHERE a = ? OR b = ? AND c = ?;\nParameter order: [2, 2, 1]",
+    "question": "Can I replace every question mark with an incrementing parameter number?",
+    "answer": "Only for a restricted template where every unquoted question mark is a bind marker. Literals, comments and JSON operators make unrestricted replacement unreliable.",
+    "source": "https://www.postgresql.org/docs/current/sql-syntax-lexical.html",
+    "tool": "sql-placeholder-converter",
+    "date": "2026-11-06"
+  },
+  {
+    "slug": "csv-to-ndjson-preserve-text",
+    "title": "CSV to NDJSON: Preserve Leading Zeros and Multiline Cells",
+    "description": "Export CSV records as JSON Lines without guessing cell types or breaking quoted delimiters, embedded newlines and identifiers.",
+    "intro": "A CSV file stores a table but usually provides no reliable type schema. Converting it to newline-delimited JSON is useful for record-oriented processing, yet automatic type guesses can change the data. A customer code such as 001 is not necessarily the number one, and a date-looking string may be a label. Start by choosing a preservation policy, then frame each resulting object as one complete JSON line.",
+    "sections": [
+      {
+        "heading": "Parse cells before constructing objects",
+        "body": "The first row supplies property names, and every following row must contain the same number of cells. A comma inside a quoted cell is not a separator, and a quoted line break is not a new record. Use a parser that handles those cases rather than splitting on commas and newlines. Duplicate header names must be rejected because a JSON object cannot retain two distinct values under the same property name without changing the representation. Empty headers also need an explicit decision rather than an accidental generated name."
+      },
+      {
+        "heading": "Keep source strings until a schema says otherwise",
+        "body": "Our converter preserves every cell as a string, including empty cells, leading-zero identifiers, booleans and date-looking values. That policy avoids silently turning a code into a number or applying a locale-specific date interpretation. If your receiving pipeline requires numbers or nulls, apply a separate schema-aware transformation afterward and validate it. This makes the point where a type decision occurs visible and testable. Spreadsheet applications may already have modified the source values before export, so inspect the actual file rather than only its displayed cells."
+      },
+      {
+        "heading": "Keep record framing distinct from embedded newlines",
+        "body": "Each output object is serialized without pretty-printing and placed on its own physical line. A line break inside a string becomes a JSON escape sequence, preserving the value without breaking NDJSON framing. A final newline is included for text-processing convenience. The browser converter processes the complete input in memory and bounds the number of data cells; it is not a streaming system. For large production imports, use a streaming parser and record errors with original row positions instead of silently discarding malformed input."
+      }
+    ],
+    "example": "CSV:\nid,note\n001,\"hello, team\"\n\nNDJSON:\n{\"id\":\"001\",\"note\":\"hello, team\"}\n",
+    "question": "Should empty CSV cells become null?",
+    "answer": "Only if your import contract explicitly says so. An empty string and JSON null carry different meanings; the converter preserves the empty string.",
+    "source": "https://www.rfc-editor.org/rfc/rfc4180",
+    "tool": "csv-to-json-lines",
+    "date": "2026-11-06"
+  },
+  {
+    "slug": "exact-fraction-arithmetic",
+    "title": "Exact Fraction Arithmetic: Add and Simplify Without Decimal Rounding",
+    "description": "Calculate rational sums and products using integer numerators, denominators and greatest common divisors instead of rounded decimals.",
+    "intro": "A repeating decimal is an approximation of a rational value, while a fraction can represent that value exactly. For example, one third plus one sixth is exactly one half even though writing each input as a short decimal introduces rounding. Integer fraction arithmetic makes the exact relationship visible and gives a clean way to distinguish a mathematical result from a convenient decimal display.",
+    "sections": [
+      {
+        "heading": "Use a common denominator for addition",
+        "body": "To add a/b and c/d, compute (ad + cb)/(bd). Subtraction changes the plus to minus. The product bd is a valid common denominator even when it is not the least common multiple, because the result can be reduced afterward. Normalize signs so the denominator stays positive and keep zero denominators invalid. Our calculator uses integer inputs and exact BigInt operations for these steps, avoiding a hidden decimal approximation during the calculation."
+      },
+      {
+        "heading": "Reduce with the greatest common divisor",
+        "body": "After computing the numerator and denominator, divide both by their greatest common divisor. This leaves the value unchanged and produces a simplified fraction. Multiplication uses ac/bd; division uses ad/bc and must reject a zero divisor. Zero results normalize to a denominator of one. Very large exact arithmetic can be expensive, so the tool bounds each input integer to fifty digits. That is a deliberate input limit, not an implication that browser memory or computation is unlimited."
+      },
+      {
+        "heading": "Label the decimal as a separate approximation",
+        "body": "The displayed numerator and denominator are exact integer strings. The decimal field uses ordinary floating-point conversion and may round a recurring value or a large ratio. Use the fraction fields when preserving exactness matters, and choose a rounding rule only when preparing a final decimal representation. Mixed-number and decimal input syntax are not accepted by this tool; convert them to integer fractions first. When comparing results, compare reduced rational values rather than assuming two rounded decimal strings prove equality."
+      }
+    ],
+    "example": "1/3 + 1/6\n= (1×6 + 1×3) / (3×6)\n= 9/18\n= 1/2",
+    "question": "Is the decimal result exact whenever the fraction is exact?",
+    "answer": "No. The fraction is exact, but its decimal display is a separate floating-point approximation and can round.",
+    "source": "https://docs.python.org/3/library/fractions.html",
+    "tool": "fraction-calculator",
+    "date": "2026-11-06"
+  },
+  {
+    "slug": "unix-seconds-vs-milliseconds",
+    "title": "Unix Timestamp Seconds vs Milliseconds: Avoid the 1970 Date Bug",
+    "description": "Identify timestamp units explicitly, convert batches to UTC and diagnose dates near 1970 caused by a thousandfold unit mismatch.",
+    "intro": "A timestamp is incomplete without its unit. Unix time is often expressed in seconds, while JavaScript Date expects milliseconds when constructed from a number. Passing a seconds value directly to that constructor shrinks the intended interval by a factor of one thousand and often produces a date near 1970. The reverse mistake pushes a value far into the future. Confirm the producing system’s contract before converting a log column.",
+    "sections": [
+      {
+        "heading": "Convert the unit before constructing the date",
+        "body": "Multiply integer seconds by one thousand to obtain milliseconds, then interpret that value as an instant relative to the Unix epoch. Millisecond inputs need no multiplication. Choose the unit explicitly instead of relying on the familiar ten-digit or thirteen-digit appearance of recent timestamps. Historical values, negative values and distant future dates break that heuristic. Our batch converter records the selected unit next to each original input so the report remains understandable after it is copied elsewhere."
+      },
+      {
+        "heading": "Keep UTC instants separate from local display",
+        "body": "A numeric Unix timestamp represents an instant, not a regional wall-clock date with an attached time zone. The same instant can be displayed as different local dates or clock times in different regions. The converter returns ISO UTC strings ending in Z to make its display convention clear. If you need a local calendar interpretation, convert that instant using an explicit IANA time zone. Do not manually add a fixed offset when daylight-saving or historical regional rules can affect the requested date."
+      },
+      {
+        "heading": "Check precision, range and failed lines",
+        "body": "Large integers can exceed exact JavaScript numeric precision before a date is constructed. The batch converter requires both the input integer and its millisecond value to remain safe integers, then checks the supported Date range. It also rejects fractional inputs rather than silently truncating them. A malformed line stops with its original line number, preserving the relationship between source and report. For datasets with sub-millisecond precision, retain the original value and use a representation that explicitly supports the required precision."
+      }
+    ],
+    "example": "Seconds:      1700000000\nMilliseconds: 1700000000000\nUTC:          2023-11-14T22:13:20.000Z",
+    "question": "Can the number of digits reliably determine timestamp units?",
+    "answer": "No. Digit count is a clue for familiar recent values, not a complete contract. Read the source format or select the unit explicitly.",
+    "source": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "tool": "unix-timestamp-batch-converter",
+    "date": "2026-11-06"
+  },
+  {
+    "slug": "binomial-at-least-probability",
+    "title": "Binomial Probability: Exactly, At Most and At Least k Successes",
+    "description": "Choose the correct binomial event, avoid off-by-one complements and check independence and constant-probability assumptions.",
+    "intro": "A binomial model counts successes in a fixed number of trials. Each trial has two outcomes, the success probability is the same on every trial, and trials are independent. Once those conditions are reasonable, the next common mistake is choosing the wrong event. Exactly three, at most three and at least three are different sets of possible outcomes and usually have very different probabilities.",
+    "sections": [
+      {
+        "heading": "Translate the wording into an inclusive event",
+        "body": "Exactly k includes one count. At most k includes zero through k, while at least k includes k through n. Both at most and at least include the boundary k. If using a complement, P(X at least k) equals one minus P(X at most k minus one), not one minus P(X at most k). Write out a small outcome range before calculating when a phrase such as fewer than, more than or no fewer than appears in a problem."
+      },
+      {
+        "heading": "Check whether the trials fit the model",
+        "body": "A fixed success probability and independent trials are assumptions, not consequences of entering n and p into a calculator. Sampling without replacement from a small population changes probabilities as items are removed. A process whose success chance improves with practice also violates the constant-probability assumption. The expected count np summarizes the distribution but does not predict a guaranteed observed count. State the model and its limitations alongside any reported probability rather than presenting the calculator output as a property of an unrelated real process."
+      },
+      {
+        "heading": "Interpret numerical tails and endpoint cases",
+        "body": "The tool supports up to one thousand trials and uses logarithms to avoid direct factorial overflow. It sums the requested outcomes and calculates inclusive upper tails directly instead of subtracting a nearly-one lower tail. Results still use floating-point arithmetic, so probabilities smaller than the representable range can underflow to zero. When p is zero or one, the distribution concentrates on a single count and is handled separately. Use specialist high-precision statistical software if extremely small tail values are the main subject of the calculation."
+      }
+    ],
+    "example": "For n = 3 and p = 0.5:\nP(X = 2) = 3/8 = 0.375\nP(X ≤ 2) = 7/8 = 0.875\nP(X ≥ 2) = 4/8 = 0.5",
+    "question": "Does at least three include exactly three?",
+    "answer": "Yes. At least three means three or more successes, so the boundary outcome is included.",
+    "source": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda366i.htm",
+    "tool": "binomial-probability-calculator",
+    "date": "2026-11-06"
   }
 ] as const;
 export type ExpansionArticle = (typeof expansionArticles)[number];

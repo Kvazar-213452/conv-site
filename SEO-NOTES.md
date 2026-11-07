@@ -194,3 +194,319 @@ Validation:
 The browser test now requires the Poppler `pdfinfo` and `pdftoppm` command-line tools in addition to its existing Chromium/Python prerequisites. These are validation tools only and are not required by the website at runtime. The image-to-PDF implementation has no additional runtime dependency.
 
 Official references include [WebVTT](https://www.w3.org/TR/webvtt1/), [CSS cubic-bezier](https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function/cubic-bezier), [IANA HTTP status registry](https://www.iana.org/assignments/http-status-codes/), and [common media types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types/Common_types). The status tool intentionally omits temporary and uncommon entries from its common-code map; an unknown result does not assert that a code is unassigned.
+
+## 2026-11-05: twenty distinct data and inspection tools
+
+Current totals: **167 tools, 42 articles and 214 sitemap URLs**. The existing App Router pages, shared workbench, guides, nine catalog categories and local processing model are retained. No runtime dependencies were added.
+
+New tasks:
+
+- Unicode normalization (NFC/NFD/NFKC/NFKD) and invisible-character inspection with code-point and UTF-16 offsets.
+- UUID syntax/version/variant inspection, including UUIDv7 timestamp extraction.
+- Separate request Cookie and response Set-Cookie parsing, preserving duplicate names and literal values.
+- Structural CSP inspection with first-directive handling, duplicate reporting and contextual source-expression notes.
+- Sectioned INI to JSON conversion with string preservation and duplicate/collision errors.
+- CSV inner/left/full joins, record comparison by key, and count/sum/average pivot tables.
+- Typed JSON grouping, fixed-size array batching and first/last record deduplication by JSON Pointer.
+- CSS selector and XPath 1.0 testing against pasted inert HTML.
+- Literal find/replace with replacement counts, and JavaScript regular-expression literal escaping.
+- IPv6 expansion/compression, strict SemVer precedence comparison, HTML heading outlines and relative HTTP(S) URL resolution.
+
+Every new route has a unique title/description, self canonical, Open Graph/Twitter metadata, WebApplication/breadcrumb structured data, initial-HTML instructions, example input, format limits and related links. The latest filter now contains this batch of twenty tools. The root sitemap modification date and these new tools use November 5; earlier tool dates are retained. Registry validation now checks duplicate titles and slugs across all three tool catalogs, including legacy routes.
+
+CSV joins explicitly require one-to-one non-empty keys; comparisons require matching schemas and compare exact text rather than guessing types. Pivots preserve absent cells separately from actual zeroes and reject blank/non-finite numeric values. JSON group and deduplication keys are typed scalars; missing pointers are errors. Large JSON integer identifiers must be strings to prevent precision loss. SemVer compares arbitrarily long numeric components without floating-point conversion and ignores build metadata for precedence. IPv6 accepts embedded IPv4 input but outputs hexadecimal groups consistently; zones, ports and prefixes are outside its address-only scope.
+
+HTML is parsed in a template's inert owner document and never attached to the page. CSS matching and heading inspection therefore do not simulate layout, fetched resources or script-generated content. XPath uses the browser's 1.0 engine, relative to a synthetic wrapper. CSP and cookie results describe pasted data rather than certifying browser acceptance or security. Relative URL resolution makes no network request. Normalization and invisible-character reports explicitly explain legitimate writing-system and emoji uses.
+
+Validation completed:
+
+- `npm run check:discovery`: 105 focused checks across seventeen pure tools, including typed keys, quoted CSV, header collisions, schema mismatch, replacement expansion limits, Unicode offsets, strict SemVer edge cases and malformed IPv6.
+- Retained expansion, productivity and workflow suites: 40, 67 and 65 checks. The expanded growth suite passes 158 checks, including generated-code and SQLite execution.
+- Production Webpack build and targeted ESLint pass. Rendered SEO checks cover 125 added pages, all 209 tool/article canonicals, all 167 initial-HTML homepage tool anchors and 214 sitemap URLs.
+
+Browser validation also passes **181 checks** across all 85 growth-tool interfaces, including all twenty new pages. Added fixtures verify CSS matches and attributes, XPath node/scalar results, heading-level observations, literal regex compatibility and inert HTML that neither executes scripts nor requests remote image/frame resources. Mobile checks include the CSV join, XPath, replacement and SemVer forms. Existing image/file/PDF checks, all catalog filters and the latest-twenty set remain covered.
+
+Primary references used for technical behavior: [SemVer 2.0.0](https://semver.org/), [IPv6 text representation](https://www.rfc-editor.org/rfc/rfc5952), [Unicode normalization](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize), [XPath evaluation](https://developer.mozilla.org/en-US/docs/Web/API/Document/evaluate), [Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie) and [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy). Search-result reconnaissance was qualitative; no search-volume, ranking or traffic forecasts are claimed. These changes are local and have not been deployed or submitted to Search Console.
+
+## 2026-11-05: twenty everyday calculation, data and CSS tools
+
+Current totals: **187 tools, 42 articles and 234 sitemap URLs**. This subsequent batch preserves the shared workbench, static App Router pages, local processing and nine catalog categories. No runtime package was added.
+
+The new routes cover twenty separate tasks:
+
+1. Date difference with signed elapsed calendar days.
+2. Business-day counts with explicit weekends, holidays and endpoint rules.
+3. ISO week dates, week-years and Monday/Sunday boundaries.
+4. IANA time-zone display for an explicitly offset input instant.
+5. Length, mass, volume and temperature unit conversion.
+6. Weighted averages from CSV values and weights.
+7. Exact integer greatest common divisors and least common multiples.
+8. Exact digit-string scientific-notation expansion and normalization.
+9. Canonical Roman numerals, both directions, for 1–3999.
+10. English short-scale integer wording.
+11. Random selection without replacement from unique labels.
+12. Random roster partition into teams of nearly equal size.
+13. Vertical CSV append with strict or union schemas.
+14. CSV unpivot from wide columns to long-form rows.
+15. JSON record arrays indexed as lookup objects.
+16. Image alternative-text markup review.
+17. Static HTML form/control inventory.
+18. CSS keyframe animation generation and preview.
+19. CSS border triangle generation and preview.
+20. CSS filter chain generation and preview.
+
+All twenty pages have unique metadata, canonical URLs, WebApplication/breadcrumb schema, examples or editable example settings, server-rendered guidance and related links. The most-recent filter contains exactly this batch. Counts and homepage links derive from the combined catalogs, and sitemap generation automatically includes the new growth-tool records with their actual modification date. Earlier records and articles retain their dates.
+
+Dates are strictly validated before arithmetic. The business-day example's custom holiday is an input demonstration, not a country calendar. Unit conversion checks dimensions and physical bounds. GCD/LCM and number wording use BigInt; scientific notation preserves numeric digit values without a floating-point roundtrip. Weighted averages use explicitly documented floating-point arithmetic. Random selection uses Web Crypto, rejection sampling and Fisher–Yates; team labels must be unique and every roster entry is assigned once. This is not an audited drawing service or skill-balancing system.
+
+CSV append and unpivot retain exact cell text and enforce output bounds. JSON lookup collisions are explicit, including number/string keys that become the same JSON property. HTML inspection uses the existing inert template parser. Form reports omit field values, strip form controls from copied label text and never submit a form. Alt-text results distinguish missing, intentionally empty and whitespace-only attributes without claiming a complete accessibility audit.
+
+CSS animation output and its preview honor reduced-motion preferences. Border triangles show their real border geometry, and filter output uses the same ordered chain as the colorful preview. These controls extend the existing DesignPreviews component rather than introducing a separate page architecture.
+
+Validation: 113 focused everyday-tool checks, including all 3,999 canonical Roman roundtrips and team-size partitions up to fifteen people. The retained discovery/workflow/productivity/expansion suites pass 105/65/67/40 checks, and the expanded growth suite passes 176 checks including executable SQLite and generated-code checks. Targeted ESLint passes.
+
+Technical references: [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat), [CSS filter](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/filter), and [HTML img alternative text](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img). Search checks were qualitative and do not establish keyword volume or predict traffic. Changes are local; no production deployment or Search Console submission has been performed.
+
+The form inspector resolves ownership and labels within the inert fragment, including external `form` controls, missing owners, duplicate IDs, implicit labels and non-labelable hidden inputs. Native detached-tree associations are not assumed. The standalone `node scripts/check-growth-browser.mjs --fixtures-only` path passes 83 DOM/canvas/file fixture checks without requiring a running site. Final production Webpack build and rendered SEO checks pass, including all 145 added pages, 229 content canonicals, 187 initial homepage tool links and 234 sitemap entries.
+
+The complete production browser suite passes **233 checks** across all 105 growth-tool interfaces, including all twenty new tools. It verifies animation output and reduced-motion behavior, triangle geometry, filter rendering, HTML inspection, existing file/image/PDF features, catalog search and category/latest filters. New mobile cases cover business-day settings, units, unpivot controls and all three CSS generators.
+
+## 2026-11-05: twenty server-backed file and data conversions
+
+Current totals: **207 tools, 42 articles and 254 sitemap URLs**. This batch adds twenty routes while keeping the existing registry, named page components, guide rendering, catalog, search and sitemap architecture:
+
+- XLSX to CSV, XLSX to JSON, JSON to XLSX.
+- DOCX to sanitized HTML/plain text, and plain text to DOCX.
+- PDF merge, page extraction/reordering, quarter-turn rotation, standard metadata removal, A4/Letter page fitting, text-to-PDF, text watermarks and visible page numbers.
+- Still-image AVIF encoding, selected TIFF page to PNG/JPEG and GIF frames to a PNG sprite sheet.
+- JSON5 to strict JSON, JSON to TOML, text-file charset conversion and mono PCM WAV output from mono/stereo source audio.
+
+A shared `ServerWorkbench` calls `/api/convert/[slug]`. Every server tool visibly discloses its upload behavior above the controls and in its server-rendered guide. Uploads occur only after Convert on server; loading a built-in example downloads a generated fixture rather than uploading the user's selection. Merge inputs can be reordered. Output filenames and MIME types follow the actual format, and binary results remain downloadable blobs. HTML output is displayed as source text, not inserted into the live page.
+
+Conversion runs in separate Node workers with a 256 MiB V8 heap allowance and a 25-second execution deadline. Each process admits at most two active uploads and two conversion workers, returns retryable 429 responses when occupied, bounds streamed bodies before multipart parsing, and caps upload reading at ten seconds. Combined files and output are capped at 20 MiB; Office inputs additionally have a 2 MiB compressed and 32 MiB actual expanded ZIP limit. File-processing code writes no upload or conversion history to disk and does not call external conversion providers. Workers, fonts and their runtime dependencies are included in Next's deployment file trace. Native image libraries were also verified in that trace.
+
+Office ZIP entries are streamed for size validation before parsing, and entity declarations are rejected. Worksheet limits are 10,000 rows, 200 columns and 50,000 cells. Cached formula results are read without evaluation; absent results are errors. JSON-created spreadsheet strings remain literal string cells, including text beginning with equals signs. DOCX HTML is sanitized and images omitted. Plain-text extraction uses structural HTML conversion so Word manual line breaks do not disappear.
+
+PDF input is unencrypted and limited to 200 pages. Merge/extract copy pages; resizing embeds artwork and does not preserve interactive annotations. Metadata removal deletes the Info object and catalog XMP object rather than just detaching their references, but does not claim anonymization or redaction. Unicode PDF text uses a bundled Noto Sans font under its included SIL OFL license and deliberately limits unsupported glyphs, controls and RTL shaping. Editing invalidates original digital signatures. Resizing handles existing quarter-turn rotations without moving source artwork outside the new paper area.
+
+Native image input signatures are checked before decoding; still-image conversion does not accept SVG or arbitrary formats. Images have a 16-million-pixel limit; GIF sheets also have a 64-frame limit and preserve composited frame pixels rather than delays. Charset conversions use explicit source/target selection and roundtrip loss checks. WAV decoding supports PCM 8/16/24/32-bit and IEEE float32 for one or two channels; output is mono 16-bit PCM at the source rate. It does not claim MP3/AAC decoding or sample-rate conversion.
+
+The server upload disclosure replaces universal browser-only claims on the homepage, shared guide and privacy page. Terms descriptions were updated to match actual processing, and privacy text now acknowledges hosting metadata, configured analytics/advertising and optional accounts. Browser-only tools retain their local-processing description. API outputs use no-store, nosniff, attachment and noindex headers and are excluded from the sitemap. Same-origin checking uses the original host/proxy host instead of Next's internal request URL; both direct HTTP and real browser uploads are tested.
+
+Next.js and its ESLint configuration were updated within version 16 to 16.4.5, Sharp to 0.35.5, with compatible dependency fixes and an ExcelJS-scoped UUID 11 override. The JSON formatter's existing local `process` callback was renamed to avoid shadowing Next's generated process macros. No standalone rendering service or system Office/FFmpeg installation is required for the website. The bundled font and license are in `public/fonts`.
+
+Validation completed:
+
+- `npm run check:server`: 74 checks across all twenty tools. These include real Excel cell types/formula caches, archive expansion limits, Word line breaks, Unicode PDF text, independent PDF rasterization, GIF frame pixels, all advertised WAV sample formats and isolated-worker messaging. Poppler and Python independently read generated PDF, Office and WAV files.
+- `npm run check:server-http`: 51 checks against the production API, including all twenty output formats, explicit browser Origin headers, oversized bodies, parser errors without stack disclosure, bounded concurrency, cancellation recovery, headers and deployment traces.
+- Retained growth suite: 176 checks; everyday/discovery/workflow/productivity/expansion suites: 113/105/65/67/40 checks.
+- Production Webpack build, TypeScript, targeted lint and rendered SEO pass. SEO verification covers all 165 added pages, 249 tool/article canonicals, 207 initial-HTML homepage tool anchors and 254 sitemap entries, plus honest server notices on every new page.
+
+Runtime requirements: a Node.js Next server supporting worker threads, the installed runtime packages and traced worker/font assets. Built-in examples require the server. Existing browser tools remain independent of the conversion API. Tests that inspect formats additionally require Poppler/Python locally; those are not website runtime dependencies. These changes are local and have not been deployed or submitted to Search Console.
+
+Primary implementation references: [pdf-lib](https://pdf-lib.js.org/), [ExcelJS](https://github.com/exceljs/exceljs), [Mammoth](https://github.com/mwilliamson/mammoth.js), [Sharp output formats](https://sharp.pixelplumbing.com/api-output/), and the [Noto font license](https://github.com/notofonts/noto-fonts/blob/main/LICENSE). Tool descriptions document the implemented behavior and its tested limits rather than promising search volume or traffic.
+
+Final browser verification passes **277 checks** across all 125 growth-tool interfaces, including all twenty server conversions, upload examples, downloads, catalog filters and mobile pages. Additional native-format checks confirm pre-decode GIF frame-area bounds and preservation of completely blank pages during PDF resizing. `npm audit --omit=dev` reports zero production vulnerabilities; the development ESLint dependency chain retains eight moderate advisories. No forced framework downgrade was applied.
+
+## 2026-11-06: twenty additional document, archive, image and audio tools
+
+Current totals: **227 tools, 42 articles and 274 sitemap URLs**. Twenty new, distinct tasks extend the shared server converter without replacing the page/catalog architecture:
+
+- PDF text extraction, selected-page PNG/JPEG rendering, thumbnail contact sheets, AcroForm field export, JSON-driven form filling, visible-margin cropping and raster grayscale export.
+- BMP/PNG conversion, multi-image contact sheets, automatic transparent PNG border trimming and image EXIF/metadata removal.
+- Sample-aligned PCM WAV trimming and peak normalization.
+- ZIP creation and ZIP entry listing/extraction.
+- Structured Markdown and HTML to editable DOCX.
+- CSV contact batches to VCF, CSV UTC events to ICS, and latitude/longitude JSON records to GeoJSON points.
+
+The new records use their actual November 6 modification date. The homepage sitemap date is updated; existing article/tool/policy dates remain unchanged. Every route includes its own metadata, self canonical, WebApplication/breadcrumb structured data, server-rendered guide, example settings and related links. The latest-tool filter contains this batch. Existing nine categories and all 227 initial-HTML homepage anchors remain intact.
+
+`server/extended-conversions.mjs` shares the existing bounded conversion worker, input/output limits and error handling. `ServerWorkbench` now supports a labeled text editor alongside file input, which the PDF form filler uses for its JSON map. The example button restores that map as well as the options. Empty text extraction has an explicit result message. File uploads retain the visible server-processing disclosure and require an explicit conversion request.
+
+PDF.js 6.5.438 reads local byte arrays with evaluation and XFA disabled. Standard fonts, CMaps, WASM resources, the fake-worker module and native canvas dependencies are traced for deployment. The bounded canvas factory implements the installed renderer API, and cleanup runs through the loading task. Rendering produces pixels rather than interactive PDF content; grayscale output intentionally loses selectable text. Text extraction performs no OCR. Contact sheets and grayscale exports support at most twenty pages, while individual render surfaces remain below sixteen million pixels. Form filling rejects unknown/read-only fields, invalid choices and unsupported glyphs; XFA is rejected before library normalization. CropBox edits are explicitly documented as visibility changes rather than redaction.
+
+BMP handling is restricted to uncompressed Windows 24/32-bit BI_RGB, with explicit row padding and top-down/bottom-up handling. Transparent PNG trimming reads alpha after conversion to RGBA, including gray/alpha inputs. Image metadata removal applies orientation and re-encodes without requesting source metadata preservation; it is not anonymization. Contact sheets preserve file order and fit whole images into cells.
+
+WAV trimming preserves complete integer PCM frames, channels, rate and bit depth. Normalization measures a shared absolute peak and exports 16-bit PCM without changing stereo balance. Neither operation claims codec decoding, loudness normalization or resampling. ZIP creation normalizes leaf names and rejects collisions. Extraction lists metadata first or streams one exact selected entry without filesystem extraction. Archive entry count, declared expanded size and actual streamed output are bounded; encrypted entries are rejected.
+
+Markdown is parsed with raw HTML disabled. HTML is sanitized before supported headings, runs, lists and tables are mapped to DOCX. Scripts/resources are not executed or fetched; merged cells and excessive structural complexity are errors. Calendar/contact fields are escaped and UTF-8-folded, with vCard structured names handled separately from formatted names. Independent parsers verify punctuation and Unicode roundtrips. Events require valid UTC timestamps and receive generated export identifiers. GeoJSON always writes longitude first and rejects missing or out-of-range coordinates.
+
+Validation:
+
+- `npm run check:extended`: 74 checks across the twenty new tools, including real PDF pixels, editable/flattened form values, BMP pixels, alpha trimming, EXIF orientation, exact WAV frames, ZIP entries, DOCX XML, independent vCard/calendar imports, GeoJSON coordinates and native rendering inside a bounded worker. Poppler and Python independently inspect generated files.
+- `npm run check:server-http`: 86 checks across all forty server tools, including actual outputs, upload bounds, Origin validation, cancellation recovery and deployment traces.
+- Browser suite: 321 checks across all 145 growth-tool interfaces, including all new examples, file/text form controls, download results, catalog filters and mobile layouts.
+- Retained suites pass: server conversions 74, growth 176, everyday 113, discovery 105, workflow 65, productivity 67 and expansion 40 checks.
+- Production Webpack build, TypeScript, targeted ESLint and rendered SEO pass. Static SEO verification covers 185 added pages, all 269 tool/article canonicals, all 227 homepage tool links and 274 sitemap entries.
+
+**Runtime requirement:** Node.js 22.13 or newer, as declared in package.json and the lockfile. This follows the installed PDF.js requirement. Native canvas packages and local PDF assets must remain in the traced server deployment. No system Office or FFmpeg installation is needed. The additional ical.js package is a development-only interoperability test dependency. Changes remain local; no production deployment or search-index submission was performed.
+
+Primary technical references include [Mozilla PDF.js](https://github.com/mozilla/pdfjs-dist), the installed PDF.js public API/types, [pdf-lib](https://pdf-lib.js.org/), [DOCX](https://docx.js.org/), and [ICAL.js](https://github.com/kewisch/ical.js). Tool selection does not imply measured keyword volume, guaranteed rankings or traffic forecasts.
+
+
+## 2026-11-06: twenty protocol, validation and browser utilities
+
+Current totals: **247 tools, 42 articles and 294 sitemap URLs**. This batch adds twenty distinct tools in the existing route, workbench, guide and catalog architecture:
+
+1. JSON Schema Validator (Draft 7 and 2020-12).
+2. JSON to MessagePack.
+3. MessagePack to JSON.
+4. XML Plist / JSON Converter.
+5. JMESPath Tester.
+6. Regex Find and Replace.
+7. X.509 Certificate Decoder.
+8. SSH Public Key Fingerprint.
+9. CSV to HTML Table.
+10. CSV Delimiter Converter.
+11. XML XPath Tester with namespace mapping.
+12. JSON Canonicalizer.
+13. CSS Specificity Calculator.
+14. HTML to Markdown.
+15. CSS to React Style Object.
+16. Environment File Diff.
+17. POSIX Shell Argument Escaper.
+18. SMS Segment Calculator.
+19. CSS Media Query Generator.
+20. Color Harmony Generator.
+
+The first fifteen share the bounded Node conversion worker; the final five run locally in the browser. The schema validator uses a second labeled editor; the API counts both editors toward its combined text limit. Schema compilation is strict, validates formats without mutating input and does not fetch external references. MessagePack output preserves binary/date/unsafe-integer distinctions through documented JSON tags. Plist and XPath parsing reject custom DTDs and entity declarations; XPath supports explicit namespace mappings. The canonicalizer serializes keys directly in UTF-16 order and rejects duplicate keys and lone surrogates. Public certificate decoding reports metadata, not certificate trust. SSH fingerprints accept supported public-key wire formats, not private keys. HTML conversion sanitizes input without fetching resources. Regex execution remains subject to the existing worker deadline.
+
+Environment differences redact values by default and never call the conversion API. Shell escaping produces arguments for POSIX shells without executing commands. SMS calculations distinguish GSM extension characters and UTF-16 surrogate pairs and avoid splitting them between segments; actual carrier billing can differ. Media queries have a live viewport-match preview. Harmony palettes provide visible swatches and copyable CSS variables without implying accessibility contrast.
+
+Each new route has unique metadata, a self canonical, structured data, a server-rendered guide, examples and related links. The latest-tool filter shows this batch; all 247 tool links appear in the initial homepage HTML across nine categories. Existing dates are preserved, and the twenty new records use November 6. The API remains excluded from the sitemap with noindex response headers. No search-volume or ranking guarantees are claimed.
+
+Validation completed:
+
+- Protocol suite: 75 checks across all twenty additions, including schema drafts and formats, typed MessagePack/plist roundtrips, namespace-aware XPath, canonical key ordering, selector specificity, independent Python shell parsing and SSH hashing, and SMS segment boundaries.
+- HTTP suite: 102 checks across all 55 server tools, including actual conversion outputs, upload/concurrency limits, cancellation recovery, response headers and deployment traces. The new worker module and all eleven new runtime packages are included in the deployment trace.
+- Retained suites: server 74, extended conversions 74, growth 181, everyday 113, discovery 105, workflow 65, productivity 67 and expansion 40 checks.
+- Production Webpack build, TypeScript, targeted ESLint and whitespace checks pass. Rendered SEO checks cover all 205 added pages, 289 content canonicals, 247 initial-HTML homepage tool links and 294 sitemap URLs.
+- Chromium: 370 browser checks pass across all 165 growth-tool interfaces, real API examples, downloads, mobile layouts, homepage search and category filters. Additional assertions verify the schema editor, default environment-value redaction, palette swatches, live media-query changes and no conversion-API requests from the five new local tools.
+- Production dependency audit reports zero vulnerabilities.
+
+Runtime requirements remain Node.js 22.13 or newer with worker threads and traced runtime assets. Changes are local; deployment and search-index submission have not been performed.
+
+
+## 2026-11-06: twenty local utilities, ten guides and the photographic journal
+
+Current totals: **267 tools, 52 articles and 324 sitemap URLs**. The new tool batch adds OpenAPI operation extraction, HAR analysis, Cache-Control parsing, email header unfolding, a cURL command builder, SQL placeholder conversion, recursive JSON key case conversion, stable JSON array sorting, CSV to NDJSON, ASCII tables, exact fractions, prime factorization, matrix operations, quadratic equations, binomial probabilities, CSS patterns, CSS borders, CSS outlines, batch Unix timestamps and text frequency analysis. All twenty run locally in the existing GrowthWorkbench without conversion-API requests. Existing server tools and processing disclosures remain in place.
+
+Ten new substantive guides cover HAR interpretation, Cache-Control storage versus revalidation, OpenAPI operations, email Received fields, cURL JSON requests, SQL bind markers, CSV-to-NDJSON text preservation, exact rational arithmetic, timestamp units and inclusive binomial events. Each includes three detailed sections, a worked example, a specific common question, an official reference and a linked tool. Those tools link back to the matching guides. Original publication dates are retained for existing content; new articles use November 6, and redesigned article pages accurately report November 6 as their modification date.
+
+The blog index now has a photographic featured article, editorial typography, searchable cards, seven topic choices, a live result count and a recoverable empty state. Every one of the 52 article links appears in initial HTML. A lightweight search component receives card data from the server rather than bundling full article bodies. The forty shared article pages have photo covers, author/date/read-time metadata, a sticky desktop contents list, readable text widths, code examples, related-tool callouts and photographic related cards. All twelve earlier bespoke articles also receive the new cover and typography wrapper while preserving their content and URLs. Small-screen layouts stack the content and make the contents navigation inline; light and dark themes use the existing theme system.
+
+Eight Unsplash photographs are self-hosted as optimized WebP assets, totaling approximately 632 KiB. Their source links and license reference are recorded in public/images/blog/SOURCES.md. The browser does not contact an external image service. Next Image provides responsive delivery, explicit image dimensions, above-the-fold preloading and lazy loading for card images. Each article has a photographic Open Graph/Twitter image; BlogPosting images and 52 image sitemap associations use the same local assets. No new runtime packages were required.
+
+Important implementation bounds: HAR reports omit query strings, credentials, headers and bodies but may still contain sensitive path names; timings overlap and known body bytes are not total wire transfer. Email header fields are parsed claims, not authentication results. SQL conversion preserves common quoted/comment regions and reports occurrence-based numbered-parameter order; ambiguous question-mark JSON operators require review. Fractions use BigInt and return exact reduced strings plus a labeled approximate decimal. Matrix and probability computations use documented floating-point limits. CSS previews do not imply accessible contrast or complete keyboard-focus compliance. Tool selection does not imply measured keyword volume or guaranteed rankings.
+
+Validation completed:
+
+- New analysis suite: 48 checks across all twenty tools, including exact fraction reduction, matrix pivoting, stable sorts, SQL quotes and repeated parameters, HAR privacy/unknown sizes, CSV multiline strings, binomial events and timestamp units.
+- Retained growth suite: 201 checks, including executable generated code and format roundtrips.
+- Journal browser suite: 23 checks for all-card initial rendering, search, topic filtering, reset, actual optimized image loading, old/new article templates, date display and mobile overflow. Desktop, mobile and light-theme screenshots were inspected.
+- Static SEO checks cover all 319 tool/article routes, uniqueness, related links and sitemap coverage. Final production Webpack build and TypeScript pass. Targeted lint for the modified code passes; older bespoke article bodies retain their pre-existing JSX escaping lint errors. Rendered SEO covers all 235 added pages, 319 content canonicals, 267 initial-HTML homepage links and 324 sitemap URLs.
+
+Changes are local. No deployment, Git push or Search Console submission was performed.
+
+Final verification: 414 browser checks pass across all 185 growth-tool interfaces, including the twenty new local tools, all server examples, catalog search and mobile layouts. The journal SEO/content suite passes 113 checks across all 52 photographic article pages, original publication dates, social metadata, ten substantive new guides and 52 image sitemap associations.
+
+## 2026-11-06: twenty tools for PDFs, photos and everyday calculations
+
+Current totals: **287 tools, 52 articles and 344 sitemap URLs**. The homepage now introduces free online tools for work, study and everyday life. PDF/photo files and everyday calculators come first in the nine-category directory, and six prominent starting links lead to PDF compression, HEIC conversion, OCR, passport-photo sizing, age calculation and loan calculation. Every one of the 287 tool links remains available in initial HTML, and the recent filter contains the new twenty.
+
+New server tools:
+
+1. PDF Compressor — JPEG page downsampling with resolution/quality controls and an original-file fallback when rebuilding is larger.
+2. Split PDF — consecutive page groups exported as independent PDFs in a ZIP.
+3. Delete PDF Pages — delete page selections and retain the surviving pages in order.
+4. PDF to Word — reconstruct existing selectable text and page breaks in an editable DOCX.
+5. PDF to PowerPoint — one raster page image per slide, with preserved proportions.
+6. Excel to PDF — wrapped worksheet values in a paginated table with repeated headers and horizontal column bands.
+7. HEIC to JPG — real HEVC/HEIF decoding through a bundled WASM decoder.
+8. Image to Text — English printed-text OCR using a local Tesseract model.
+9. Compress Image to KB — bounded JPEG quality search with optional dimension reduction and a checked byte target.
+10. Image DPI Converter — density metadata or a fitted millimeter/DPI print canvas.
+11. Passport Photo Maker — centered physical-size cropping or a repeated 4 × 6 inch print sheet.
+12. Split Image — a complete pixel partition into row/column tiles in a ZIP.
+
+New local tools: Age Calculator, Discount Calculator, Tip Calculator and Bill Splitter, Loan Payment Calculator, Compound Interest Calculator, Final Grade Calculator, GPA Calculator and Recipe Scaler. These show readable summary cards and detail tables. GPA and recipe inputs have editable rows, add/remove controls and no requirement to write CSV or code. Financial illustrations state their interest, contribution timing and excluded-cost assumptions. Tip splitting allocates whole cents so shares sum exactly to the bill. Recipe scaling accepts fractions and mixed numbers while preserving units.
+
+Each page uses the existing metadata, self-canonical, WebApplication/breadcrumb schema, guide, examples, FAQ and related-links architecture. No unimplemented format claims, keyword-volume figures or traffic guarantees were added. The broad task selection follows consumer document/photo workflows represented by services such as [Adobe Acrobat online](https://helpx.adobe.com/document-cloud/faq/try-acrobat-online-services.html) and [iLovePDF](https://www.ilovepdf.com/help/documentation), alongside common school and everyday calculations. These references establish recognizable tasks, not measured search volume for this site.
+
+Format tradeoffs are visible before server conversion. Rebuilt compressed PDFs lose selectable text and interactive content; the original is returned unchanged by default if it is smaller. PDF-to-Word exports text rather than reconstructing layouts or OCR. PowerPoint slides contain page images rather than editable source objects. Excel export uses stored values rather than original workbook print settings and does not recalculate formulas. Passport-photo sizing does not verify official acceptance, face positioning or background rules. HEIC exports the first still image, without auxiliary motion/depth data. OCR is limited to printed English text and requires review.
+
+The twelve server tools extend `server/popular-conversions.mjs` and reuse bounded uploads, isolated conversion workers, output limits and memory-only processing. Existing PDF rendering helpers are shared rather than duplicated. New image outputs have local object-URL previews with cleanup and compression tools show source/result sizes. The API still accepts at most 20 MiB combined files, limits Office inputs to 2 MiB, admits two uploads/conversions and applies its existing body and worker deadlines. Raster images are limited to sixteen million pixels; OCR accepts at most six million. PDF rendering conversions accept at most twenty pages; text-to-Word export accepts fifty. New code does not fetch user-supplied URLs or use third-party conversion services.
+
+Tesseract source, every supported core/WASM build, the English trained-data file, HEIC decoder and original HEIC example are included in the deployment trace. OCR reads a fixed local language path with cacheMethod none, so recognition does not download a model or save a trained-data cache. The website needs Node.js 22.13 or later and its traced packages/assets; no system LibreOffice, Ghostscript, HEIF encoder or external OCR API is required at runtime. System LibreOffice/Poppler/HEIF tools were used only to create synthetic test assets or independently validate results. The PptxGenJS version and scoped image-size override are recorded in the lockfile and checked with real PowerPoint exports.
+
+Validation:
+
+- Popular suite: 47 checks across all twenty tools, including genuine HEIC pixels, English OCR inside the 256 MiB conversion worker, JPEG byte limits, DPI and print dimensions, exact image partitions, PDF chunk contents, calendar boundaries, money allocation, numerical schedules and grade/recipe examples.
+- LibreOffice independently opens the generated Word and PowerPoint files and exports both as readable two-page PDFs. Poppler reads generated PDF content and confirms raster-compression text behavior.
+- HTTP suite: 126 checks across all 67 server tools, including actual examples/outputs, size limits, Origin validation, cancellation recovery and deployment traces. New OCR/HEIC/PowerPoint assets and supporting packages were separately verified in the final trace.
+- Retained suites: growth 209, protocol 75, analysis 48, extended conversions 74 and original server conversions 74 checks.
+- Production Webpack build and TypeScript pass. Targeted lint and whitespace checks pass. Static/rendered SEO covers all 255 added pages, 339 tool/article canonicals, 287 homepage tool links and 344 sitemap URLs; the 113 journal checks remain valid.
+- `npm audit --omit=dev` reports zero production vulnerabilities. The existing eight moderate development-tool advisories remain; no forced development downgrade was applied.
+
+Primary implementation references: [Tesseract.js](https://github.com/naptha/tesseract.js), [heic-decode](https://github.com/catdad-experiments/heic-decode), [PptxGenJS](https://gitbrent.github.io/PptxGenJS/), [CFPB amortization explanation](https://www.consumerfinance.gov/ask-cfpb/what-is-amortization-and-how-could-it-affect-my-auto-loan-en-771/) and [Investor.gov compound interest calculator](https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator).
+
+Changes are local. No deployment, Git push or search-index submission has been performed.
+
+Final browser validation: **484 checks pass** across all 205 growth-tool interfaces, all 67 server tool examples, local-only calculator requests, summary cards, real output image previews, format notices, editable GPA/recipe rows, homepage search/categories and mobile layouts. The updated desktop homepage screenshot was inspected.
+
+## 2026-11-07: nineteen native file tools and a live timer
+
+Current totals: **307 tools, 52 articles and 364 sitemap URLs**. This batch adds exactly these twenty routes:
+
+1. Word to PDF (DOCX, rendered with LibreOffice).
+2. PowerPoint to PDF (PPTX static slide rendering).
+3. ODT to PDF.
+4. AI Background Remover (local U2NetP model, transparent or solid-background PNG).
+5. MP4 to MP3.
+6. Video Compressor.
+7. Video to GIF.
+8. Video Trimmer.
+9. Video Resizer.
+10. Video to WebM.
+11. Audio Converter (MP3, WAV, M4A, OGG, FLAC).
+12. Audio Trimmer.
+13. Audio Merger.
+14. Audio Speed Changer.
+15. Mute Video.
+16. Extract Video Frames.
+17. Password Protect PDF (AES-256).
+18. Unlock PDF with a known password.
+19. Compare PDF Files (raster visual differences and page geometry report).
+20. Online Stopwatch and Countdown Timer.
+
+Nineteen tools use the server; the timer is a local interactive browser session with start, pause, resume, reset, copy-time and stopwatch laps. The homepage now emphasizes document/photo/audio/video tasks, and its six prominent starting links lead to this batch. The existing nine-category catalog retains every tool in initial HTML, and the recent filter contains exactly these twenty additions. All new pages include individual metadata, self-canonicals, WebApplication/breadcrumb schema, instructions, examples, format limits and related links. Modification dates use November 7 without changing old publication dates. The privacy/terms descriptions and sitemap dates now accurately describe per-request temporary processing.
+
+`server/native-conversions.mjs` implements real conversions rather than format-label changes. LibreOffice renders supported modern Office/OpenDocument layouts. FFmpeg/FFprobe process supported local media without replaying remote URLs; inputs are constrained to a format and protocol allowlist. U2NetP inference runs locally through the CPU ONNX binding with telemetry disabled before initialization. pypdf receives passwords only over stdin, never in command-line arguments or saved password files. Upload filenames are not used as filesystem paths. Output audio/video now has browser playback controls, and image/GIF output has an object-URL preview with cleanup.
+
+Native commands run under the parent request supervisor. Each native request has a private temporary directory and separate process groups; TMPDIR/TMP/TEMP also point into that directory. Completion, errors and cancellation stop active commands, terminate the converter worker, await process completion and delete the directory before settling the request. Individual engines have a thirty-second deadline, the native job has forty-five seconds, and a directory-size guard stops working files above sixty-four MiB. Existing conversions retain their twenty-five-second worker deadline. Upload, output, Office ZIP expansion and two-job concurrency limits are retained; the route duration and browser timeout accommodate native jobs.
+
+Office packages are validated for actual expanded size before rendering. Scripts, macros, embedded objects, SVG/HTML subdocuments and externally linked media are rejected; namespaced relationships and ODT links are checked as XML rather than only by a prefix-dependent pattern. Each Office request receives a separate profile with macro execution disabled. Format guides explain font substitution, static presentation export, re-encoding, first-stream selection, codec padding, visual-comparison limits and the requirement to know a PDF password. These are concrete limits, not claims of layout identity, unknown-password recovery or semantic document review.
+
+**Deployment:** the root Dockerfile supplies Node 24, LibreOffice Writer/Impress, FFmpeg/FFprobe, fonts, the isolated Python PDF environment and the Node CPU inference package. NATIVE-RUNTIME.md contains the deployment and host setup commands. Native tools require this container or an equivalently provisioned server; an unchanged Node-only serverless host is insufficient. The image runs as the node user. Local account databases, environment files, keys, Git data and development environments are excluded from the Docker context. The model checksum and CPU inference are tested during image build. No external AI/conversion API key is required.
+
+Validation completed:
+
+- 40 media/native checks across all twenty additions, exercising the actual request supervisor, engines, local AI output, all audio formats, video dimensions/codecs/durations, animated GIF frames, extracted PNGs, PDF encryption/decryption and visual difference counts.
+- Cancellation checks start an actual process with a child process, then verify both stop and the private working directory disappears. Separate deadline and malformed/remote-resource input checks pass.
+- 164 HTTP/deployment checks pass across all 86 server tools, including the retained converters, genuine output bodies, Origin checking, upload bounds, cancellation recovery, privacy notices and traced assets.
+- All 19 new native HTTP conversions also pass inside the built Docker image on a separate localhost port. Its FFmpeg, LibreOffice, Python crypto, CPU inference and existing SQLite binding were independently exercised.
+- Retained growth suite: 210 checks. Production Webpack build, TypeScript, targeted lint, content checks and rendered SEO pass. Rendered SEO verifies all 275 added pages, 359 content canonicals, all 307 homepage tool links and 364 sitemap entries.
+- Production dependency audit reports zero vulnerabilities; existing moderate development-tool advisories remain outside the production audit.
+
+No keyword-volume statistics, ranking guarantees or guaranteed traffic gains are claimed. Changes and Docker images remain local; no deployment, Git push or search-index submission has been performed.
+
+Final browser validation: **565 checks pass** across all 225 growth-tool interfaces, all server examples, password-field masking, real image/GIF previews, audio/video controls, countdown completion, stopwatch laps/pause/resume, homepage filters and mobile layouts. The final Docker image independently passes all 19 new native HTTP conversions and a clean SQLite initialization check without local account records. The updated homepage screenshot was inspected.
+
+
+## Vercel compatibility revision — November 7, 2026
+
+The ordinary Next.js Vercel deployment is now the target. Removed the 19 most recent native-engine tools, their pages, related links, catalog entries, AI model and system-process code. The browser stopwatch/countdown remains. Older entries above describe historical batches, including tools that are no longer published. Current inventory: 288 tools, 52 articles, 345 sitemap URLs. All retained tool links remain in initial homepage HTML. Removed tool URLs return 404 and are absent from sitemap, rather than redirecting visitors to unrelated conversions.
+
+Removed optional SQLite account API, login/register/profile pages and header account controls; tools require no account. Server uploads and outputs are capped at 4 MiB with 64 KiB additional multipart framing allowance. Expanded output is checked before returning a file and produces a small JSON error if too large. Production uses Node 24 and Webpack with explicit worker/OCR/PDF/HEIC/font tracing; the previous Docker/system-engine deployment instructions no longer apply. See VERCEL-DEPLOYMENT.md for current setup and verification limits.
+
+Final Vercel-targeted validation: Node 24 production build and artifact guard pass; 143.24 MiB dependency trace; 129 HTTP checks across 67 server tools on a read-only application filesystem; 5 isolated read-only traced-runtime conversions; 490 browser checks across all 206 growth interfaces, timer controls and mobile catalog; 113 journal checks; 345 sitemap URLs and 288 initial-HTML tool links. A hosted Vercel deployment remains unverified.

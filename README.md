@@ -1,3 +1,5 @@
+Deployment target: **Vercel, Next.js preset, Node.js 24**. See [VERCEL-DEPLOYMENT.md](./VERCEL-DEPLOYMENT.md) for the current setup, file limits and verification results. Docker and a local SQLite database are not used by the application.
+
 # 🚀 Converter Tools — Next.js Project
 
 1

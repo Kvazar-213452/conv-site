@@ -1,8 +1,9 @@
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
-import Script from "next/script";
+
 import BlogIndex from "./BlogIndex";
+import {blogPosts} from "@/lib/blog-catalog";
 import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 
 const PAGE_URL = `${MAIN_DOMEN}blog`;
@@ -36,12 +37,13 @@ export const metadata: Metadata = {
     description: "Hands-on guides, format comparisons, and practical references for developers.",
     url: PAGE_URL,
     type: "website",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "Developer Blog" }],
+    images: [{ url: `${MAIN_DOMEN}images/blog/analytics.webp`, width: 1440, height: 900, alt: "Network analysis and developer guides" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Developer Blog – Guides and Cheatsheets",
     description: "Practical guides for working developers.",
+    images: ["/images/blog/analytics.webp"],
   },
 };
 
@@ -51,19 +53,19 @@ const JSONLD = {
   name: "DevTools Converter Blog",
   url: PAGE_URL,
   description: "Guides, format comparisons, and cheatsheets for working developers.",
+  blogPost: blogPosts.map(post => ({"@type":"BlogPosting",headline:post.title,url:PAGE_URL+"/"+post.slug,image:MAIN_DOMEN+post.image.slice(1)})),
   publisher: { "@type": "Organization", name: NAME_MAKE, url: MAIN_DOMEN },
 };
 
 export default function BlogIndexPage() {
   return (
     <>
-      <Script
+      <script
         id="blog-index-jsonld"
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(JSONLD) }}
       />
-      <BlogIndex />
+      <BlogIndex posts={blogPosts} />
     </>
   );
 }

@@ -3,21 +3,13 @@
 import { useState, useEffect, useRef } from "react";
 import { THEMES } from "@/lib/const";
 import type { ThemeKey } from "@/lib/type";
-import { Sun, Moon, Snowflake, Flower, Command, User as UserIcon, LogOut, Settings } from "lucide-react";
+import { Sun, Moon, Snowflake, Flower, Command } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import "@/style/header.css";
 
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  avatar: string | null;
-}
 
 export default function Header() {
-  const router = useRouter();
 
   const [theme, setTheme] = useState<ThemeKey>(() => {
     if (typeof window !== "undefined") {
@@ -29,34 +21,18 @@ export default function Header() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [themeOpen, setThemeOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
 
-  const [user, setUser] = useState<User | null>(null);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const profileRef = useRef<HTMLDivElement>(null);
   const lastScrollY = useRef(0);
-
-  // Завантажити юзера
-  useEffect(() => {
-    fetch("/api/user")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (data?.user) setUser(data.user);
-      })
-      .catch(() => {});
-  }, []);
 
   // Закриття дропдаунів по кліку поза ними
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setThemeOpen(false);
-      }
-      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
-        setProfileOpen(false);
       }
     };
     document.addEventListener("mousedown", handler);
@@ -89,19 +65,6 @@ export default function Header() {
     setMenuOpen(false);
   };
 
-  const handleLogout = async () => {
-    await fetch("/api/user", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "logout" }),
-    });
-    setUser(null);
-    setProfileOpen(false);
-    setMenuOpen(false);
-    router.push("/");
-    router.refresh();
-  };
-
   const ICONS: any = {
     dark: <Moon size={16} />,
     light: <Sun size={16} />,
@@ -110,7 +73,6 @@ export default function Header() {
     matrix: <Command size={16} />,
   };
 
-  const initials = user ? user.username.slice(0, 2).toUpperCase() : "";
 
   return (
     <>
@@ -167,70 +129,6 @@ export default function Header() {
               )}
             </div>
 
-            {/* Profile / Auth */}
-            {user ? (
-              <div className="profile-switcher" ref={profileRef}>
-                <button
-                  className={`btn-profile${profileOpen ? " open" : ""}`}
-                  onClick={() => setProfileOpen((v) => !v)}
-                  aria-haspopup="menu"
-                  aria-expanded={profileOpen}
-                  aria-label="Profile menu"
-                >
-                  <span className="profile-avatar">
-                    {user.avatar ? (
-                      <img src={user.avatar} alt={user.username} />
-                    ) : (
-                      <span className="profile-avatar-initials">{initials}</span>
-                    )}
-                  </span>
-                  <span className="profile-name">{user.username}</span>
-                  <span className="btn-theme-chevron">▾</span>
-                </button>
-
-                {profileOpen && (
-                  <div className="profile-dropdown" role="menu">
-                    <div className="profile-dropdown-header">
-                      <div className="profile-dropdown-name">{user.username}</div>
-                      <div className="profile-dropdown-email">{user.email}</div>
-                    </div>
-                    <div className="profile-dropdown-divider" />
-                    <Link
-                      href="/user/profile"
-                      className="profile-option"
-                      onClick={() => setProfileOpen(false)}
-                      role="menuitem"
-                    >
-                      <span className="theme-option-icon"><UserIcon size={14} /></span>
-                      Profile
-                    </Link>
-                    <Link
-                      href="/user/profile"
-                      className="profile-option"
-                      onClick={() => setProfileOpen(false)}
-                      role="menuitem"
-                    >
-                      <span className="theme-option-icon"><Settings size={14} /></span>
-                      Settings
-                    </Link>
-                    <div className="profile-dropdown-divider" />
-                    <button
-                      className="profile-option profile-option-danger"
-                      onClick={handleLogout}
-                      role="menuitem"
-                    >
-                      <span className="theme-option-icon"><LogOut size={14} /></span>
-                      Log out
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="auth-buttons">
-                <Link href="/user/login" className="btn-auth-ghost">Login</Link>
-                <Link href="/user/register" className="btn-auth-primary">Sign up</Link>
-              </div>
-            )}
           </nav>
 
           {/* Hamburger */}
@@ -239,7 +137,6 @@ export default function Header() {
             onClick={() => {
               setMenuOpen((v) => !v);
               setThemeOpen(false);
-              setProfileOpen(false);
             }}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
@@ -254,21 +151,6 @@ export default function Header() {
         {/* Mobile menu */}
         {menuOpen && (
           <nav id="mobile-nav" className="mobile-menu open" aria-label="Mobile navigation">
-            {user && (
-              <div className="mobile-profile-card">
-                <div className="profile-avatar mobile-profile-avatar">
-                  {user.avatar ? (
-                    <img src={user.avatar} alt={user.username} />
-                  ) : (
-                    <span className="profile-avatar-initials">{initials}</span>
-                  )}
-                </div>
-                <div className="mobile-profile-info">
-                  <div className="mobile-profile-name">{user.username}</div>
-                  <div className="mobile-profile-email">{user.email}</div>
-                </div>
-              </div>
-            )}
 
             <Link href="/blog" onClick={() => setMenuOpen(false)}>
               Blog
@@ -283,28 +165,6 @@ export default function Header() {
               Contacts
             </Link>
 
-            {user ? (
-              <>
-                <Link href="/user/profile" onClick={() => setMenuOpen(false)}>
-                  Profile
-                </Link>
-                <button
-                  className="mobile-logout-btn"
-                  onClick={handleLogout}
-                >
-                  Log out
-                </button>
-              </>
-            ) : (
-              <>
-                <Link href="/user/login" onClick={() => setMenuOpen(false)}>
-                  Login
-                </Link>
-                <Link href="/user/register" onClick={() => setMenuOpen(false)}>
-                  Sign up
-                </Link>
-              </>
-            )}
 
             {/* Mobile theme picker */}
             <div className="mobile-theme-section">

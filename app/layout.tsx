@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Free online developer tools. Convert JSON, YAML, CSV, Prisma, PostgreSQL, UUID, Base64, Markdown and more. Fast, secure, client-side, and fully online. Perfect for developers, programmers, and data engineers.",
+    "Free online developer tools. Convert JSON, YAML, CSV, Prisma, PostgreSQL, UUID, Base64, Markdown and more. Browser tools and clearly marked server file conversions. Perfect for developers, programmers, and data engineers.",
 
   keywords: [
     "json to yaml",
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DevTools Converter – Free Online Developer Tools",
     description:
-      "Convert JSON, UUID, Base64, Markdown and more instantly. Fast, secure, client-side tools."
+      "Convert JSON, UUID, Base64, Markdown and more instantly. Browser utilities and server file conversions with clear processing notices."
   }
 };
 

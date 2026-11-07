@@ -1,3 +1,5 @@
+import { blogVisual } from "@/lib/blog-catalog";
+import BlogArticleFrame from "@/component/BlogArticleFrame";
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
@@ -27,17 +29,19 @@ export const metadata: Metadata = {
     description: "File size, parsing speed, data types, readability, and use cases — the full comparison with examples.",
     url: `${MAIN_DOMEN}blog/json-vs-xml`,
     type: "article",
+    modifiedTime: "2026-11-06T00:00:00Z",
     images: [
       {
-        url: `${MAIN_DOMEN}og-image.png`,
-        width: 1024,
-        height: 1024,
-        alt: "JSON vs XML"
+        url: blogVisual("json-vs-xml").image,
+        width: 1440,
+        height: 900,
+        alt: blogVisual("json-vs-xml").alt
       }
     ],
   },
   twitter: {
     card: "summary_large_image",
+    images: [blogVisual("json-vs-xml").image],
     title: "JSON vs XML: Complete Comparison",
     description: "File size, parsing speed, data types, readability, and use cases."
   },
@@ -45,6 +49,6 @@ export const metadata: Metadata = {
 
 export default function JsonVsXmlPage() {
   return (
-    <JsonVsXml />
+    <BlogArticleFrame slug="json-vs-xml"><JsonVsXml /></BlogArticleFrame>
   );
 }

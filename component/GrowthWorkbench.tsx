@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { growthTools } from '@/lib/growth-tools';
 import { calculateGrowth, type GrowthResult } from '@/lib/growth-transforms';
 import { downloadBlob } from '@/lib/growth-files';
+import TableInputEditor from './TableInputEditor';
 import GrowthControls, { defaultValues } from './GrowthControls';
 import DesignPreviews from './DesignPreviews';
 import '@/style/main.css';
@@ -25,10 +26,12 @@ export default function GrowthWorkbench({ slug }: { slug: string }) {
     <section className="hero"><div className="hero-eyebrow">Free · No sign-up · Runs in your browser</div><h1>{tool.title}</h1><p>{tool.description}</p></section>
     <section aria-label={tool.title}>
       <GrowthControls fields={tool.fields} values={values} onChange={(key, value) => { setValues(v => ({ ...v, [key]: value })); invalidate(); }} />
-      {hasInput && <div className="converter"><div className="panel"><div className="panel-header"><label className="panel-title" htmlFor="growth-input">{tool.inputLabel ?? (slug === 'list-compare' ? 'List A' : 'Input')}</label></div><textarea id="growth-input" spellCheck={false} value={input} onChange={e => { setInput(e.target.value); invalidate(); }} /></div>{tool.exampleB !== undefined && <div className="panel"><div className="panel-header"><label className="panel-title" htmlFor="growth-second">{tool.secondInputLabel ?? 'List B'}</label></div><textarea id="growth-second" spellCheck={false} value={second} onChange={e => { setSecond(e.target.value); invalidate(); }} /></div>}</div>}
+      {hasInput && tool.tableInput && <TableInputEditor headers={tool.tableInput.headers} value={input} onChange={value=>{setInput(value);invalidate();}}/>}
+      {hasInput && !tool.tableInput && <div className="converter"><div className="panel"><div className="panel-header"><label className="panel-title" htmlFor="growth-input">{tool.inputLabel ?? (slug === 'list-compare' ? 'List A' : 'Input')}</label></div><textarea id="growth-input" spellCheck={false} value={input} onChange={e => { setInput(e.target.value); invalidate(); }} /></div>{tool.exampleB !== undefined && <div className="panel"><div className="panel-header"><label className="panel-title" htmlFor="growth-second">{tool.secondInputLabel ?? 'List B'}</label></div><textarea id="growth-second" spellCheck={false} value={second} onChange={e => { setSecond(e.target.value); invalidate(); }} /></div>}</div>}
       <div className="actions"><button className="btn-convert" onClick={run}>{tool.action}</button><button className="btn-secondary" onClick={() => { setInput(tool.example); setSecond(tool.exampleB ?? ''); setValues(defaultValues(tool.fields)); invalidate(); }}>Reset example</button>{hasInput && <button className="btn-secondary" onClick={() => { setInput(''); setSecond(''); invalidate(); }}>Clear</button>}</div>
       {error && <p role="alert" className="error-bar">{error}</p>}
       {result && <div aria-live="polite">
+        {result.notice && <p role="status">{result.notice}</p>}
         <DesignPreviews result={result} />
         {result.grid && <div className="css-grid-preview" aria-label="Generated CSS Grid preview" style={{ display: 'grid', gridTemplateColumns: result.grid.template, gap: result.grid.gap }}>{Array.from({ length: result.grid.items }, (_, i) => <div key={i}>{i + 1}</div>)}</div>}
         {result.preview && <div className="growth-preview-stage" aria-label="Generated CSS preview"><div className={'growth-design-preview ' + (slug === 'css-gradient-generator' ? 'growth-gradient-preview' : slug === 'css-text-shadow-generator' ? 'growth-shadow-preview' : '')} style={result.preview}><span>Preview</span></div></div>}

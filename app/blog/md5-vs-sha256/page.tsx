@@ -1,3 +1,5 @@
+import { blogVisual } from "@/lib/blog-catalog";
+import BlogArticleFrame from "@/component/BlogArticleFrame";
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
@@ -24,15 +26,17 @@ export const metadata: Metadata = {
     description: "Which hash algorithm belongs in your pipeline?",
     url: `${MAIN_DOMEN}blog/md5-vs-sha256`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "MD5 vs SHA-256" }],
+    modifiedTime: "2026-11-06T00:00:00Z",
+    images: [{ url: blogVisual("md5-vs-sha256").image, width: 1440, height: 900, alt: blogVisual("md5-vs-sha256").alt }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [blogVisual("md5-vs-sha256").image],
     title: "MD5 vs SHA-256",
     description: "Collision resistance, performance, legitimate uses.",
   },
 };
 
 export default function Md5VsSha256Page() {
-  return <Md5VsSha256 />;
+  return <BlogArticleFrame slug="md5-vs-sha256"><Md5VsSha256 /></BlogArticleFrame>;
 }

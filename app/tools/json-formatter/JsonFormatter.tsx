@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { EXAMPLE_JSON } from "@/lib/const";
-import { CloudLightning, Lock, Star, FileJson, Upload } from "lucide-react";
+import { CloudLightning, Lock, Star, Upload } from "lucide-react";
 
 import "@/style/main.css";
 
@@ -50,7 +50,7 @@ export default function JsonFormatter() {
     return size;
   };
 
-  const process = useCallback(() => {
+  const processJson = useCallback(() => {
     setError("");
     setOutput("");
     setOutputTruncated(false);
@@ -412,7 +412,7 @@ export default function JsonFormatter() {
           </button>
           <button
             className="btn-convert"
-            onClick={process}
+            onClick={processJson}
             disabled={processing || !input.trim()}
             aria-busy={processing}
           >

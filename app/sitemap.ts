@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { growthTools } from "@/lib/growth-tools";
 import { expansionTools } from "@/lib/expansion-tools";
 import { expansionArticles } from "@/lib/expansion-articles";
+import { blogVisual } from "@/lib/blog-catalog";
 import { MAIN_DOMEN_NO } from "@/lib/config";
 
 type Entry = { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] };
@@ -118,12 +119,17 @@ const ENTRIES: Entry[] = [
 export default function sitemap(): MetadataRoute.Sitemap {
   return ENTRIES.map(({ path, priority, changeFrequency }) => ({
     url: `${MAIN_DOMEN_NO}${path}`,
+    ...(path.startsWith("/blog/") ? { images: [MAIN_DOMEN_NO + blogVisual(path.split("/").pop()!).image] } : {}),
     // Use explicit content dates; do not claim an update on every generation.
     ...(growthTools.some(t => path === "/tools/" + t.slug)
       ? { lastModified: growthTools.find(t => path === "/tools/" + t.slug)?.modified ?? "2026-11-03" }
-      : path === "/" ? { lastModified: "2026-11-04" }
-      : expansionTools.some(t => path === "/tools/" + t.slug) || expansionArticles.some(a => path === "/blog/" + a.slug) || path === "/blog"
-        ? { lastModified: "2026-11-03" } : {}),
+      : path === "/" ? { lastModified: "2026-11-07" }
+      : ["/privacy-policy", "/terms-of-service"].includes(path) ? { lastModified: "2026-11-07" }
+      : path === "/blog" ? { lastModified: "2026-11-06" }
+      : expansionArticles.some(a => path === "/blog/" + a.slug)
+        ? { lastModified: "2026-11-06" }
+      : path.startsWith("/blog/") ? { lastModified: "2026-11-06" }
+      : expansionTools.some(t => path === "/tools/" + t.slug) ? { lastModified: "2026-11-03" } : {}),
     priority,
     changeFrequency,
   }));

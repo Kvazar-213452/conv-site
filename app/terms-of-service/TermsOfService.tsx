@@ -14,7 +14,7 @@ export default function TermsOfServicePage() {
       <section className="hero home-hero" aria-labelledby="terms-heading">
         <div className="hero-eyebrow">
           <div className="hero-dot" aria-hidden="true" />
-          Last Updated: February 24, 2026
+          Last Updated: November 5, 2026
         </div>
 
         <h1 id="terms-heading" className="home-title">
@@ -117,7 +117,7 @@ export default function TermsOfServicePage() {
             <strong>Service Description:</strong> JSON Converter Toolkit is a free, browser-based 
             collection of data conversion tools including JSON to YAML, CSV, XML, Prisma schemas, 
             TypeScript interfaces, PostgreSQL INSERT statements, and various text manipulation 
-            utilities. All conversions run client-side in your browser.
+            utilities. Many tools run in your browser; clearly marked server converters process uploaded input on this site’s server.
           </p>
           <p>
             <strong>Changes to Terms:</strong> We reserve the right to modify these Terms at any time. 
@@ -278,14 +278,10 @@ export default function TermsOfServicePage() {
         <div className="home-converters-seo" style={{ marginTop: '48px' }}>
           <h3 className="home-converters-seo-title">5. Privacy and Data Handling</h3>
           <p>
-            <strong>No Data Collection:</strong> The Service operates entirely in your browser with 
-            zero server-side data collection. Your conversion data is never uploaded, transmitted, 
-            stored, or processed on our servers.
+            <strong>Conversion Data:</strong> Browser tools process conversion input locally. Server conversion tools upload selected input only when you request a conversion, then process it in memory or private temporary folders removed after processing or cancellation, without a saved conversion history.
           </p>
           <p>
-            <strong>Client-Side Processing:</strong> All conversions—JSON to YAML, CSV parsing, 
-            XML transformation, schema generation, and text manipulation—occur locally in your browser 
-            using JavaScript. No network requests are made during conversion operations.
+            <strong>Processing Limits:</strong> Server conversions have input, output, time, memory and concurrency limits. File support and limitations are described on each tool page.
           </p>
           <p>
             <strong>Privacy Policy:</strong> Our privacy practices are detailed in our 
@@ -293,7 +289,7 @@ export default function TermsOfServicePage() {
             By using the Service, you also agree to our Privacy Policy.
           </p>
           <p>
-            <strong>Data Security:</strong> While we don't collect or store your data, we recommend 
+            <strong>Data Security:</strong> We recommend
             following best practices: use HTTPS connections, avoid using the Service on public or 
             shared computers when handling extremely sensitive data, and verify you're on the legitimate 
             {MAIN_DOMEN} domain.
@@ -371,7 +367,7 @@ export default function TermsOfServicePage() {
           </p>
           <p>
             <strong>Data Loss:</strong> We are not liable for any data loss, corruption, or errors 
-            resulting from your use of the Service. Since all processing happens in your browser, 
+            resulting from your use of the Service. Whether processing is local or server-based,
             you are responsible for maintaining backups of your original data before conversion.
           </p>
           <p>
@@ -641,7 +637,7 @@ export default function TermsOfServicePage() {
             API responses, or business-critical configuration files, the converted data belongs entirely to you.
           </p>
           <p>
-            <strong>No lock-in or dependency.</strong> Our tools work entirely in your browser with no 
+            <strong>No lock-in or dependency.</strong> Conversion tools work without required
             accounts or vendor lock-in. You can use JSON Converter Toolkit today and switch to any 
             alternative tomorrow with no migration issues, data export needs, or contract obligations.
           </p>

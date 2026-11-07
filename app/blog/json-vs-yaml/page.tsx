@@ -1,3 +1,5 @@
+import { blogVisual } from "@/lib/blog-catalog";
+import BlogArticleFrame from "@/component/BlogArticleFrame";
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
@@ -25,15 +27,17 @@ export const metadata: Metadata = {
     description: "Which format should you reach for? A field guide to JSON and YAML with real examples.",
     url: `${MAIN_DOMEN}blog/json-vs-yaml`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "JSON vs YAML" }],
+    modifiedTime: "2026-11-06T00:00:00Z",
+    images: [{ url: blogVisual("json-vs-yaml").image, width: 1440, height: 900, alt: blogVisual("json-vs-yaml").alt }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [blogVisual("json-vs-yaml").image],
     title: "JSON vs YAML: Practical Comparison",
     description: "Field guide with syntax, pitfalls, and decision rules.",
   },
 };
 
 export default function JsonVsYamlPage() {
-  return <JsonVsYaml />;
+  return <BlogArticleFrame slug="json-vs-yaml"><JsonVsYaml /></BlogArticleFrame>;
 }

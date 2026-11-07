@@ -1,3 +1,5 @@
+import { blogVisual } from "@/lib/blog-catalog";
+import BlogArticleFrame from "@/component/BlogArticleFrame";
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
@@ -24,15 +26,17 @@ export const metadata: Metadata = {
     description: "The rules, the three encode modes, and the subtleties that break URLs.",
     url: `${MAIN_DOMEN}blog/url-encoding-explained`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "URL Encoding Explained" }],
+    modifiedTime: "2026-11-06T00:00:00Z",
+    images: [{ url: blogVisual("url-encoding-explained").image, width: 1440, height: 900, alt: blogVisual("url-encoding-explained").alt }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [blogVisual("url-encoding-explained").image],
     title: "URL Encoding Explained",
     description: "encodeURIComponent vs encodeURI vs form-urlencoded.",
   },
 };
 
 export default function UrlEncodingExplainedPage() {
-  return <UrlEncodingExplained />;
+  return <BlogArticleFrame slug="url-encoding-explained"><UrlEncodingExplained /></BlogArticleFrame>;
 }

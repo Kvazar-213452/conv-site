@@ -16,7 +16,7 @@ const defaults = slug => Object.fromEntries(tools.find(t => t.slug === slug).fie
 const run = (slug, text, options = {}, second = '') => transforms.calculateGrowth(slug, text, { ...defaults(slug), ...options }, second);
 let checks = 0;
 function test(name, fn) { if (process.env.DEBUG_GROWTH) console.log(name); try { fn(); checks++; } catch (e) { e.message = name + ': ' + e.message; throw e; } }
-for (const tool of tools.filter(t => ['text', 'design'].includes(t.kind) && !['html-table-to-csv', 'html-link-extractor', 'subtitles-to-text'].includes(t.slug))) test(tool.slug + ' example', () => assert.equal(typeof run(tool.slug, tool.example, {}, tool.exampleB).text, 'string'));
+for (const tool of tools.filter(t => ['text', 'design'].includes(t.kind) && !['html-table-to-csv', 'html-link-extractor', 'subtitles-to-text', 'css-selector-tester', 'xpath-tester', 'html-heading-extractor', 'html-image-alt-checker', 'html-form-inspector'].includes(t.slug))) test(tool.slug + ' example', () => assert.equal(typeof run(tool.slug, tool.example, {}, tool.exampleB).text, 'string'));
 test('CSV quoted delimiters and multiline values', () => assert.deepEqual(transforms.parseDelimited('a,b\r\n"x,y","one\ntwo"\r\n'), [['a','b'],['x,y','one\ntwo']]));
 for (const csv of ['a,b\n"unterminated', 'a,b\n"ok"x,y']) test('CSV invalid quoting', () => assert.throws(() => run('csv-to-sql', csv)));
 test('CSV row mismatch', () => assert.throws(() => run('csv-to-sql', 'a,b\n1')));

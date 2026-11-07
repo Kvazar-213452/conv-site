@@ -1,3 +1,5 @@
+import { blogVisual } from "@/lib/blog-catalog";
+import BlogArticleFrame from "@/component/BlogArticleFrame";
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
@@ -24,15 +26,17 @@ export const metadata: Metadata = {
     description: "Which identifier belongs in your schema?",
     url: `${MAIN_DOMEN}blog/uuid-vs-nanoid`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "UUID vs NanoID" }],
+    modifiedTime: "2026-11-06T00:00:00Z",
+    images: [{ url: blogVisual("uuid-vs-nanoid").image, width: 1440, height: 900, alt: blogVisual("uuid-vs-nanoid").alt }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [blogVisual("uuid-vs-nanoid").image],
     title: "UUID vs NanoID vs ULID",
     description: "Collision odds, size, sortability.",
   },
 };
 
 export default function UuidVsNanoidPage() {
-  return <UuidVsNanoid />;
+  return <BlogArticleFrame slug="uuid-vs-nanoid"><UuidVsNanoid /></BlogArticleFrame>;
 }

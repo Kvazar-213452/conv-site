@@ -1,3 +1,5 @@
+import { blogVisual } from "@/lib/blog-catalog";
+import BlogArticleFrame from "@/component/BlogArticleFrame";
 export const dynamic = "force-static";
 
 import type { Metadata } from "next";
@@ -24,15 +26,17 @@ export const metadata: Metadata = {
     description: "Make SQL readable — clause layout, aliases, comments, and dialect pitfalls.",
     url: `${MAIN_DOMEN}blog/sql-formatting-guide`,
     type: "article",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "SQL Formatting Guide" }],
+    modifiedTime: "2026-11-06T00:00:00Z",
+    images: [{ url: blogVisual("sql-formatting-guide").image, width: 1440, height: 900, alt: blogVisual("sql-formatting-guide").alt }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [blogVisual("sql-formatting-guide").image],
     title: "SQL Formatting Guide",
     description: "Readable SQL conventions for code review.",
   },
 };
 
 export default function SqlFormattingGuidePage() {
-  return <SqlFormattingGuide />;
+  return <BlogArticleFrame slug="sql-formatting-guide"><SqlFormattingGuide /></BlogArticleFrame>;
 }

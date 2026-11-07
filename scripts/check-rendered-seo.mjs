@@ -12,6 +12,7 @@ for (const [kind, entries] of [['tools', [...registry('tools'), ...growth]], ['b
     assert.deepEqual(canonicals, ['https://utilixio.com/' + path], path + ': canonical');
     const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));
     assert.equal(schemas.length, 2, path + ': initial HTML schema');
+    if (entry.server) { assert.ok(html.includes('sent to this site'), path + ': visible server upload disclosure'); assert.ok(!html.includes('This tool does not send your input or selected files to a conversion API.'), path + ': no false browser-only claim'); }
     if (entry.modified) assert.ok(schemas.some(s=>s['@graph']?.some(item=>item['@type']==='WebApplication' && item.dateModified===entry.modified)),path+': real modification date');
     assert.ok(schemas.some(s => s['@graph']?.some(item => item['@type'] === (kind === 'tools' ? 'WebApplication' : 'BlogPosting'))));
     assert.ok(html.includes(kind === 'tools' ? 'How to use ' : 'Worked example'), path + ': server rendered content');
@@ -24,14 +25,9 @@ for (const kind of ['tools', 'blog']) {
     assert.ok(html.includes(`rel="canonical" href="https://utilixio.com/${kind}/${filename.slice(0, -5)}"`), filename);
   }
 }
-for (const name of ['login', 'register', 'profile']) {
-  const html = fs.readFileSync(`.next/server/app/user/${name}.html`, 'utf8');
-  assert.ok(html.includes('name="robots" content="noindex, follow"'));
-  assert.ok(!html.includes('rel="canonical"'));
-}
 const sitemap = fs.readFileSync('.next/server/app/sitemap.xml.body', 'utf8');
-assert.equal((sitemap.match(/<loc>/g) ?? []).length, 194);
-console.log('Rendered SEO passed: all 105 added pages, all 189 content canonicals, account noindex, and 194 sitemap URLs.');
+assert.equal((sitemap.match(/<loc>/g) ?? []).length, 345);
+console.log('Rendered SEO passed: retained content canonicals and 345 sitemap URLs.');
 
 const homepage = fs.readFileSync('.next/server/app/index.html', 'utf8');
 const homeLinks = new Set([...homepage.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m => m[1]));
