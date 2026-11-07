@@ -49,9 +49,10 @@ export function transformPopular(slug: string, text: string, values: ToolValues)
     case 'random-number-generator': {
       const min=Number(values.minimum), max=Number(values.maximum), count=Number(values.count);
       if (!Number.isSafeInteger(min) || !Number.isSafeInteger(max) || min > max || !Number.isSafeInteger(count) || count < 1 || count > 100) throw new Error('Enter whole-number bounds with minimum ≤ maximum, and a count from 1 to 100.');
-      if (values.unique === 'true' && BigInt(max)-BigInt(min)+1n<BigInt(count)) throw new Error('The range is too small for that many unique numbers.');
-      const one=BigInt(1),range=BigInt(max)-BigInt(min)+one,limit=(one<<BigInt(64))-((one<<BigInt(64))%range),bytes=new Uint8Array(8),output:number[]=[];
-      while(output.length<count){crypto.getRandomValues(bytes);let n=0n;for(const b of bytes)n=(n<<8n)+BigInt(b);if(n>=limit)continue;const candidate=Number(BigInt(min)+n%range);if(values.unique==='true'&&output.includes(candidate))continue;output.push(candidate);}
+      const zero = BigInt(0), one = BigInt(1), countBig = BigInt(count);
+      if (values.unique === 'true' && BigInt(max) - BigInt(min) + one < countBig) throw new Error('The range is too small for that many unique numbers.');
+      const range=BigInt(max)-BigInt(min)+one,limit=(one<<BigInt(64))-((one<<BigInt(64))%range),bytes=new Uint8Array(8),output:number[]=[];
+      while(output.length<count){crypto.getRandomValues(bytes);let n=zero;for(const b of bytes)n=(n<<BigInt(8))+BigInt(b);if(n>=limit)continue;const candidate=Number(BigInt(min)+n%range);if(values.unique==='true'&&output.includes(candidate))continue;output.push(candidate);}
       return output.join('\n');
     }
     case 'password-strength-checker': {
