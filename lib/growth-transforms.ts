@@ -1,3 +1,6 @@
+import { calculateDaily } from './daily-calculations';
+import { transformPopular } from './popular-transforms';
+
 export type ToolValues = Record<string, string>;
 export type GrowthResult = { text: string; summary?: {label:string;value:string}[]; timer?: {mode:'countdown'|'stopwatch';duration:number}; dataTable?: {headers:string[];rows:string[][]}; notice?: string; mediaQuery?: string; palette?: string[]; animation?: { effect: string; duration: number; distance: number; timing: string }; triangle?: { direction: string; width: number; height: number; color: string }; grid?: { template: string; gap: number; items: number }; curve?: { x1: number; y1: number; x2: number; y2: number; timing: string }; flex?: { direction: string; wrap: string; justify: string; align: string; gap: number; items: number }; preview?: { border?: string; outline?: string; outlineOffset?: string; filter?: string; background?: string; boxShadow?: string; borderRadius?: string; textShadow?: string; clipPath?: string } };
 const json = (value: unknown) => JSON.stringify(value, null, 2);
@@ -201,6 +204,17 @@ export function tableToCsv(text: string): string {
   return data.map(row => row.map(s => /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s).join(',')).join('\r\n');
 }
 export function calculateGrowth(slug: string, text: string, values: ToolValues, second = ''): GrowthResult {
+  if ([
+    'random-number-generator','password-strength-checker','whatsapp-link-generator','mailto-link-generator',
+    'email-signature-generator','svg-to-data-uri','csv-to-tsv','markdown-to-plain-text','vtt-to-srt','ean13-barcode-generator',
+  ].includes(slug)) return { text: transformPopular(slug, text, values) };
+  if ([
+    'paint-calculator','flooring-calculator','tile-calculator','concrete-calculator','mulch-calculator',
+    'garden-soil-calculator','wallpaper-calculator','fence-post-calculator','gravel-calculator','deck-board-calculator',
+    'fuel-cost-calculator','electricity-cost-calculator','sales-tax-calculator','bill-split-calculator',
+    'salary-to-hourly-calculator','overtime-pay-calculator','pay-raise-calculator','savings-goal-calculator',
+    'grade-needed-calculator','bmi-calculator',
+  ].includes(slug)) return { text: calculateDaily(slug, values) };
   switch (slug) {
     case 'stopwatch-timer': { const mode=choice(values,'mode',['countdown','stopwatch']) as 'countdown'|'stopwatch',duration=batchInteger(values,'minutes',0,1440)*60+batchInteger(values,'seconds',0,59);if(mode==='countdown'&&(duration<1||duration>86400))throw new Error('Choose a countdown from 1 second to 24 hours.');return {text:mode==='countdown'?'Countdown duration: '+duration+' seconds':'Stopwatch ready. Use the live controls to start, pause and record laps.',timer:{mode,duration},notice:'Keep this page open. The browser timer is not a guaranteed background alarm.'}; }
     case 'age-calculator': return ageCalculation(values);

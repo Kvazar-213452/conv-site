@@ -31,6 +31,6 @@ for(const article of articles.slice(-10)){
  assert.ok(tools.find(t=>t.slug===article.tool).related.includes('/blog/'+article.slug));checks++;
 }
 for(const file of fs.readdirSync('public/images/blog').filter(f=>f.endsWith('.webp'))){const m=await sharp(path.join('public/images/blog',file)).metadata();assert.equal(m.width,1440);assert.equal(m.height,900);checks++;}
-const sitemap=fs.readFileSync('.next/server/app/sitemap.xml.body','utf8');assert.equal((sitemap.match(/<loc>/g)??[]).length,345);assert.equal((sitemap.match(/<image:image>/g)??[]).length,52);checks++;
+const sitemap=fs.readFileSync('.next/server/app/sitemap.xml.body','utf8');assert.equal((sitemap.match(/<loc>/g)??[]).length,385);assert.equal((sitemap.match(/<image:image>/g)??[]).length,52);checks++;
 assert.ok(index.includes('id="blog-search"'));checks++;
 console.log(`${checks} journal SEO/content checks passed: all 52 photographic articles, original publication dates, metadata, 10 substantive new guides, linked tools and local WebP covers.`);

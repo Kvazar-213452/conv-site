@@ -7,6 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
 
 import "@/style/global.css";
+import "@/style/tool-polish.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(MAIN_DOMEN),

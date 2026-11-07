@@ -4,7 +4,7 @@ const read = path => fs.readFileSync(path, 'utf8');
 import { readRegistry } from './content-registry.mjs';
 const registry = name => readRegistry(`lib/expansion-${name}.ts`);
 const growth = readRegistry('lib/growth-tools.ts');
-assert.equal(growth.length, 206);
+assert.equal(growth.length, 246);
 const allTools = [...readRegistry('lib/legacy-tools.ts'), ...readRegistry('lib/expansion-tools.ts'), ...growth];
 assert.equal(new Set(allTools.map(t=>t.slug)).size, allTools.length, 'Tool slugs must be unique across every registry');
 assert.equal(new Set(allTools.map(t=>t.title)).size, allTools.length, 'Tool titles must be unique across every registry');

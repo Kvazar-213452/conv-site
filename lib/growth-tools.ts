@@ -1,3 +1,6 @@
+import { dailyTools } from './daily-tools';
+import { popularTools } from './popular-tools';
+
 export type GrowthField = {
   key: string; label: string; default: string;
   type: "number" | "text" | "color" | "checkbox" | "select" | "date" | "password";
@@ -11842,5 +11845,7 @@ export const growthTools: GrowthTool[] = [
       "/tools/time-zone-converter"
     ],
     "modified": "2026-11-07"
-  }
-] as const;
+  },
+  ...dailyTools,
+  ...popularTools
+];

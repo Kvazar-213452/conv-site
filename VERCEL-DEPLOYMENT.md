@@ -17,7 +17,7 @@ If the dashboard contains old custom Install/Build/Output settings, align them w
 
 ## What remains
 
-288 tools: 221 browser tools and 67 server conversions. All 52 articles remain. Sitemap contains 345 URLs. The countdown/stopwatch remains.
+328 tools: 261 browser tools and 67 server conversions. All 52 articles remain. Sitemap contains 385 URLs. The countdown/stopwatch remains. The latest 40 tools use browser processing apart from currency rates fetched directly by the browser from Frankfurter; no new server functions or secrets are required.
 
 Removed 19 tools that introduced system-engine/AI dependencies: Word/PowerPoint/ODT to PDF, background remover, MP4 to MP3, video compressor/GIF/trimmer/resizer/WebM, audio converter/trimmer/merger/speed changer, mute video, video frame extractor, PDF password protection/unlock/compare. Removed URLs return normal 404 responses and are absent from the catalog, related links and sitemap. No unrelated SEO redirects were added.
 
@@ -67,8 +67,8 @@ The HTTP suite covers all 67 server tools, malformed requests, cancellation/conc
 - 129 HTTP/deployment checks passed across all 67 server converters against a Node.js 24 server whose application directory was mounted read-only. This includes oversized uploads, expanded output errors, removed URLs and sitemap.
 - The isolated read-only trace test passed on Node.js 24 for Excel, PDF rendering, HEIC, OCR and font assets.
 - 180 growth checks, 74 base server-conversion checks and 47 popular-tool checks passed.
-- 490 browser checks passed across all 206 growth-tool interfaces, timer controls, mobile layouts and homepage search/category/recent filters.
-- 113 journal checks passed; rendered SEO checks confirm 345 sitemap URLs and all 288 tool links in initial homepage HTML.
+- Historical checks covered all 206 growth-tool interfaces, timer controls, mobile layouts and homepage search/category/recent filters. They predate the latest 40 tools and do not validate them.
+- Historical journal and rendered SEO checks confirmed 345 sitemap URLs and all 288 tool links in initial homepage HTML. They predate the latest 40 tools and do not validate the current 385-URL sitemap.
 - `npm audit --omit=dev` reported zero vulnerabilities. Local full audit still reports the previously existing moderate development-dependency findings.
 
 These tests used local Linux/Docker environments, not the Vercel hosted runtime.

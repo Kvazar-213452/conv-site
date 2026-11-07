@@ -5,6 +5,7 @@ import QRCode from 'qrcode';
 import { growthTools } from '@/lib/growth-tools';
 import { decodeBase64, downloadBlob } from '@/lib/growth-files';
 import GrowthControls, { defaultValues } from './GrowthControls';
+import ToolStepHeading from './ToolStepHeading';
 import '@/style/main.css';
 import '@/style/growth.css';
 export default function QrWorkbench({ slug }: { slug: string }) {
@@ -27,9 +28,11 @@ export default function QrWorkbench({ slug }: { slug: string }) {
     finally { setBusy(false); }
   }
   return <><section className="hero"><div className="hero-eyebrow">Static codes · Local generation · No sign-up</div><h1>{tool.title}</h1><p>{tool.description}</p></section><section aria-label={tool.title}>
-    <GrowthControls fields={tool.fields} values={values} disabled={busy} onChange={(key, value) => { setValues(v => ({ ...v, [key]: value })); clearResult(); }} />
+    <ToolStepHeading number={1} title="Enter your URL or text" description="This exact content will be stored in the QR code. Keep it short enough to scan easily." />
     <div className="panel"><div className="panel-header"><label className="panel-title" htmlFor="qr-input">URL or text</label></div><textarea id="qr-input" disabled={busy} value={input} spellCheck={false} onChange={e => { setInput(e.target.value); clearResult(); }} /></div>
+    {tool.fields.length > 0 && <ToolStepHeading number={2} title="Choose the code style" description="Adjust the image size and error-correction level if needed." />}
+    {tool.fields.length > 0 && <GrowthControls fields={tool.fields} values={values} disabled={busy} onChange={(key, value) => { setValues(v => ({ ...v, [key]: value })); clearResult(); }} />}
     <div className="actions"><button className="btn-convert" disabled={busy} onClick={run}>{busy ? 'Generating…' : tool.action}</button><button className="btn-secondary" disabled={busy} onClick={() => { setInput(tool.example); clearResult(); }}>Load example</button></div>
-    {error && <p className="error-bar" role="alert">{error}</p>}{result && <div aria-live="polite"><div className="qr-preview"><img src={result.png} alt="Generated QR code. Scan it to verify the encoded content." width={Number(values.size)} height={Number(values.size)} /></div><p id="growth-result" className="growth-status">QR code ready. Scan-test the downloaded code before sharing.</p><div className="actions"><button className="btn-convert" onClick={() => downloadBlob(new Blob([decodeBase64(result.png)], { type: 'image/png' }), 'qr-code.png')}>Download PNG</button><button className="btn-secondary" onClick={() => downloadBlob(new Blob([result.svg], { type: 'image/svg+xml' }), 'qr-code.svg')}>Download SVG</button></div></div>}
+    {error && <p className="error-bar" role="alert">{error}</p>}{result && <div aria-live="polite"><ToolStepHeading number={3} title="Your QR code is ready" description="Scan it with a phone to verify the content before sharing." /><div className="qr-preview"><img src={result.png} alt="Generated QR code. Scan it to verify the encoded content." width={Number(values.size)} height={Number(values.size)} /></div><p id="growth-result" className="growth-status">QR code ready. Scan-test the downloaded code before sharing.</p><div className="actions"><button className="btn-convert" onClick={() => downloadBlob(new Blob([decodeBase64(result.png)], { type: 'image/png' }), 'qr-code.png')}>Download PNG</button><button className="btn-secondary" onClick={() => downloadBlob(new Blob([result.svg], { type: 'image/svg+xml' }), 'qr-code.svg')}>Download SVG</button></div></div>}
   </section></>;
 }

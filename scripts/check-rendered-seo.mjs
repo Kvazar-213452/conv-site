@@ -26,8 +26,8 @@ for (const kind of ['tools', 'blog']) {
   }
 }
 const sitemap = fs.readFileSync('.next/server/app/sitemap.xml.body', 'utf8');
-assert.equal((sitemap.match(/<loc>/g) ?? []).length, 345);
-console.log('Rendered SEO passed: retained content canonicals and 345 sitemap URLs.');
+assert.equal((sitemap.match(/<loc>/g) ?? []).length, 385);
+console.log('Rendered SEO passed: retained content canonicals and 385 sitemap URLs.');
 
 const homepage = fs.readFileSync('.next/server/app/index.html', 'utf8');
 const homeLinks = new Set([...homepage.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m => m[1]));
