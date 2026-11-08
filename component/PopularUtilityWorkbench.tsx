@@ -6,6 +6,7 @@ import jsQR from 'jsqr';
 import { growthTools } from '@/lib/growth-tools';
 import { downloadBlob } from '@/lib/growth-files';
 import ToolStepHeading from './ToolStepHeading';
+import FileInput from './FileInput';
 import '@/style/main.css';
 import '@/style/growth.css';
 
@@ -51,9 +52,9 @@ function WifiQr({ tool }: { tool: (typeof growthTools)[number] }) {
 }
 
 function QrReader({ tool }: { tool: (typeof growthTools)[number] }) {
-  const [name,setName]=useState(''),[result,setResult]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false),[copied,setCopied]=useState(false);
+  const [name,setName]=useState(''),[result,setResult]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false),[copied,setCopied]=useState(false),[file,setFile]=useState<File|null>(null);
   async function scan(file?:File) {
-    setError('');setResult('');setCopied(false);if(!file)return;
+    setFile(file??null);setError('');setResult('');setCopied(false);if(!file)return;
     if(!file.type.startsWith('image/')||file.size>20*1024*1024){setError('Choose an image file no larger than 20 MiB.');return;}
     setName(file.name);setBusy(true);
     try {
@@ -71,7 +72,7 @@ function QrReader({ tool }: { tool: (typeof growthTools)[number] }) {
   }
   return <><ToolHero tool={tool}/><section aria-label={tool.title}>
     <ToolStepHeading number={1} title="Choose an image with a QR code" description="The image is scanned locally. Links are shown as text and will not open automatically." />
-    <div className="growth-file-picker"><label htmlFor="qr-image">PNG, JPG, WebP or another browser-readable image · up to 20 MiB</label><input id="qr-image" type="file" accept="image/*" disabled={busy} onChange={e=>void scan(e.target.files?.[0])}/></div>
+    <FileInput id="qr-image" label="Choose an image with a QR code" hint="PNG, JPG, WebP or another browser-readable image · up to 20 MiB. Scanning stays on your device." accept="image/*" disabled={busy} files={file?[file]:[]} onFilesChange={next=>void scan(next[0])}/>
     {busy&&<p role="status" className="tool-feedback">Scanning {name}…</p>}{error&&<p role="alert" className="error-bar">{error}</p>}
     {result&&<div aria-live="polite"><ToolStepHeading number={2} title="QR code decoded" description="Review the result before opening or sharing it."/><div className="panel"><div className="panel-header"><label className="panel-title" htmlFor="qr-result">Decoded content</label></div><textarea id="qr-result" readOnly value={result}/></div><div className="actions"><button className="btn-convert" onClick={async()=>{try{await navigator.clipboard.writeText(result);setCopied(true)}catch{setError('Select and copy the result manually.')}}}>{copied?'Copied':'Copy decoded text'}</button></div></div>}
   </section></>;

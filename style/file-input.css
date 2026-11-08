@@ -1,0 +1,32 @@
+.file-input{display:grid;gap:10px;width:100%;min-width:0;margin:16px 0 20px;color:var(--color-text)}
+.file-input-label{font-size:13px;font-weight:650;line-height:1.5;color:var(--color-text)}
+.file-input-dropzone{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;min-height:98px;padding:17px 18px;border:1px dashed var(--color-border-bright);border-radius:12px;background:var(--color-surface);transition:border-color .18s,background .18s,box-shadow .18s}
+.file-input-dropzone:hover,.file-input:focus-within .file-input-dropzone{border-color:var(--color-accent);background:var(--color-accent-soft);box-shadow:0 0 0 3px var(--color-accent-soft)}
+.file-input.is-dragging .file-input-dropzone{border-style:solid;border-color:var(--color-accent);background:var(--color-accent-soft);box-shadow:0 0 0 4px var(--color-accent-soft)}
+.file-input.is-disabled{opacity:.58}
+.file-input.is-disabled .file-input-dropzone{cursor:not-allowed}
+.file-input.has-error .file-input-dropzone{border-color:var(--color-error,#c84b4b)}
+.file-input-native--hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.file-input-icon{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--color-border-bright);border-radius:11px;background:var(--color-bg);color:var(--color-accent);flex:none}
+.file-input-copy{display:grid;gap:4px;min-width:0}
+.file-input-copy strong{font-size:13px;font-weight:650;line-height:1.45;color:var(--color-text);overflow-wrap:anywhere}
+.file-input-copy>span{font-size:12px;line-height:1.5;color:var(--color-text-muted)}
+.file-input-browse{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 15px;border:1px solid var(--tool-action,var(--color-accent));border-radius:8px;background:var(--tool-action,var(--color-accent));color:var(--tool-action-text,var(--color-bg));font:inherit;font-size:12px;font-weight:650;white-space:nowrap;cursor:pointer;transition:background .15s,border-color .15s,transform .15s}
+.file-input-browse:hover:not(:disabled){border-color:var(--tool-action-hover,var(--color-accent));background:var(--tool-action-hover,var(--color-accent));transform:translateY(-1px)}
+.file-input-browse:focus-visible,.file-input-selection li>button:focus-visible{outline:2px solid var(--color-accent);outline-offset:3px}
+.file-input-browse:disabled{cursor:not-allowed}
+.file-input-types{grid-column:2/4;font-size:10px;line-height:1.5;color:var(--color-text-muted);overflow-wrap:anywhere}
+.file-input-selection{min-width:0;border:1px solid var(--color-border);border-radius:10px;background:var(--color-surface);overflow:hidden}
+.file-input-selection-heading{display:flex;justify-content:space-between;gap:12px;padding:10px 13px;border-bottom:1px solid var(--color-border);font-size:11px;font-weight:600;color:var(--color-text-muted)}
+.file-input-selection ul{list-style:none;display:grid;gap:0;margin:0;padding:0}
+.file-input-selection li{display:flex;align-items:center;gap:9px;min-width:0;padding:9px 12px;color:var(--color-text-muted)}
+.file-input-selection li+li{border-top:1px solid var(--color-border)}
+.file-input-selection li>svg{flex:none;color:var(--color-accent)}
+.file-input-file-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:var(--color-text)}
+.file-input-selection li>small{flex:none;margin-left:auto;font-size:10px;color:var(--color-text-muted)}
+.file-input-selection li>button{display:grid;place-items:center;flex:none;width:28px;height:28px;padding:0;border:0;border-radius:6px;background:transparent;color:var(--color-text-muted);cursor:pointer}
+.file-input-selection li>button:hover:not(:disabled){background:var(--color-accent-soft);color:var(--color-text)}
+.file-input-selection li>button:disabled{cursor:not-allowed}
+.file-input-error{margin:0;color:var(--color-error,#c84b4b);font-size:12px;line-height:1.5}
+@media(max-width:520px){.file-input-dropzone{grid-template-columns:auto minmax(0,1fr);gap:11px;padding:14px}.file-input-icon{width:40px;height:40px}.file-input-browse{grid-column:1/3;width:100%}.file-input-types{grid-column:1/3}.file-input-copy strong{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.file-input-dropzone,.file-input-browse{transition:none}}

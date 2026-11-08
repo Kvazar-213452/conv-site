@@ -1,4 +1,5 @@
 "use client";
+import FileInput from '@/component/FileInput';
 
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { EXAMPLE_JSON } from "@/lib/const";
@@ -152,13 +153,6 @@ export default function JsonFormatter() {
     reader.readAsText(file);
   }, []);
 
-  const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) readFile(file);
-    // reset so selecting the same file again triggers change
-    if (e.target) e.target.value = "";
-  };
-
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
@@ -289,14 +283,7 @@ export default function JsonFormatter() {
       </section>
 
       {/* Hidden file input — controlled via ref */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".json,.jsonl,.ndjson,.txt,application/json,text/plain"
-        onChange={onFileSelect}
-        style={{ display: "none" }}
-        aria-hidden="true"
-      />
+      <FileInput hiddenInput id="json-file-import" inputRef={fileInputRef} accept=".json,.jsonl,.ndjson,.txt,application/json,text/plain" label="Choose a JSON file" onFilesChange={files => { if (files[0]) readFile(files[0]); }} />
 
       {/* Dropzone */}
       <section

@@ -5,4 +5,4 @@ import { GrowthGuide } from "@/component/GrowthGuide";
 const tool = growthTools.find(t => t.slug === "css-outline-generator")!;
 export const dynamic = "force-static";
 export const metadata = pageMetadata(tool.title + " Online", tool.description, "/tools/" + tool.slug);
-export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" date={tool.modified} /><CssOutlineGenerator /><GrowthGuide tool={tool} /></>; }
+export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" date={tool.modified} faq={tool.faq} /><CssOutlineGenerator /><GrowthGuide tool={tool} /></>; }

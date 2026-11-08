@@ -5,4 +5,4 @@ import { GrowthGuide } from "@/component/GrowthGuide";
 const tool = growthTools.find(t => t.slug === "text-to-docx")!;
 export const dynamic = "force-static";
 export const metadata = pageMetadata(tool.title + " Online", tool.description, "/tools/" + tool.slug);
-export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" date={tool.modified} /><TextToDocx /><GrowthGuide tool={tool} /></>; }
+export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" date={tool.modified} faq={tool.faq} /><TextToDocx /><GrowthGuide tool={tool} /></>; }

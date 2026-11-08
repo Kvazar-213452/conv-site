@@ -1,6 +1,8 @@
 "use client";
 import type { CSSProperties } from 'react';
 import TimerPreview from './TimerPreview';
+import PomodoroPreview from './PomodoroPreview';
+import QrPayloadPreview from './QrPayloadPreview';
 import MediaQueryPreview from './MediaQueryPreview';
 import type { GrowthResult } from '@/lib/growth-transforms';
 export default function DesignPreviews({ result }: { result: GrowthResult }) {
@@ -13,6 +15,8 @@ export default function DesignPreviews({ result }: { result: GrowthResult }) {
   const x = (value: number) => 20 + value * 200, y = (value: number) => 158 - (value - low) / (high - low) * 136;
   return <>
     {result.timer&&<TimerPreview mode={result.timer.mode} duration={result.timer.duration}/>}
+    {result.pomodoro&&<PomodoroPreview focus={result.pomodoro.focus} breakTime={result.pomodoro.breakTime}/>}
+    {result.qrPayload&&<QrPayloadPreview value={result.qrPayload}/>}
     {result.summary && <dl className="public-result-summary">{result.summary.map(metric=><div key={metric.label}><dt>{metric.label}</dt><dd>{metric.value}</dd></div>)}</dl>}
     {result.dataTable && <div className="public-table-scroll"><table className="public-result-table"><caption>{result.dataTable.rows.length>24?'Showing the first 24 rows of '+result.dataTable.rows.length+'. The full report is available below.':'Calculation details'}</caption><thead><tr>{result.dataTable.headers.map(header=><th scope="col" key={header}>{header}</th>)}</tr></thead><tbody>{result.dataTable.rows.slice(0,24).map((row,i)=><tr key={i}>{row.map((cell,j)=><td key={j}>{cell}</td>)}</tr>)}</tbody></table></div>}
 

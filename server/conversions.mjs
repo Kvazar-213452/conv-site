@@ -2,6 +2,8 @@ import { POPULAR_SLUGS, convertPopular, examplePopular } from './popular-convers
 import { PROTOCOL_SLUGS, PROTOCOL_TEXT_SLUGS, convertProtocol, exampleProtocol } from './protocol-conversions.mjs';
 import { EXTENDED_SLUGS, EXTENDED_TEXT_SLUGS, EXTENDED_MULTI_SLUGS, convertExtended, exampleExtended } from './extended-conversions.mjs';
 import ExcelJS from 'exceljs';
+import { parse as parseCsv } from 'csv-parse/sync';
+import { parseDocument } from 'htmlparser2';
 import { PDFDocument, PDFName, PDFRef, degrees, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import mammoth from 'mammoth';
@@ -16,7 +18,7 @@ import yauzl from 'yauzl';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const SERVER_SLUGS = ['xlsx-to-csv','json-to-xlsx','xlsx-to-json','docx-converter','pdf-merger','pdf-page-extractor','pdf-rotate','pdf-metadata-remover','pdf-resize','text-to-pdf','pdf-watermark','pdf-page-numbers','image-to-avif','tiff-to-image','gif-sprite-sheet','json5-to-json','json-to-toml','text-encoding-converter','text-to-docx','stereo-to-mono-wav',...EXTENDED_SLUGS,...PROTOCOL_SLUGS,...POPULAR_SLUGS];
+export const SERVER_SLUGS = ['xlsx-to-csv','json-to-xlsx','xlsx-to-json','csv-to-xlsx','html-table-to-xlsx','docx-converter','pdf-merger','pdf-page-extractor','pdf-rotate','pdf-metadata-remover','pdf-resize','text-to-pdf','pdf-watermark','pdf-page-numbers','image-to-avif','tiff-to-image','gif-sprite-sheet','json5-to-json','json-to-toml','text-encoding-converter','text-to-docx','stereo-to-mono-wav',...EXTENDED_SLUGS,...PROTOCOL_SLUGS,...POPULAR_SLUGS];
 export const MAX_FILE_BYTES = 4 * 1024 * 1024;
 const MAX_PIXELS = 16000000;
 export class InputError extends Error { constructor(message,status=400){super(message);this.status=status;} }
@@ -87,6 +89,29 @@ async function jsonWorkbook(text) {
   const book=new ExcelJS.Workbook(),sheet=book.addWorksheet('Data');sheet.addRow(headers);
   for(const record of records){const row=headers.map(h=>{const v=Object.hasOwn(record,h)?record[h]:null;ensure(v===null||['string','number','boolean'].includes(typeof v),'Flatten nested records before creating a worksheet.');if(typeof v==='string')ensure(v.length<=32767,'Excel text cells support at most 32,767 characters.');return v;});sheet.addRow(row);}
   sheet.getRow(1).font={bold:true};sheet.views=[{state:'frozen',ySplit:1}];return binaryResult(await book.xlsx.writeBuffer(),'data.xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+}
+async function csvWorkbook(text) {
+  let rows;try{rows=parseCsv(text,{bom:true,relax_column_count:false,skip_empty_lines:false,max_record_size:32767});}catch{throw new InputError('Invalid CSV. Check quoted fields, line breaks and row lengths.');}
+  ensure(Array.isArray(rows)&&rows.length>=2&&rows.length<=10000,'Include a header and at least one record, with no more than 10,000 rows.');
+  const headers=rows[0].map(value=>String(value));ensure(headers.length>0&&headers.length<=200&&(rows.length*headers.length)<=50000,'Use at most 200 columns and 50,000 cells.');
+  ensure(headers.every(value=>value.trim()&&value.length<=32767&&!/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value))&&new Set(headers).size===headers.length,'Column names must be unique, nonblank, XML-safe and within the Excel text limit.');
+  for(let i=1;i<rows.length;i++){ensure(rows[i].length===headers.length,`CSV row ${i+1} has ${rows[i].length} cells; expected ${headers.length}.`);ensure(rows[i].every(value=>typeof value==='string'&&value.length<=32767&&!/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value)),'Excel cells must be XML-safe and contain at most 32,767 characters.');}
+  const book=new ExcelJS.Workbook(),sheet=book.addWorksheet('Data');
+  for(const row of rows)sheet.addRow(row.map(value=>String(value)));
+  sheet.getRow(1).font={bold:true};sheet.views=[{state:'frozen',ySplit:1}];
+  sheet.columns=headers.map(header=>({width:Math.max(12,Math.min(36,header.length+2))}));
+  return binaryResult(await book.xlsx.writeBuffer(),'converted.xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+}
+function htmlTableCsv(source) {
+  const root=parseDocument(source,{decodeEntities:true});
+  const firstTable=node=>{if(node?.type==='tag'&&node.name==='table')return node;for(const child of node?.children??[]){const found=firstTable(child);if(found)return found;}return null;};
+  const table=firstTable(root);ensure(table,'No HTML table found.');const rows=[];
+  const cellText=node=>{if(node.type==='text')return node.data??'';if(node.name==='script'||node.name==='style'||node.name==='table')return '';if(node.name==='br')return '\n';return (node.children??[]).map(cellText).join('');};
+  const cellsIn=row=>{const cells=[];const visit=node=>{for(const child of node.children??[]){if(child.type==='tag'&&['td','th'].includes(child.name)){ensure(!child.attribs?.rowspan||child.attribs.rowspan==='1','Merged cells are not supported.');ensure(!child.attribs?.colspan||child.attribs.colspan==='1','Merged cells are not supported.');cells.push(cellText(child).trim());}else if(child.type==='tag'&&child.name!=='table')visit(child);}};visit(row);return cells;};
+  const visitRows=node=>{for(const child of node.children??[]){if(child.type==='tag'&&child.name==='table')continue;if(child.type==='tag'&&child.name==='tr'){const cells=cellsIn(child);if(cells.length)rows.push(cells);}else visitRows(child);}};visitRows(table);
+  ensure(rows.length>=2&&rows[0].length>0,'The table needs a header and at least one data row.');const headers=rows[0];ensure(headers.every(value=>value.trim())&&new Set(headers).size===headers.length,'Column headings must be unique and non-empty.');
+  rows.slice(1).forEach((row,index)=>ensure(row.length===headers.length,`HTML table row ${index+2} has a different number of cells than the header.`));
+  ensure(rows.length<=10000&&headers.length<=200&&rows.length*headers.length<=50000,'Use at most 10,000 rows, 200 columns and 50,000 cells.');return csv(rows);
 }
 async function loadPdf(bytes) {
   ensure(Buffer.from(bytes).subarray(0,1024).includes(Buffer.from('%PDF-')),'Choose a PDF document.');
@@ -176,13 +201,15 @@ async function textDocx(text) {
 export async function convert(slug,files=[],text='',values={},second='',runtime) {
   ensure(SERVER_SLUGS.includes(slug),'Unknown conversion.');ensure(typeof text==='string'&&typeof second==='string'&&text.length+second.length<=2*1024*1024,'Use at most 2 MiB of input text.');
   ensure(Array.isArray(files)&&files.length<=8&&files.reduce((n,f)=>n+f.bytes.length,0)<=MAX_FILE_BYTES,'Use at most eight files and 4 MiB combined input.');
-  const textSlugs=['json-to-xlsx','text-to-pdf','json5-to-json','json-to-toml','text-to-docx',...EXTENDED_TEXT_SLUGS,...PROTOCOL_TEXT_SLUGS];
+  const textSlugs=['json-to-xlsx','csv-to-xlsx','html-table-to-xlsx','text-to-pdf','json5-to-json','json-to-toml','text-to-docx',...EXTENDED_TEXT_SLUGS,...PROTOCOL_TEXT_SLUGS];
   ensure(textSlugs.includes(slug)?files.length===0:['pdf-merger',...EXTENDED_MULTI_SLUGS].includes(slug)?files.length>=2:files.length===1,'Choose the required input files.');
   let result;
   if(POPULAR_SLUGS.includes(slug))result=await convertPopular(slug,files,text,values,sharedHelpers());
   else if(PROTOCOL_SLUGS.includes(slug))result=await convertProtocol(slug,files,text,values,{...sharedHelpers(),second});
   else if(EXTENDED_SLUGS.includes(slug))result=await convertExtended(slug,files,text,values,sharedHelpers());
   else if(slug==='json-to-xlsx')result=await jsonWorkbook(text);
+  else if(slug==='csv-to-xlsx')result=await csvWorkbook(text);
+  else if(slug==='html-table-to-xlsx')result=await csvWorkbook(htmlTableCsv(text));
   else if(slug==='xlsx-to-csv'||slug==='xlsx-to-json'){
     const table=await readWorksheet(files[0].bytes,values);if(slug==='xlsx-to-csv')result=textResult(csv(table),'worksheet.csv','text/csv;charset=utf-8');
     else{const [first,...body]=table,headers=first.map(v=>String(v??''));ensure(headers.every(h=>h.trim())&&new Set(headers).size===headers.length,'JSON headers must be unique and nonblank.');result=jsonResult(body.filter(row=>row.some(v=>v!==null)).map(row=>Object.fromEntries(headers.map((h,i)=>[h,row[i]]))));}

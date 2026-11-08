@@ -3,19 +3,20 @@ import { useRef, useState } from 'react';
 import { growthTools } from '@/lib/growth-tools';
 import { downloadBlob, MAX_BINARY_BYTES, MAX_IMAGE_PIXELS, sampledPixel, pixelCoordinates } from '@/lib/growth-files';
 import GrowthControls, { defaultValues } from './GrowthControls';
+import FileInput from './FileInput';
 import '@/style/main.css';
 import '@/style/growth.css';
 export default function PixelPickerWorkbench({ slug }: { slug: string }) {
   const tool = growthTools.find(t => t.slug === slug)!;
   const canvas = useRef<HTMLCanvasElement>(null), [ready, setReady] = useState(false), [busy, setBusy] = useState(false), [values, setValues] = useState(() => defaultValues(tool.fields));
-  const [result, setResult] = useState<ReturnType<typeof sampledPixel> | null>(null), [error, setError] = useState(''), [copied, setCopied] = useState(false);
+  const [result, setResult] = useState<ReturnType<typeof sampledPixel> | null>(null), [error, setError] = useState(''), [copied, setCopied] = useState(false), [chosenFile, setChosenFile] = useState<File | null>(null);
   function read(x: number, y: number) {
     setError(''); setResult(null); setCopied(false);
     try { const c = canvas.current; if (!ready || !c) throw new Error('Choose an image first.'); if (!Number.isInteger(x) || !Number.isInteger(y) || x < 0 || y < 0 || x >= c.width || y >= c.height) throw new Error('Coordinates must point to a pixel inside the source image.'); const ctx = c.getContext('2d'); if (!ctx) throw new Error('Canvas unavailable.'); setResult(sampledPixel(ctx.getImageData(x, y, 1, 1).data, x, y)); }
     catch (e) { setError(e instanceof Error ? e.message : 'Pixel sampling failed.'); }
   }
   async function select(file?: File) {
-    setReady(false); setResult(null); setError(''); if (!file) return; setBusy(true);
+    setChosenFile(file ?? null); setReady(false); setResult(null); setError(''); if (!file) return; setBusy(true);
     let bitmap: ImageBitmap | null = null;
     try {
       if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > MAX_BINARY_BYTES) throw new Error('Choose PNG, JPEG or WebP up to 20 MiB.');
@@ -26,7 +27,7 @@ export default function PixelPickerWorkbench({ slug }: { slug: string }) {
     finally { bitmap?.close(); setBusy(false); }
   }
   return <><section className="hero"><div className="hero-eyebrow">Source pixel sampling · Local canvas</div><h1>{tool.title}</h1><p>{tool.description}</p></section><section aria-label={tool.title}>
-    <div className="growth-file-picker"><label htmlFor="source-image">PNG, JPEG or WebP</label><input id="source-image" type="file" accept="image/png,image/jpeg,image/webp" disabled={busy} onChange={e => select(e.target.files?.[0])} /></div>
+    <FileInput id="source-image" label="Choose an image" hint="PNG, JPEG or WebP · up to 20 MiB. Processing stays in your browser." accept="image/png,image/jpeg,image/webp" disabled={busy} files={chosenFile ? [chosenFile] : []} onFilesChange={next => void select(next[0])} />
     <GrowthControls fields={tool.fields} values={values} disabled={busy} onChange={(key, value) => { setValues(v => ({ ...v, [key]: value })); setResult(null); setError(''); }} />
     <div className="actions"><button className="btn-convert" disabled={!ready || busy} onClick={() => read(Number(values.x), Number(values.y))}>{tool.action}</button></div>
     {error && <p role="alert" className="error-bar">{error}</p>}

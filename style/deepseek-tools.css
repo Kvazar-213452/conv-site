@@ -1,0 +1,14 @@
+.deepseek-workbench{width:min(800px,calc(100% - 32px));margin:0 auto 40px;display:grid;gap:22px}
+.deepseek-input-panel,.deepseek-result{padding:clamp(18px,4vw,30px)}
+.deepseek-input-panel form{display:grid;gap:13px}
+.deepseek-input-label{font-size:14px;font-weight:650;color:var(--color-text)}
+.deepseek-input-panel textarea{width:100%;min-height:210px;resize:vertical;padding:14px 16px;border:1px solid var(--color-border-bright);border-radius:12px;background:var(--color-surface);color:var(--color-text);font:inherit;line-height:1.6}
+.deepseek-input-panel textarea:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
+.deepseek-input-panel textarea::placeholder{color:var(--color-text-muted)}
+.deepseek-input-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--color-text-muted);font-size:13px}
+.deepseek-privacy,.deepseek-review-note{margin:0;color:var(--color-text-muted);font-size:13px;line-height:1.65}
+.deepseek-input-panel .btn-convert{justify-self:start;min-height:48px;padding:0 24px}
+.deepseek-result .panel-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.deepseek-result-text{padding:14px 2px;color:var(--color-text);font-size:15px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
+.deepseek-review-note{padding-top:14px;border-top:1px solid var(--color-border)}
+@media(max-width:520px){.deepseek-workbench{width:calc(100% - 24px)}.deepseek-input-panel,.deepseek-result{padding:16px}.deepseek-input-panel .btn-convert{width:100%}}

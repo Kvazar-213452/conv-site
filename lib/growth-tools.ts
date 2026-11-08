@@ -1,5 +1,10 @@
 import { dailyTools } from './daily-tools';
 import { popularTools } from './popular-tools';
+import { conversionTools } from './conversion-tools';
+import { workflowTools } from './workflow-tools';
+import { apiTools } from './api-tools';
+import { aiTools } from './deepseek-tools';
+import { requestedTools } from './requested-tools';
 
 export type GrowthField = {
   key: string; label: string; default: string;
@@ -7,8 +12,10 @@ export type GrowthField = {
   min?: number; max?: number; step?: string;
   options?: { value: string; label: string }[];
 };
+export type ApiLookupField = { key:string; label:string; placeholder:string; example:string };
+export type AiToolSpec = { slug:string; title:string; description:string; modified:string; reference:string; action:string; aiPrompt:string; example:string; steps:string[]; sections:{heading:string;body:string}[]; faq:{question:string;answer:string}; related:string[]; kind:'text'; fields:GrowthField[] };
 export type GrowthTool = {
-  slug: string; title: string; description: string; kind: "text" | "design" | "image" | "file" | "graphic";
+  slug: string; title: string; description: string; kind: "text" | "design" | "image" | "file" | "graphic"; api?: boolean; apiFields?: ApiLookupField[]; ai?: boolean; aiPrompt?:string; aiPlaceholder?:string;
   example: string; exampleB?: string; tableInput?: {headers:string[]}; inputLabel?: string; secondInputLabel?: string; modified?: string; reference?: string; server?: { input: "files" | "text"; accept?: string; multiple?: boolean; textLabel?: string; warning?: string }; action: string; extension: string;
   fields: GrowthField[]; steps: string[];
   sections: { heading: string; body: string }[];
@@ -11847,5 +11854,10 @@ export const growthTools: GrowthTool[] = [
     "modified": "2026-11-07"
   },
   ...dailyTools,
-  ...popularTools
+  ...popularTools,
+  ...conversionTools,
+  ...workflowTools,
+  ...apiTools,
+  ...aiTools,
+  ...requestedTools
 ];

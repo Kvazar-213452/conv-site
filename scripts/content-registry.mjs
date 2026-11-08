@@ -13,6 +13,13 @@ function loadRegistryModule(path, exportName) {
 
 export function readRegistry(path) {
   const source = fs.readFileSync(path, 'utf8');
+  if (path === 'lib/expansion-articles.ts') {
+    const start = source.indexOf(' = ', source.indexOf('export const expansionArticles'));
+    const spread = source.indexOf('...growthArticlesForBlog');
+    if (start < 0 || spread < 0) throw new Error('Expansion article registry is missing its generated entries.');
+    const base = JSON.parse(source.slice(start + 3, spread).trimEnd().replace(/,\s*$/, '') + '\n]');
+    return [...base, ...loadRegistryModule('lib/expansion-articles-growth.ts', 'growthArticlesForBlog')];
+  }
   if (path.endsWith('/growth-tools.ts') || path === 'lib/growth-tools.ts') {
     const start = source.indexOf(' = ', source.indexOf('export const growthTools'));
     const body = source.slice(start + 3);
@@ -23,6 +30,11 @@ export function readRegistry(path) {
       ...base,
       ...loadRegistryModule('lib/daily-tools.ts', 'dailyTools'),
       ...loadRegistryModule('lib/popular-tools.ts', 'popularTools'),
+      ...loadRegistryModule('lib/conversion-tools.ts', 'conversionTools'),
+      ...loadRegistryModule('lib/workflow-tools.ts', 'workflowTools'),
+      ...loadRegistryModule('lib/api-tools.ts', 'apiTools'),
+      ...loadRegistryModule('lib/deepseek-tools.ts', 'aiTools'),
+      ...loadRegistryModule('lib/requested-tools.ts', 'requestedTools'),
     ];
   }
   const start = source.indexOf(' = ', source.indexOf('export const '));

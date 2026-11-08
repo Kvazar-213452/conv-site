@@ -1,0 +1,126 @@
+/* Shared usability refinements for navigation, tools, the directory and journal. */
+html { scroll-padding-top: 84px; }
+main { padding-top: 44px; }
+main:has(.catalog-home) { padding-top: 32px; }
+main:has(.blog-shell) { padding-top: 30px; }
+
+:is(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--color-success);
+  outline-offset: 3px;
+}
+
+button, input, select, textarea { font: inherit; }
+button { touch-action: manipulation; }
+::selection { background: var(--color-success-bg); color: var(--color-text); }
+
+.header-inner { max-width: 1320px; }
+.header.scrolled { box-shadow: 0 8px 24px rgba(0,0,0,.16); }
+.nav-desktop { gap: 6px; }
+.nav-desktop > a { color: var(--color-text); }
+.nav-desktop > a:hover { background: var(--color-accent-soft-hover); }
+.logo-icon { width: 32px; height: 32px; border-radius: 9px; }
+.logo-badge { color: var(--color-success); background: var(--color-success-bg); border-color: var(--color-success-border); }
+.btn-theme, .burger { min-height: 44px; }
+.theme-dropdown { min-width: 176px; padding: 5px; border-radius: 12px; }
+.theme-option { border-radius: 8px; }
+.mobile-menu { padding-top: 12px; }
+
+.catalog-home { padding-top: 0; }
+.catalog-hero { gap: 56px; padding-top: 28px; padding-bottom: 38px; }
+.catalog-hero-panel { transform: none; border-radius: 16px; }
+.catalog-primary { min-height: 48px; border-radius: 10px; padding-inline: 20px; }
+.catalog-quick-grid > a { min-height: 58px; border-radius: 10px; font-size: 14px; }
+.directory-heading { margin-bottom: 24px; }
+.directory-heading h2 { font-size: clamp(28px, 3vw, 36px); letter-spacing: -.045em; }
+.directory-heading > p { max-width: 300px; font-size: 13px; }
+.directory-search { min-height: 64px; border-radius: 13px; }
+.directory-search > input { font-size: 16px; }
+.directory-search > svg { flex-shrink: 0; }
+.directory-search > kbd { min-width: 30px; text-align: center; font-size: 12px; }
+.directory-search-help { margin: -13px 4px 22px; color: var(--color-text-muted); font-size: 12px; line-height: 1.6; }
+.directory-search-help kbd { display: inline-grid; place-items: center; min-width: 21px; min-height: 21px; border: 1px solid var(--color-border-bright); border-radius: 5px; font: 11px 'Geist Mono', monospace; }
+.directory-categories { top: 88px; }
+.directory-categories > button { min-height: 44px; font-size: 12px; }
+.directory-toolbar { min-height: 44px; }
+.directory-toolbar > p { font-size: 13px; }
+.directory-toolbar select { min-height: 40px; border-radius: 8px; font-size: 12px; }
+.directory-recent { min-height: 40px; font-size: 12px; }
+.directory-group { border-radius: 12px; overflow: hidden; }
+.directory-group > summary { min-height: 84px; padding: 17px; }
+.directory-group-title > span:first-child { font-size: 14px; }
+.directory-group-title small { font-size: 11px; }
+.directory-group-title > span:last-child { font-size: 12px; }
+.directory-card { min-height: 176px; padding: 18px; }
+.directory-card h3 { font-size: 14px; line-height: 1.45; }
+.directory-card > p { font-size: 12px; line-height: 1.65; }
+.directory-open { font-size: 12px; }
+.directory-new { font-size: 9px; padding: 4px 6px; }
+.catalog-guide-grid > a { min-height: 180px; padding: 20px; border-radius: 12px; }
+.catalog-guide-grid > a > span { font-size: 9px; }
+.catalog-guide-grid h3 { font-size: 15px; line-height: 1.5; }
+.catalog-guide-grid p, .catalog-about p { font-size: 13px; }
+
+main:has(> .hero) .growth-controls { gap: 16px; padding: 20px; border-radius: 12px; }
+main:has(> .hero) .growth-controls > label { font-size: 13px; line-height: 1.5; }
+main:has(> .hero) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]),
+main:has(> .hero) select { min-height: 48px; border-radius: 9px; font-size: 15px; }
+main:has(> .hero) .panel { border-radius: 13px; }
+main:has(> .hero) .panel-header { min-height: 48px; }
+main:has(> .hero) .panel-title { font-family: 'Geist', sans-serif; font-size: 13px; letter-spacing: 0; text-transform: none; }
+main:has(> .hero) .tool-step-copy h2 { font-size: 18px; }
+main:has(> .hero) .tool-step-copy p { font-size: 13px; }
+main:has(> .hero) .btn-convert { min-height: 52px; border-radius: 10px; }
+main:has(> .hero) .btn-secondary { min-height: 44px; border-radius: 9px; }
+main:has(> .hero) .error-bar,
+main:has(> .hero) [role="alert"] { font-family: 'Geist', sans-serif; font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; word-break: normal; }
+main:has(> .hero) .tool-help-note,
+main:has(> .hero) .tool-feedback { font-size: 13px; }
+
+.blog-shell { --journal-accent: var(--color-success); --journal-accent-ink: var(--color-text-inverse); }
+.journal-kicker { font-size: 11px !important; }
+.journal-feature { border-radius: 16px; }
+.journal-feature-copy > p { font-size: 14px; }
+.journal-feature-copy .journal-read { min-height: 44px; gap: 12px; }
+.journal-library-heading h2 { max-width: 640px; }
+.journal-topics button { font-size: 13px; }
+.journal-card-copy .journal-meta { font-size: 11px; }
+.journal-card-arrow { opacity: .95; transform: none; }
+.journal-article-header { margin-bottom: 32px; }
+.journal-deck { font-size: 18px; }
+.journal-article-header h1 { text-wrap: balance; }
+.journal-cover > img { max-height: 520px; aspect-ratio: 1.9; border-radius: 16px; }
+.journal-prose p { font-size: 16px; }
+.journal-prose .journal-lead { font-size: 19px; }
+.journal-toc li { font-size: 12px; }
+
+@media (max-width: 900px) {
+  .catalog-hero { gap: 34px; }
+  .directory-categories { top: 78px; }
+  .directory-card { min-height: 160px; }
+}
+
+@media (max-width: 768px) {
+  main { padding-top: 30px; }
+  main:has(.catalog-home) { padding-top: 18px; }
+  main:has(.blog-shell) { padding-top: 20px; }
+  .header-inner { min-height: 64px; }
+  .mobile-menu { max-height: calc(100dvh - 64px); }
+  .catalog-hero { padding-top: 20px; }
+  .directory-search { min-height: 58px; padding-inline: 14px; }
+  .directory-categories { top: auto; }
+  .directory-card { min-height: 0; }
+  main:has(> .hero) .growth-controls { padding: 16px; }
+  .journal-card-arrow { width: 36px; height: 36px; }
+}
+
+@media (max-width: 480px) {
+  .catalog-hero h1 { font-size: clamp(34px, 10vw, 42px); }
+  .directory-search-help { margin-top: -10px; }
+  .journal-feature-label { top: 12px; left: 12px; }
+  .journal-topics button { min-height: 42px; }
+  .journal-cover > img { aspect-ratio: 1.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

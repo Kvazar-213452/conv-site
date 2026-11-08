@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import { expansionTools } from '@/lib/expansion-tools';
 import { transformTool } from '@/lib/expansion-transforms';
 import ToolStepHeading from './ToolStepHeading';
+import FileInput from './FileInput';
 import '@/style/main.css';
 import '@/style/bar.css';
 export default function ToolWorkbench({ slug }: { slug: string }) {
@@ -35,11 +36,11 @@ export default function ToolWorkbench({ slug }: { slug: string }) {
       </div>
       {(tool.reverse || slug === 'px-to-rem' || slug === 'sri-generator') && <>
         <ToolStepHeading number={2} title="Choose your settings" description="Change the direction or options only if you need to." />
-        <div className="options-bar">
+        {(tool.reverse || slug === 'px-to-rem') && <div className="options-bar">
           {tool.reverse && <label>Direction <select disabled={busy} value={reverse ? 'reverse' : 'forward'} onChange={e => { setReverse(e.target.value === 'reverse'); invalidate(); }}><option value="forward">{tool.forward}</option><option value="reverse">{tool.reverse}</option></select></label>}
           {slug === 'px-to-rem' && <label>Root font size (px) <input disabled={busy} type="number" min="0.01" step="any" value={base} onChange={e => { setBase(e.target.value); invalidate(); }} /></label>}
-          {slug === 'sri-generator' && <label>Exact file bytes <input disabled={busy} type="file" ref={fileInput} onChange={e => { setFile(e.target.files?.[0] ?? null); invalidate(); }} /></label>}
-        </div>
+        </div>}
+        {slug === 'sri-generator' && <FileInput id="sri-file" label="Choose the exact file" hint="Select the file whose integrity hash you want to generate. It stays in your browser." disabled={busy} files={file ? [file] : []} inputRef={fileInput} onFilesChange={next => { setFile(next[0] ?? null); invalidate(); }} />}
       </>}
       {error && <p className="error-bar" role="alert">{error}</p>}
       <div className="actions">

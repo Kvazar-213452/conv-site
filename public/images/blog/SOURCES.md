@@ -1,5 +1,7 @@
 # Blog photography
 
+Each article has an individual photorealistic AI-generated cover in `<article-slug>-photo.webp`. The blog landing page has its own `blog-cover.webp`. Covers are self-hosted; readers do not request external image servers. Generate a new article cover with the built-in image generation workflow and save it under the article slug.
+
 Downloaded from Unsplash under the [Unsplash license](https://unsplash.com/license). Images are self-hosted; readers do not request external image servers.
 
 - `workspace.webp`: https://images.unsplash.com/photo-1496181133206-80ce9b88a853

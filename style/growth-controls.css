@@ -1,0 +1,218 @@
+.growth-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 14px;
+  margin: 20px 0;
+  padding: clamp(14px, 2.5vw, 22px);
+  border: 1px solid var(--color-border-bright);
+  border-radius: 15px;
+  background: var(--color-surface);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+}
+
+.growth-controls > .growth-control-field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 11px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+  transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease;
+}
+
+.growth-controls > .growth-control-field > .growth-control-caption > span {
+  color: var(--color-text);
+  letter-spacing: .005em;
+}
+
+.growth-controls > .growth-control-field:focus-within {
+  border-color: var(--tool-action, var(--color-accent));
+  background: var(--color-surface);
+  box-shadow: 0 0 0 2px var(--tool-action-ring, var(--color-accent-soft));
+}
+
+.growth-controls > .growth-control-field > input.growth-control-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]),
+html body main .growth-controls > .growth-control-field > .growth-number-control > input.growth-control-input[type="number"]:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]),
+.growth-controls > .growth-control-field > select.growth-control-input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-height: 50px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border-bright);
+  border-radius: 10px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .08);
+  transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
+}
+
+.growth-controls > .growth-control-field > input.growth-control-input[type="number"]:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]) {
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  letter-spacing: .015em;
+}
+
+html body main .growth-controls > .growth-control-field > .growth-number-control > input.growth-control-input[type="number"]:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]) {
+  min-width: 0;
+  min-height: 50px;
+  padding: 11px 13px;
+  appearance: textfield;
+  -moz-appearance: textfield;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+
+html body main .growth-controls > .growth-control-field > .growth-number-control > input.growth-control-input[type="number"]::-webkit-inner-spin-button,
+html body main .growth-controls > .growth-control-field > .growth-number-control > input.growth-control-input[type="number"]::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.growth-number-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 38px;
+  align-items: stretch;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border-bright);
+  border-radius: 10px;
+  background: var(--color-surface);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .08);
+  transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
+}
+
+.growth-controls > .growth-control-field > .growth-number-control:focus-within {
+  border-color: var(--tool-action, var(--color-accent));
+  box-shadow: 0 0 0 3px var(--tool-action-ring, var(--color-accent-soft));
+}
+
+html body main .growth-controls > .growth-control-field > .growth-number-control > input.growth-control-input[type="number"]:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]) {
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  outline: 0;
+}
+
+html body main .growth-controls > .growth-control-field > .growth-number-control:hover { border-color: var(--color-accent); }
+html body main .growth-controls > .growth-control-field > .growth-number-control > input.growth-control-input[type="number"]:focus-visible { outline: 0; box-shadow: none; }
+
+.growth-number-stepper {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  align-self: stretch;
+  margin: 5px 5px 5px 0;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.growth-number-stepper button {
+  display: grid;
+  place-items: center;
+  min-width: 30px;
+  min-height: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background-color .14s ease, color .14s ease;
+}
+
+.growth-number-stepper button + button { border-top: 1px solid var(--color-border); }
+.growth-number-stepper button:hover:not(:disabled) { background: var(--tool-action-soft, var(--color-accent-soft)); color: var(--color-text); }
+.growth-number-stepper button:focus-visible { position: relative; z-index: 1; outline: 2px solid var(--tool-action, var(--color-accent)); outline-offset: -2px; }
+.growth-number-stepper button:disabled { color: var(--color-text-dim); cursor: not-allowed; opacity: .45; }
+
+html body main input[type="number"]::-webkit-inner-spin-button,
+html body main input[type="number"]::-webkit-outer-spin-button {
+  width: 20px;
+  height: 32px;
+  margin-inline: 4px;
+  opacity: .9;
+  cursor: pointer;
+}
+
+.growth-controls > .growth-control-field > input.growth-control-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]):hover,
+.growth-controls > .growth-control-field > select.growth-control-input:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-bg);
+}
+
+.growth-controls > .growth-control-field > input.growth-control-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]):focus-visible,
+.growth-controls > .growth-control-field > select.growth-control-input:focus-visible {
+  outline: 2px solid var(--tool-action, var(--color-accent));
+  outline-offset: 2px;
+  border-color: var(--tool-action, var(--color-accent));
+  box-shadow: 0 0 0 4px var(--tool-action-ring, var(--color-accent-soft));
+}
+
+.growth-controls > .growth-control-field > select.growth-control-input {
+  appearance: none;
+  padding-right: 42px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23949a9f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  cursor: pointer;
+}
+
+.growth-controls > .growth-control-field > input.growth-control-input[type="color"] {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 50px;
+  padding: 4px;
+  border: 1px solid var(--color-border-bright);
+  border-radius: 10px;
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.growth-controls > .growth-control-field > input.growth-control-input[type="checkbox"] {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  margin: 0;
+  accent-color: var(--tool-action, var(--color-accent));
+  cursor: pointer;
+}
+
+.growth-controls > .growth-control-field.is-checkbox {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  cursor: pointer;
+}
+
+.growth-controls > .growth-control-field > input.growth-control-input:disabled,
+.growth-controls > .growth-control-field > select.growth-control-input:disabled {
+  cursor: not-allowed;
+  opacity: .58;
+}
+
+@media (max-width: 640px) {
+  .growth-controls { grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 12px; }
+  .growth-controls > .growth-control-field { padding: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .growth-controls > .growth-control-field,
+  .growth-controls > .growth-control-field > input,
+  .growth-controls > .growth-control-field > select { transition: none; }
+}

@@ -1,34 +1,25 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import type { ReactNode } from "react";
 import { THEMES } from "@/lib/const";
 import type { ThemeKey } from "@/lib/type";
 import { Sun, Moon, Snowflake, Flower, Command } from "lucide-react";
 import Link from "next/link";
+import HeaderSearch from "./HeaderSearch";
 
 import "@/style/header.css";
 
+type Tool = { slug: string; title: string; description: string; href: string };
 
-export default function Header() {
-
-  const [theme, setTheme] = useState<ThemeKey>(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("theme") as ThemeKey | null;
-      return stored ?? "dark";
-    }
-    return "dark";
-  });
-
+export default function Header({ tools = [] }: { tools?: Tool[] }) {
+  const [theme, setTheme] = useState<ThemeKey>("dark");
+  const [themeReady, setThemeReady] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [themeOpen, setThemeOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
-
-
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const lastScrollY = useRef(0);
 
-  // Закриття дропдаунів по кліку поза ними
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -41,23 +32,31 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrolled(currentScrollY > 10);
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setHidden(true);
-      } else {
-        setHidden(false);
-      }
-      lastScrollY.current = currentScrollY;
+      setScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
+    const stored = localStorage.getItem("theme") as ThemeKey | null;
+    if (stored && Object.hasOwn(THEMES, stored)) setTheme(stored);
+    setThemeReady(true);
+  }, []);
+
+  useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+    if (themeReady) localStorage.setItem("theme", theme);
+  }, [theme, themeReady]);
+
+  useEffect(() => {
+    if (!menuOpen && !themeOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { setMenuOpen(false); setThemeOpen(false); }
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen, themeOpen]);
 
   const pickTheme = (t: ThemeKey) => {
     setTheme(t);
@@ -65,7 +64,7 @@ export default function Header() {
     setMenuOpen(false);
   };
 
-  const ICONS: any = {
+  const ICONS: Record<ThemeKey, ReactNode> = {
     dark: <Moon size={16} />,
     light: <Sun size={16} />,
     nord: <Snowflake size={16} />,
@@ -75,9 +74,7 @@ export default function Header() {
 
 
   return (
-    <>
-      <br />
-      <header className={`header${scrolled ? " scrolled" : ""}${hidden ? " hidden" : ""}`}>
+      <header className={`header${scrolled ? " scrolled" : ""}`}>
         <div className="header-inner">
           <Link href="/" className="logo">
             <div className="logo-icon">
@@ -85,16 +82,17 @@ export default function Header() {
                 <path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM11.5 9v2.5H9v2h2.5V16h2v-2.5H16v-2h-2.5V9z" />
               </svg>
             </div>
-            <span className="logo-name">DevTools</span>
-            <span className="logo-badge">BETA</span>
+            <span className="logo-name">Utilixio</span>
+            <span className="logo-badge">FREE</span>
           </Link>
 
           {/* Desktop nav */}
           <nav className="nav-desktop" aria-label="Main navigation">
-            <Link href="/blog">Blog</Link>
-            <Link href="/privacy-policy">Privacy policy</Link>
-            <Link href="/terms-of-service">Terms of service</Link>
+            <Link href="/#tools">Browse tools</Link>
+            <Link href="/blog">Guides</Link>
             <Link href="/contacts">Contacts</Link>
+
+            <HeaderSearch tools={tools} />
 
             {/* Theme switcher */}
             <div className="theme-switcher" ref={dropdownRef}>
@@ -103,7 +101,7 @@ export default function Header() {
                 onClick={() => setThemeOpen((v) => !v)}
                 aria-haspopup="listbox"
                 aria-expanded={themeOpen}
-                aria-label="Switch theme"
+                aria-label={`Color theme: ${THEMES[theme].label}`}
               >
                 <span>{ICONS[theme]}</span>
                 {THEMES[theme].label}
@@ -151,16 +149,8 @@ export default function Header() {
         {/* Mobile menu */}
         {menuOpen && (
           <nav id="mobile-nav" className="mobile-menu open" aria-label="Mobile navigation">
-
-            <Link href="/blog" onClick={() => setMenuOpen(false)}>
-              Blog
-            </Link>
-            <Link href="/privacy-policy" onClick={() => setMenuOpen(false)}>
-              Privacy policy
-            </Link>
-            <Link href="/terms-of-service" onClick={() => setMenuOpen(false)}>
-              Terms of service
-            </Link>
+            <Link href="/#tools" onClick={() => setMenuOpen(false)}>Browse tools</Link>
+            <Link href="/blog" onClick={() => setMenuOpen(false)}>Guides</Link>
             <Link href="/contacts" onClick={() => setMenuOpen(false)}>
               Contacts
             </Link>
@@ -168,7 +158,7 @@ export default function Header() {
 
             {/* Mobile theme picker */}
             <div className="mobile-theme-section">
-              <div className="mobile-theme-label">Theme</div>
+              <div className="mobile-theme-label">Choose a color theme</div>
               <div className="mobile-theme-grid">
                 {(Object.keys(THEMES) as ThemeKey[]).map((t) => (
                   <button
@@ -186,6 +176,5 @@ export default function Header() {
           </nav>
         )}
       </header>
-    </>
   );
 }

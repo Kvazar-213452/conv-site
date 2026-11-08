@@ -5,6 +5,7 @@ import { growthTools } from '@/lib/growth-tools';
 import { downloadBlob, imagePdf } from '@/lib/growth-files';
 import GrowthControls, { defaultValues } from './GrowthControls';
 import ToolStepHeading from './ToolStepHeading';
+import FileInput from './FileInput';
 import '@/style/main.css';
 import '@/style/growth.css';
 export default function PdfWorkbench({ slug }: { slug: string }) {
@@ -16,7 +17,7 @@ export default function PdfWorkbench({ slug }: { slug: string }) {
   async function run() { clearResult(); setBusy(true); try { if (!source) throw new Error('Choose an image first.'); setResult(await imagePdf(source.file, values)); } catch (e) { setError(e instanceof Error ? e.message : 'PDF generation failed.'); } finally { setBusy(false); } }
   return <><section className="hero"><div className="hero-eyebrow">One image · One PDF page · Local processing</div><h1>{tool.title}</h1><p>{tool.description}</p></section><section aria-label={tool.title}>
     <ToolStepHeading number={1} title="Choose your image" description="Select a PNG, JPEG, or WebP image to place on a PDF page." />
-    <div className="growth-file-picker"><label htmlFor="source-image">PNG, JPEG or WebP</label><input id="source-image" type="file" accept="image/png,image/jpeg,image/webp" disabled={busy} onChange={e => { const file = e.target.files?.[0]; setSource(file ? { file, url: URL.createObjectURL(file) } : null); clearResult(); }} /></div>
+    <FileInput id="source-image" label="Choose an image" hint="PNG, JPEG or WebP. The image is processed locally in your browser." accept="image/png,image/jpeg,image/webp" disabled={busy} files={source ? [source.file] : []} onFilesChange={next => { const file = next[0]; setSource(file ? { file, url: URL.createObjectURL(file) } : null); clearResult(); }} />
     {tool.fields.length > 0 && <ToolStepHeading number={2} title="Set the page options" description="Choose the paper size, orientation, or fit before creating your PDF." />}
     {tool.fields.length > 0 && <GrowthControls fields={tool.fields} values={values} disabled={busy} onChange={(key, value) => { setValues(v => ({ ...v, [key]: value })); clearResult(); }} />}
     <div className="actions"><button className="btn-convert" disabled={!source || busy} onClick={run}>{busy ? 'Creating…' : tool.action}</button></div>

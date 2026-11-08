@@ -15,15 +15,23 @@ const legacy = [
   ['sql-formatting-guide','A Practical SQL Formatting Guide','Make queries easier to read, review and maintain.'],
   ['html-entities-xss','HTML Entities and XSS','Understand context-sensitive escaping in web interfaces.'],
 ];
-const photoDescriptions:Record<string,string>={workspace:'A laptop on a minimal wooden desk',circuits:'A close-up of electronic circuit boards',code:'Source code open on a laptop screen',network:'Earth at night with illuminated cities',analytics:'Charts and reports displayed on a laptop',team:'An overhead view of a shared workspace',mathematics:'A system of equations written on paper',web:'Colleagues reviewing work on a laptop'};
 export function blogVisual(slug:string):{topic:BlogTopic;image:string;alt:string}{
-  let topic:BlogTopic='Data & APIs',photo='code';
-  if(/fraction|binomial|unix-seconds/.test(slug)){topic='Math & time';photo=slug.includes('unix')?'workspace':'mathematics';}
-  else if(/har-network|cache-control|robots|url-encoding|html-textcontent|html-to-plain/.test(slug)){topic='Web & performance';photo=slug.includes('har')?'analytics':'network';}
-  else if(/jwt|hash|md5|sha256|xss|auth|sri|integrity|checksum|email-received/.test(slug)){topic='Security';photo='circuits';}
-  else if(/css|color|contrast|px-|responsive-type|png-jpeg/.test(slug)){topic='CSS & design';photo='workspace';}
-  else if(/markdown|chmod|regex|sql-|bulk-slug|duplicate-url/.test(slug)){topic='Developer workflow';photo=slug.includes('markdown')?'team':'web';}
-  return {topic,image:'/images/blog/'+photo+'.webp',alt:photoDescriptions[photo]};
+  let topic:BlogTopic='Data & APIs';
+  if(/merge-pdf|compress-pdf|convert-pdf|split-pdf|pdf-|image-to|heic|webp|resize-image/.test(slug)) topic='Files & media';
+  else if(/budget|salary|tax|loan|mortgage|invest|savings|compound|interest|inflation|roi|percentage|tip-|gpa|hourly/.test(slug)) topic='Money & finance';
+  else if(/seo|keyword|meta-description|sitemap|schema|serp|backlink|rank|index|crawl|canonical|hreflang|structured-data|open-graph|utm-links|robots-txt/.test(slug)) topic='SEO & marketing';
+  else if(/calorie|bmi|workout|macro|body-fat|water-intake|sleep|pregnancy/.test(slug)) topic='Health & fitness';
+  else if(/recipe|cooking|meal|ingredient|kitchen/.test(slug)) topic='Home & cooking';
+  else if(/resume|cover-letter|interview|job|linkedin|career|resignation/.test(slug)) topic='Career & jobs';
+  else if(/email|writing|grammar|tone|readability|headline|blog-post|meeting-agenda/.test(slug)) topic='Writing & content';
+  else if(/qr-code|barcode|wifi|vcard|uuid|password|gradient/.test(slug)) topic='Generators';
+  else if(/fraction|binomial|unix-seconds/.test(slug)) topic='Math & time';
+  else if(/har-network|cache-control|robots|url-encoding|html-textcontent|html-to-plain/.test(slug)) topic='Web & performance';
+  else if(/jwt|hash|md5|sha256|xss|auth|sri|integrity|checksum|email-received/.test(slug)) topic='Security';
+  else if(/css|color|contrast|px-|responsive-type|png-jpeg/.test(slug)) topic='CSS & design';
+  else if(/markdown|chmod|regex|sql-|bulk-slug|duplicate-url/.test(slug)) topic='Developer workflow';
+  const label=slug.split('-').map(part=>part[0]?.toUpperCase()+part.slice(1)).join(' ');
+  return {topic,image:'/images/blog/'+slug+'-photo.webp',alt:`Photorealistic editorial photo for ${label}`};
 }
 export function articleMinutes(article:{intro:string;sections:readonly {body:string}[];example:string;answer:string}){return Math.max(2,Math.ceil([article.intro,...article.sections.map(s=>s.body),article.example,article.answer].join(' ').split(/\s+/).length/200));}
 export const blogPosts = [

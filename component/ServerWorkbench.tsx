@@ -5,6 +5,7 @@ import { growthTools } from '@/lib/growth-tools';
 import { downloadBlob } from '@/lib/growth-files';
 import GrowthControls, { defaultValues } from './GrowthControls';
 import ToolStepHeading from './ToolStepHeading';
+import FileInput from './FileInput';
 import '@/style/main.css';
 import '@/style/growth.css';
 export default function ServerWorkbench({slug}:{slug:string}){
@@ -54,9 +55,8 @@ export default function ServerWorkbench({slug}:{slug:string}){
         <div className="panel-header"><label htmlFor="server-second">{tool.secondInputLabel ?? 'Second input'}</label></div>
         <textarea id="server-second" disabled={busy} spellCheck={false} value={second} onChange={e => { setSecond(e.target.value); invalidate(); }} />
       </div>}
-      {tool.server!.input === 'files' && <div className="growth-file-picker">
-        <label htmlFor="server-files">{tool.server!.multiple ? 'Choose files in output order' : 'Choose input file'}</label>
-        <input id="server-files" ref={picker} type="file" accept={tool.server!.accept} multiple={tool.server!.multiple} disabled={busy} onChange={e => { setFiles(Array.from(e.target.files ?? [])); invalidate(); }} />
+      {tool.server!.input === 'files' && <>
+        <FileInput id="server-files" label={tool.server!.multiple ? 'Choose files in output order' : 'Choose input file'} hint={tool.server!.multiple ? 'Add at least two files, then arrange their order below.' : 'Select a file from your device. Your upload is processed for this request only.'} accept={tool.server!.accept} multiple={tool.server!.multiple} disabled={busy} files={files} inputRef={picker} showSelection={false} onFilesChange={next => { setFiles(next); invalidate(); }} />
         {files.length > 0 && <ol className="server-file-list">{files.map((file, index) => <li key={index}>
           <span>{file.name} · {file.size.toLocaleString()} bytes</span>
           {tool.server!.multiple && <>
@@ -64,7 +64,7 @@ export default function ServerWorkbench({slug}:{slug:string}){
             <button className="btn-secondary" type="button" disabled={busy || index === files.length - 1} aria-label={'Move ' + file.name + ' down'} onClick={() => { setFiles(previous => { const next = [...previous]; [next[index], next[index + 1]] = [next[index + 1], next[index]]; return next; }); invalidate(); }}>↓</button>
           </>}
         </li>)}</ol>}
-      </div>}
+      </>}
 
       {tool.fields.length > 0 && <ToolStepHeading number={2} title="Choose your options" description="The defaults work for most files. Change a setting only when you need to." />}
       {tool.fields.length > 0 && <GrowthControls fields={tool.fields} values={values} disabled={busy} onChange={(key, value) => { setValues(v => ({ ...v, [key]: value })); invalidate(); }} />}

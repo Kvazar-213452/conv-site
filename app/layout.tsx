@@ -2,42 +2,25 @@ import type { Metadata } from "next";
 import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 import Header from "@/component/Header";
 import Footer from "@/component/Footer";
+import { toolCatalog } from "@/lib/tool-catalog";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
 
 import "@/style/global.css";
 import "@/style/tool-polish.css";
+import "@/style/ux-polish.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(MAIN_DOMEN),
 
   title: {
-    default: "DevTools Converter – JSON, UUID, Base64 & More",
-    template: "%s | DevTools Converter",
+    default: "Utilixio – Free Online Tools for Everyday Tasks",
+    template: "%s | Utilixio",
   },
 
   description:
-    "Free online developer tools. Convert JSON, YAML, CSV, Prisma, PostgreSQL, UUID, Base64, Markdown and more. Browser tools and clearly marked server file conversions. Perfect for developers, programmers, and data engineers.",
-
-  keywords: [
-    "json to yaml",
-    "json to csv",
-    "json to xml",
-    "json to prisma",
-    "json to postgresql insert",
-    "uuid to base64",
-    "markdown to html",
-    "case converter",
-    "unix timestamp converter",
-    "developer tools online",
-    "online json converter",
-    "free developer tools",
-    "json validator",
-    "yaml converter",
-    "csv parser",
-    "prisma schema generator",
-  ],
+    "Free online tools: PDF merge & compress, calculators, SEO helpers, AI writing, image converters, JSON formatters and 550+ more. No sign-up, works in your browser.",
 
   authors: [{ name: NAME_MAKE }],
   creator: NAME_MAKE,
@@ -53,9 +36,9 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "DevTools Converter – Free Online Developer Tools",
+    title: "Utilixio – Free Online Tools for Everyday Tasks",
     description:
-      "Convert JSON, UUID, Base64, Markdown and more. 100% free online tools for developers, programmers, and data engineers. No installation required.",
+      "550+ free online tools: PDF, calculators, SEO, AI writing, image converters, JSON formatters and more. No sign-up required.",
     url: MAIN_DOMEN,
     siteName: NAME_MAKE,
     type: "website",
@@ -64,16 +47,16 @@ export const metadata: Metadata = {
         url: `${MAIN_DOMEN}og-image.png`,
         width: 1024,
         height: 1024,
-        alt: "DevTools Converter - Online Developer Tools",
+        alt: "Utilixio - Free Online Tools",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "DevTools Converter – Free Online Developer Tools",
+    title: "Utilixio – Free Online Tools for Everyday Tasks",
     description:
-      "Convert JSON, UUID, Base64, Markdown and more instantly. Browser utilities and server file conversions with clear processing notices."
+      "550+ free online tools: PDF, calculators, SEO, AI writing, image converters, JSON formatters and more. No sign-up required."
   }
 };
 
@@ -107,7 +90,7 @@ export default function RootLayout({
             { "@type": "WebSite", "@id": MAIN_DOMEN + "#website", name: NAME_MAKE, url: MAIN_DOMEN, inLanguage: "en", publisher: { "@id": MAIN_DOMEN + "#organization" } }
           ]
         }).replace(/</g, "\\u003c") }} />
-        <Header />
+        <Header tools={toolCatalog.map(t => ({ slug: t.slug, title: t.title, description: t.description, href: t.href }))} />
         <div className="page-wrapper">
           <main>{children}</main>
         </div>

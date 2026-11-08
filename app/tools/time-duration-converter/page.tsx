@@ -5,4 +5,4 @@ import { GrowthGuide } from "@/component/GrowthGuide";
 const tool = growthTools.find(t => t.slug === "time-duration-converter")!;
 export const dynamic = "force-static";
 export const metadata = pageMetadata(tool.title + " Online", tool.description, "/tools/" + tool.slug);
-export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" /><TimeDurationConverter /><GrowthGuide tool={tool} /></>; }
+export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" faq={tool.faq} /><TimeDurationConverter /><GrowthGuide tool={tool} /></>; }

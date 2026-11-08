@@ -37,13 +37,13 @@ export const metadata: Metadata = {
     description: "Hands-on guides, format comparisons, and practical references for developers.",
     url: PAGE_URL,
     type: "website",
-    images: [{ url: `${MAIN_DOMEN}images/blog/analytics.webp`, width: 1440, height: 900, alt: "Network analysis and developer guides" }],
+    images: [{ url: `${MAIN_DOMEN}images/blog/blog-cover.webp`, width: 1440, height: 900, alt: "A developer's laptop and notebook on a sunlit desk" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Developer Blog – Guides and Cheatsheets",
     description: "Practical guides for working developers.",
-    images: ["/images/blog/analytics.webp"],
+    images: ["/images/blog/blog-cover.webp"],
   },
 };
 

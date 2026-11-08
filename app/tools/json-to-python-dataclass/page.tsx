@@ -5,4 +5,4 @@ import { GrowthGuide } from "@/component/GrowthGuide";
 const tool = growthTools.find(t => t.slug === "json-to-python-dataclass")!;
 export const dynamic = "force-static";
 export const metadata = pageMetadata(tool.title + " Online", tool.description, "/tools/" + tool.slug);
-export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" /><JsonToPythonDataclass /><GrowthGuide tool={tool} /></>; }
+export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" faq={tool.faq} /><JsonToPythonDataclass /><GrowthGuide tool={tool} /></>; }

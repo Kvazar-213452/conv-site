@@ -7,6 +7,8 @@ export const toolCategories = [
   { id: 'encoding', name: 'Encoding', symbol: '01', description: 'Move between text, binary and encoded formats.' },
   { id: 'security', name: 'Security & IDs', symbol: '#', description: 'Inspect tokens, generate identifiers and hash text.' },
   { id: 'web', name: 'Web & SEO', symbol: '↗', description: 'Work with URLs, requests, markup and crawl rules.' },
+  { id: 'live', name: 'Live lookups', symbol: '⌕', description: 'Look up current weather, locations, DNS, books, packages and public records.' },
+  { id: 'ai', name: 'AI writing helpers', symbol: '✦', description: 'Draft, polish, summarize and organize everyday writing with AI.' },
   { id: 'css', name: 'CSS & design', symbol: '◒', description: 'Create colors, layouts and ready-to-use CSS.' },
 ] as const;
 export type ToolCategory = (typeof toolCategories)[number]['id'];

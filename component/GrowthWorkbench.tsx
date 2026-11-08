@@ -12,14 +12,21 @@ import '@/style/growth.css';
 export default function GrowthWorkbench({ slug }: { slug: string }) {
   const tool = growthTools.find(t => t.slug === slug)!;
   const [input, setInput] = useState(tool.example), [second, setSecond] = useState(tool.exampleB ?? '');
-  const [values, setValues] = useState(() => defaultValues(tool.fields));
+  const [values, setValues] = useState(() => { const initial=defaultValues(tool.fields); if(slug==='countdown-timer'&&typeof window!=='undefined'){const params=new URLSearchParams(window.location.search); for(const key of ['date','time','event'])if(params.has(key))initial[key]=params.get(key)??'';}return initial; });
   const [result, setResult] = useState<GrowthResult | null>(null), [error, setError] = useState(''), [copied, setCopied] = useState(false);
   const hasInput = tool.kind === 'text' && slug !== 'percentage-calculator';
   function invalidate() { setResult(null); setError(''); setCopied(false); }
-  function run() {
+  async function run() {
     invalidate();
     try {
       if (input.length + second.length > 2 * 1024 * 1024) throw new Error('Use at most 2 MiB of input text per conversion.');
+      if (slug === 'api-response-time-tester') {
+        const target = new URL(values.url || input.trim());
+        if (target.protocol !== 'https:' && target.protocol !== 'http:') throw new Error('Use an HTTP or HTTPS URL.');
+        const start = performance.now();
+        try { const response = await fetch(target, { method: 'GET', mode: 'cors', cache: 'no-store' }); const elapsed = performance.now() - start; const body = await response.text(); setResult({ text: `URL: ${target.href}\nStatus: ${response.status} ${response.statusText}\nBrowser-observed response time: ${elapsed.toFixed(0)} ms\nResponse body read: ${new Blob([body]).size.toLocaleString()} bytes\n\nThis measurement is from your browser and includes network conditions. CORS restrictions may prevent reading some endpoints; it is not a server-side uptime monitor.` }); return; }
+        catch (error) { throw new Error(error instanceof Error ? `Request could not be read by this browser (often due to CORS): ${error.message}` : 'Request failed or was blocked by CORS.'); }
+      }
       setResult(calculateGrowth(slug, input, values, second));
     } catch (e) { setError(e instanceof Error ? e.message : 'Unable to process this input.'); }
   }

@@ -1,8 +1,12 @@
 import { calculateDaily } from './daily-calculations';
 import { transformPopular } from './popular-transforms';
+import { transformNewConversion } from './conversion-transforms';
+import { transformWorkflow } from './workflow-transforms';
+import { requestedTools } from './requested-tools';
+import { transformRequested } from './requested-tool-transforms';
 
 export type ToolValues = Record<string, string>;
-export type GrowthResult = { text: string; summary?: {label:string;value:string}[]; timer?: {mode:'countdown'|'stopwatch';duration:number}; dataTable?: {headers:string[];rows:string[][]}; notice?: string; mediaQuery?: string; palette?: string[]; animation?: { effect: string; duration: number; distance: number; timing: string }; triangle?: { direction: string; width: number; height: number; color: string }; grid?: { template: string; gap: number; items: number }; curve?: { x1: number; y1: number; x2: number; y2: number; timing: string }; flex?: { direction: string; wrap: string; justify: string; align: string; gap: number; items: number }; preview?: { border?: string; outline?: string; outlineOffset?: string; filter?: string; background?: string; boxShadow?: string; borderRadius?: string; textShadow?: string; clipPath?: string } };
+export type GrowthResult = { text: string; summary?: {label:string;value:string}[]; timer?: {mode:'countdown'|'stopwatch';duration:number}; pomodoro?: {focus:number; breakTime:number}; qrPayload?: string; dataTable?: {headers:string[];rows:string[][]}; notice?: string; mediaQuery?: string; palette?: string[]; animation?: { effect: string; duration: number; distance: number; timing: string }; triangle?: { direction: string; width: number; height: number; color: string }; grid?: { template: string; gap: number; items: number }; curve?: { x1: number; y1: number; x2: number; y2: number; timing: string }; flex?: { direction: string; wrap: string; justify: string; align: string; gap: number; items: number }; preview?: { border?: string; outline?: string; outlineOffset?: string; filter?: string; background?: string; boxShadow?: string; borderRadius?: string; textShadow?: string; clipPath?: string } };
 const json = (value: unknown) => JSON.stringify(value, null, 2);
 function number(values: ToolValues, key: string, min = -Number.MAX_VALUE, max = Number.MAX_VALUE) {
   const raw = values[key]; const n = Number(raw);
@@ -204,17 +208,42 @@ export function tableToCsv(text: string): string {
   return data.map(row => row.map(s => /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s).join(',')).join('\r\n');
 }
 export function calculateGrowth(slug: string, text: string, values: ToolValues, second = ''): GrowthResult {
+  if (slug === 'pomodoro-timer') { const focus=number(values,'focus',1,180),breakTime=number(values,'break',1,60); return { text:`Focus: ${focus} minutes\nBreak: ${breakTime} minutes\nCompleted sessions are counted in this browser session.`, pomodoro:{focus:focus*60,breakTime:breakTime*60}, notice:'Keep this tab open. Browser sleep or tab closure can pause the timer.' }; }
+  if (slug === 'countdown-timer') { const target=new Date(`${values.date}T${values.time||'00:00'}:00`); if(Number.isNaN(+target)||target.getTime()<=Date.now())throw new Error('Choose a future date and time.');const duration=Math.ceil((target.getTime()-Date.now())/1000);return {text:`Countdown to ${values.event||'your event'}\nTarget (local time): ${target.toLocaleString()}\nShareable setup: ${location.origin}/tools/countdown-timer?date=${encodeURIComponent(values.date)}&time=${encodeURIComponent(values.time||'00:00')}&event=${encodeURIComponent(values.event||'')}`,timer:{mode:'countdown',duration},notice:'Start the countdown below. Keep this tab open; it does not create a background notification.'}; }
+  if (slug === 'qr-code-vcard-generator') { const [name,phone,email,org]=text.split(/\r?\n/).map(x=>x.trim());const payload=['BEGIN:VCARD','VERSION:3.0',`FN:${name||''}`,`ORG:${org||''}`,`TEL;TYPE=CELL:${phone||''}`,`EMAIL:${email||''}`,'END:VCARD'].join('\r\n');return {text:payload,qrPayload:payload}; }
+  if (requestedTools.some(tool => tool.slug === slug)) return { text: transformRequested(slug, text, values, second) };
   if ([
     'random-number-generator','password-strength-checker','whatsapp-link-generator','mailto-link-generator',
     'email-signature-generator','svg-to-data-uri','csv-to-tsv','markdown-to-plain-text','vtt-to-srt','ean13-barcode-generator',
   ].includes(slug)) return { text: transformPopular(slug, text, values) };
   if ([
+    'csv-to-json-schema','markdown-table-to-csv','json-to-markdown-table','csv-to-xml','xml-to-csv','xml-to-html-table',
+    'html-table-to-json','ndjson-to-csv','ics-to-csv','vcard-to-csv','geojson-to-csv','json-schema-to-typescript',
+    'json-to-php-array','json-to-sql-server','json-to-java-class','json-to-swift-struct','json-to-dart-class','json-to-ruby-hash',
+  ].includes(slug)) return { text: transformNewConversion(slug, text) };
+  if ([
+    'json-to-json-lines','json-lines-to-array','csv-to-yaml','yaml-to-csv','toml-to-yaml','yaml-to-toml',
+    'json-to-mongodb-insert','json-to-elasticsearch-bulk','json-to-graphql-types','json-to-prisma-seed','json-to-dynamodb-batch',
+    'json-to-bigquery-schema','json-schema-to-pydantic','json-schema-to-sql','openapi-to-postman','openapi-to-markdown',
+    'postman-to-curl','har-to-csv','rss-to-csv','opml-to-csv',
+  ].includes(slug)) return { text: transformWorkflow(slug, text, values) };
+  if ([
     'paint-calculator','flooring-calculator','tile-calculator','concrete-calculator','mulch-calculator',
     'garden-soil-calculator','wallpaper-calculator','fence-post-calculator','gravel-calculator','deck-board-calculator',
     'fuel-cost-calculator','electricity-cost-calculator','sales-tax-calculator','bill-split-calculator',
     'salary-to-hourly-calculator','overtime-pay-calculator','pay-raise-calculator','savings-goal-calculator',
-    'grade-needed-calculator','bmi-calculator',
-  ].includes(slug)) return { text: calculateDaily(slug, values) };
+    'grade-needed-calculator','bmi-calculator','cooking-measurement-converter','oven-temperature-converter','fuel-economy-converter',
+    'running-pace-calculator','work-hours-calculator','date-add-subtract-calculator','hourly-to-salary-calculator','profit-margin-calculator',
+    'break-even-calculator','commission-calculator','vat-calculator','unit-price-calculator','recipe-cost-calculator',
+    'average-statistics-calculator','standard-deviation-calculator','percentage-point-calculator','paper-size-converter',
+    'payday-calendar-generator','sleep-cycle-calculator','calorie-needs-calculator',
+    'mortgage-payment-calculator','mortgage-affordability-calculator','car-loan-payment-calculator','credit-card-payoff-calculator','debt-to-income-calculator',
+    'rent-affordability-calculator','emergency-fund-calculator','savings-with-contributions-calculator','simple-interest-calculator','apr-to-apy-calculator',
+    'average-speed-calculator','fuel-range-calculator','trip-fuel-cost-calculator','freelance-hourly-rate-calculator','prorated-rent-calculator',
+    'test-score-calculator','attendance-percentage-calculator','percentage-error-calculator','inflation-adjusted-value-calculator','loan-amortization-calculator',
+    'conversion-rate-calculator','cost-per-acquisition-calculator','return-on-ad-spend-calculator','click-through-rate-calculator','email-campaign-metrics-calculator',
+    'net-worth-calculator','monthly-budget-calculator','wedding-budget-calculator','moving-cost-calculator','trip-budget-calculator',
+  ].includes(slug)) return { text: calculateDaily(slug, values, text) };
   switch (slug) {
     case 'stopwatch-timer': { const mode=choice(values,'mode',['countdown','stopwatch']) as 'countdown'|'stopwatch',duration=batchInteger(values,'minutes',0,1440)*60+batchInteger(values,'seconds',0,59);if(mode==='countdown'&&(duration<1||duration>86400))throw new Error('Choose a countdown from 1 second to 24 hours.');return {text:mode==='countdown'?'Countdown duration: '+duration+' seconds':'Stopwatch ready. Use the live controls to start, pause and record laps.',timer:{mode,duration},notice:'Keep this page open. The browser timer is not a guaranteed background alarm.'}; }
     case 'age-calculator': return ageCalculation(values);

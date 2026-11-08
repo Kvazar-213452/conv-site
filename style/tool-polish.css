@@ -347,6 +347,204 @@ main:has(> .hero) :is(input, select, textarea, button):disabled { cursor: not-al
 main:has(> .hero) :is(input, select, textarea, button) { touch-action: manipulation; }
 main:has(> .hero) :is(textarea, pre, code, .growth-status, .tool-help-note) { overflow-wrap: anywhere; }
 
+/* Unified, tactile controls for calculator and converter forms. */
+main:has(> .hero) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]),
+main:has(> .hero) select {
+  min-height: 48px;
+  padding: 11px 13px;
+  border: 1px solid var(--color-border-bright);
+  border-radius: 10px;
+  background-color: var(--color-surface);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .08);
+  color: var(--color-text);
+  font-size: 15px;
+  line-height: 1.4;
+  transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
+}
+
+main:has(> .hero) input[type="number"] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+main:has(> .hero) input[type="number"]::-webkit-inner-spin-button,
+main:has(> .hero) input[type="number"]::-webkit-outer-spin-button {
+  opacity: .72;
+  cursor: pointer;
+}
+
+main:has(> .hero) select {
+  appearance: none;
+  padding-right: 42px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23949a9f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  cursor: pointer;
+}
+
+main:has(> .hero) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]):hover,
+main:has(> .hero) select:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-bg);
+}
+
+main:has(> .hero) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]):focus-visible,
+main:has(> .hero) select:focus-visible,
+main:has(> .hero) textarea:focus-visible {
+  outline: none;
+  border-color: var(--tool-action);
+  box-shadow: 0 0 0 3px var(--tool-action-ring), inset 0 1px 1px rgba(0, 0, 0, .06);
+}
+
+main:has(> .hero) input[type="checkbox"],
+main:has(> .hero) input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  margin: 0;
+  appearance: none;
+  display: inline-grid;
+  place-content: center;
+  border: 1px solid var(--color-border-bright);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+main:has(> .hero) input[type="checkbox"] { border-radius: 6px; }
+main:has(> .hero) input[type="radio"] { border-radius: 50%; }
+main:has(> .hero) input[type="checkbox"]:checked,
+main:has(> .hero) input[type="radio"]:checked { border-color: var(--tool-action); background: var(--tool-action); }
+main:has(> .hero) input[type="checkbox"]:checked::before {
+  content: "";
+  width: 5px;
+  height: 9px;
+  border: solid var(--tool-action-text);
+  border-width: 0 2px 2px 0;
+  transform: translateY(-1px) rotate(45deg);
+}
+main:has(> .hero) input[type="radio"]:checked::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tool-action-text);
+}
+main:has(> .hero) input[type="checkbox"]:focus-visible,
+main:has(> .hero) input[type="radio"]:focus-visible {
+  outline: 2px solid var(--tool-action);
+  outline-offset: 3px;
+}
+
+main:has(> .hero) input[type="range"] {
+  width: 100%;
+  min-height: 32px;
+  margin: 6px 0;
+  appearance: none;
+  background: transparent;
+  accent-color: var(--tool-action);
+  cursor: pointer;
+}
+main:has(> .hero) input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 99px;
+  background: var(--color-surface);
+}
+main:has(> .hero) input[type="range"]::-moz-range-track {
+  height: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 99px;
+  background: var(--color-surface);
+}
+main:has(> .hero) input[type="range"]::-webkit-slider-thumb {
+  width: 18px;
+  height: 18px;
+  margin-top: -7px;
+  appearance: none;
+  border: 2px solid var(--color-bg);
+  border-radius: 50%;
+  background: var(--tool-action);
+  box-shadow: 0 0 0 1px var(--tool-action);
+}
+main:has(> .hero) input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--color-bg);
+  border-radius: 50%;
+  background: var(--tool-action);
+  box-shadow: 0 0 0 1px var(--tool-action);
+}
+
+/* The shared calculator settings panel needs the same finish on every tool route. */
+main:has(.growth-controls) .growth-controls {
+  gap: 14px;
+  padding: clamp(16px, 2.5vw, 22px);
+  border: 1px solid var(--color-border-bright);
+  border-radius: 15px;
+  background: var(--color-surface);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+}
+
+main:has(.growth-controls) .growth-controls > label {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 11px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+  transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease;
+}
+
+main:has(.growth-controls) .growth-controls > label:focus-within {
+  border-color: var(--tool-action);
+  background: var(--color-surface);
+  box-shadow: 0 0 0 2px var(--tool-action-ring);
+}
+
+main:has(.growth-controls) .growth-controls > label > span {
+  color: var(--color-text);
+  letter-spacing: .005em;
+}
+
+main:has(.growth-controls) .growth-controls > label > input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]),
+main:has(.growth-controls) .growth-controls > label > select {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border-bright);
+  border-radius: 10px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+main:has(.growth-controls) .growth-controls > label > input[type="number"]:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="hidden"]) {
+  font-variant-numeric: tabular-nums;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: .015em;
+}
+
+main:has(.growth-controls) .growth-controls > label > input[type="number"]:focus-visible,
+main:has(.growth-controls) .growth-controls > label > select:focus-visible {
+  outline: 2px solid var(--tool-action);
+  outline-offset: 2px;
+  border-color: var(--tool-action);
+  box-shadow: 0 0 0 4px var(--tool-action-ring);
+}
+
+@media (max-width: 640px) {
+  main:has(.growth-controls) .growth-controls { gap: 10px; padding: 12px; }
+  main:has(.growth-controls) .growth-controls > label { padding: 12px; }
+}
+
 @media (max-width: 760px) {
   main:has(> .hero) .converter { grid-template-columns: minmax(0, 1fr); }
 }

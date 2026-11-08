@@ -5,5 +5,5 @@ import GrowthWorkbench from "@/component/GrowthWorkbench";
 const tool = growthTools.find(item => item.slug === "random-number-generator")!;
 export const dynamic = "force-static";
 export const metadata = pageMetadata(tool.title + " Online", tool.description, "/tools/" + tool.slug);
-export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" date={tool.modified} /><GrowthWorkbench slug="random-number-generator" /><GrowthGuide tool={tool} /></>; }
+export default function Page() { return <><PageSchema title={tool.title} description={tool.description} path={"/tools/" + tool.slug} kind="tool" date={tool.modified} faq={tool.faq} /><GrowthWorkbench slug="random-number-generator" /><GrowthGuide tool={tool} /></>; }
 

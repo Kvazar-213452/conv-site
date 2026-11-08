@@ -13,20 +13,22 @@ export function pageMetadata(title: string, description: string, path: string, a
   return {
     title, description, alternates: { canonical: path },
     robots: { index: true, follow: true },
-    openGraph: { title, description, url: MAIN_DOMEN_NO + path, type: article ? 'article' : 'website', images: [{ url: image, width: article ? 1440 : 1024, height: article ? 900 : 1024, alt: visual?.alt ?? title }], ...(post ? { publishedTime: post.date + 'T00:00:00Z', modifiedTime: '2026-11-06T00:00:00Z' } : {}) },
+    openGraph: { title, description, url: MAIN_DOMEN_NO + path, type: article ? 'article' : 'website', images: [{ url: image, width: article ? 1440 : 1024, height: article ? 900 : 1024, alt: visual?.alt ?? title }], ...(post ? { publishedTime: post.date + 'T00:00:00Z', modifiedTime: post.date + 'T00:00:00Z' } : {}) },
     twitter: { card: 'summary_large_image', title, description, images: [image] },
   };
 }
-export function PageSchema({ title, description, path, kind, date }: { title: string; description: string; path: string; kind: 'article' | 'tool'; date?: string }) {
+export function PageSchema({ title, description, path, kind, date, faq }: { title: string; description: string; path: string; kind: 'article' | 'tool'; date?: string; faq?: { question: string; answer: string } }) {
   const url = MAIN_DOMEN_NO + path;
   const organization = { '@type': 'Organization', name: NAME_MAKE, url: MAIN_DOMEN_NO };
   const section = kind === 'tool' ? { name: 'Developer tools', path: '/' } : { name: 'Developer blog', path: '/blog' };
-  const data = {
-    '@context': 'https://schema.org', '@graph': [
-      kind === 'tool' ? { '@type': 'WebApplication', '@id': url + '#app', name: title, description, url, ...(date ? { dateModified: date } : {}), applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires JavaScript and a modern browser', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } } : { '@type': 'BlogPosting', '@id': url + '#article', headline: title, description, url, mainEntityOfPage: url, image: MAIN_DOMEN_NO + blogVisual(path.split('/').pop()!).image, datePublished: date, dateModified: '2026-11-06', author: organization, publisher: organization, inLanguage: 'en' },
-      { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: section.name, item: MAIN_DOMEN_NO + section.path }, { '@type': 'ListItem', position: 2, name: title, item: url }] },
-    ],
-  };
+  const graph: Record<string, unknown>[] = [
+    kind === 'tool' ? { '@type': 'WebApplication', '@id': url + '#app', name: title, description, url, ...(date ? { dateModified: date } : {}), applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires JavaScript and a modern browser', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } } : { '@type': 'BlogPosting', '@id': url + '#article', headline: title, description, url, mainEntityOfPage: url, image: MAIN_DOMEN_NO + blogVisual(path.split('/').pop()!).image, datePublished: date, dateModified: date, author: organization, publisher: organization, inLanguage: 'en' },
+    { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: section.name, item: MAIN_DOMEN_NO + section.path }, { '@type': 'ListItem', position: 2, name: title, item: url }] },
+  ];
+  if (faq) {
+    graph.push({ '@type': 'FAQPage', '@id': url + '#faq', mainEntity: [{ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } }] });
+  }
+  const data = { '@context': 'https://schema.org', '@graph': graph };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, '\\u003c') }} />;
 }
 export function ToolGuide({ tool }: { tool: ExpansionTool }) {
@@ -54,6 +56,6 @@ export function ArticleContent({ article }: { article: ExpansionArticle }) {
     <aside className="journal-callout"><span>PUT IT INTO PRACTICE</span><h3>See the result with your own data.</h3><p>Open the matching tool, load its example, then try a small sample.</p><Link href={'/tools/'+article.tool}>Open the tool <span aria-hidden="true">↗</span></Link></aside>
     <section aria-labelledby="common-question"><h2 id="common-question">{article.question}</h2><p>{article.answer}</p></section><section><h2>Reference and further reading</h2><p><a href={article.source} target="_blank" rel="noopener noreferrer">Read the official documentation ↗</a></p></section></div></div>
     <section className="journal-related"><p className="journal-kicker">KEEP EXPLORING</p><h2>Another useful idea.</h2><div className="journal-grid">{related.map(a=>{const v=blogVisual(a.slug);return <Link className="journal-card" key={a.slug} href={'/blog/'+a.slug}><div className="journal-card-image"><Image src={v.image} alt={v.alt} width={720} height={450} sizes="(max-width: 640px) 100vw, 33vw"/></div><div className="journal-card-copy"><span className="journal-topic">{v.topic}</span><h3>{a.title}</h3><p>{a.description}</p></div></Link>;})}</div></section>
-    <footer className="journal-article-footer"><Link href="/blog">← Explore all guides</Link><span>Photography via Unsplash</span></footer>
+    <footer className="journal-article-footer"><Link href="/blog">← Explore all guides</Link><span>AI-generated editorial photo</span></footer>
   </article>;
 }

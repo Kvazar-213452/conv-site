@@ -21,5 +21,5 @@ const tools = readRegistry('lib/growth-tools.ts');
 const pages = JSON.parse(fs.readFileSync('.next/server/app-paths-manifest.json', 'utf8'));
 for (const slug of ['word-to-pdf', 'background-remover', 'mp4-to-mp3', 'pdf-unlock']) assert.ok(!pages[`/tools/${slug}/page`], 'Removed page still deployed: ' + slug);
 assert.ok(!pages['/api/user/route'], 'SQLite account API still deployed');
-assert.equal(tools.filter(t => t.server).length, 67);
-console.log(`Vercel artifact checks passed: ${unique.size} traced files, ${(bytes / 1048576).toFixed(2)} MiB dependencies, 67 server tools; no system engines or SQLite API.`);
+assert.equal(tools.filter(t => t.server).length, 69);
+console.log(`Vercel artifact checks passed: ${unique.size} traced files, ${(bytes / 1048576).toFixed(2)} MiB dependencies, 69 server tools; no system engines or SQLite API.`);

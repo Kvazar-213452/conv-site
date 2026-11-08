@@ -3,6 +3,7 @@ import { growthTools } from "@/lib/growth-tools";
 import { expansionTools } from "@/lib/expansion-tools";
 import { expansionArticles } from "@/lib/expansion-articles";
 import { blogVisual } from "@/lib/blog-catalog";
+import { toolCategories } from "@/lib/tool-categories";
 import { MAIN_DOMEN_NO } from "@/lib/config";
 
 type Entry = { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] };
@@ -108,9 +109,12 @@ const STATIC: string[] = [
   "/terms-of-service",
 ];
 
+const CATEGORIES: string[] = toolCategories.map(c => `/tools/category/${c.id}`);
+
 const ENTRIES: Entry[] = [
   { path: "/",     priority: 1.0, changeFrequency: "weekly"  },
   { path: "/blog", priority: 0.9, changeFrequency: "weekly"  },
+  ...CATEGORIES.map((path): Entry => ({ path, priority: 0.9, changeFrequency: "weekly" })),
   ...TOOLS.map((path): Entry => ({ path, priority: 0.8, changeFrequency: "monthly" })),
   ...BLOG.map((path): Entry  => ({ path, priority: 0.7, changeFrequency: "monthly" })),
   ...STATIC.map((path): Entry => ({ path, priority: 0.3, changeFrequency: "yearly"  })),
@@ -123,6 +127,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Use explicit content dates; do not claim an update on every generation.
     ...(growthTools.some(t => path === "/tools/" + t.slug)
       ? { lastModified: growthTools.find(t => path === "/tools/" + t.slug)?.modified ?? "2026-11-03" }
+      : path.startsWith("/tools/category/") ? { lastModified: "2026-11-08" }
       : path === "/" ? { lastModified: "2026-11-07" }
       : ["/privacy-policy", "/terms-of-service"].includes(path) ? { lastModified: "2026-11-07" }
       : path === "/blog" ? { lastModified: "2026-11-06" }

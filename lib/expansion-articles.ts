@@ -1,3 +1,5 @@
+import { growthArticlesForBlog } from './expansion-articles-growth';
+
 export const expansionArticles = [
   {
     "slug": "json-flattening-guide",
@@ -1038,6 +1040,7 @@ export const expansionArticles = [
     "source": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda366i.htm",
     "tool": "binomial-probability-calculator",
     "date": "2026-11-06"
-  }
+  },
+  ...growthArticlesForBlog
 ] as const;
 export type ExpansionArticle = (typeof expansionArticles)[number];

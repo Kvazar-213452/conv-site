@@ -26,14 +26,14 @@ for (const kind of ['tools', 'blog']) {
   }
 }
 const sitemap = fs.readFileSync('.next/server/app/sitemap.xml.body', 'utf8');
-assert.equal((sitemap.match(/<loc>/g) ?? []).length, 385);
-console.log('Rendered SEO passed: retained content canonicals and 385 sitemap URLs.');
+assert.equal((sitemap.match(/<loc>/g) ?? []).length, 766);
+console.log('Rendered SEO passed: retained content canonicals and 766 sitemap URLs.');
 
 const homepage = fs.readFileSync('.next/server/app/index.html', 'utf8');
 const homeLinks = new Set([...homepage.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m => m[1]));
 const toolPaths = fs.readdirSync('app/tools', { withFileTypes: true }).filter(d => d.isDirectory() && fs.existsSync(`app/tools/${d.name}/page.tsx`)).map(d => '/tools/' + d.name);
 for (const path of toolPaths) assert.ok(homeLinks.has(path), 'Tool link missing from initial homepage HTML: ' + path);
 assert.equal((homepage.match(/<h1(?:\s|>)/g) ?? []).length, 1);
-assert.equal((homepage.match(/<details class="directory-group"/g) ?? []).length, 9);
+assert.equal((homepage.match(/<details class="directory-group"/g) ?? []).length, 11);
 assert.ok(homepage.includes('id="tool-search"'));
-console.log(`Homepage SEO passed: all ${toolPaths.length} tool links are present before JavaScript, in 9 compact categories.`);
+console.log(`Homepage SEO passed: all ${toolPaths.length} tool links are present before JavaScript, in 11 compact categories.`);
