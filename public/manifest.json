@@ -1,11 +1,11 @@
 {
-  "name": "DevTools Converter – Free Online Developer Tools",
-  "short_name": "DevTools",
-  "description": "Convert JSON, UUID, Base64, Markdown and more. 100% free online tools for developers, programmers, and data engineers. No installation required.",
+  "name": "Utilixio — Free Online Tools",
+  "short_name": "Utilixio",
+  "description": "Free online tools for PDF, calculators, SEO, AI writing, image converters and more.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
   "orientation": "portrait-primary",
   "icons": [
     {

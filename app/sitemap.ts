@@ -5,12 +5,14 @@ import { expansionArticles } from "@/lib/expansion-articles";
 import { blogVisual } from "@/lib/blog-catalog";
 import { toolCategories } from "@/lib/tool-categories";
 import { MAIN_DOMEN_NO } from "@/lib/config";
+import { FREE_TOOL_SLUGS } from "@/lib/free-tool-slugs";
+import { comparisons } from "@/lib/comparisons";
 
 type Entry = { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] };
 
 // Tools — one line per real page under app/tools/*. Any path listed here MUST
 // have a matching directory, or Google will see a 404 and drop it from the index.
-const TOOLS: string[] = [
+const TOOLS: string[] = [...new Set([
   ...growthTools.map(tool => "/tools/" + tool.slug),
   ...expansionTools.map(tool => "/tools/" + tool.slug),
   "/tools/json-to-yaml",
@@ -85,7 +87,7 @@ const TOOLS: string[] = [
   "/tools/byte-converter",
   "/tools/aspect-ratio-calculator",
   "/tools/json-to-go-struct",
-];
+])];
 
 const BLOG: string[] = [
   ...expansionArticles.map(article => "/blog/" + article.slug),
@@ -115,6 +117,8 @@ const ENTRIES: Entry[] = [
   { path: "/",     priority: 1.0, changeFrequency: "weekly"  },
   { path: "/blog", priority: 0.9, changeFrequency: "weekly"  },
   ...CATEGORIES.map((path): Entry => ({ path, priority: 0.9, changeFrequency: "weekly" })),
+  ...FREE_TOOL_SLUGS.map((slug): Entry => ({ path: "/free/" + slug, priority: 0.7, changeFrequency: "monthly" })),
+  ...comparisons.map(({ slug }): Entry => ({ path: "/compare/" + slug, priority: 0.6, changeFrequency: "monthly" })),
   ...TOOLS.map((path): Entry => ({ path, priority: 0.8, changeFrequency: "monthly" })),
   ...BLOG.map((path): Entry  => ({ path, priority: 0.7, changeFrequency: "monthly" })),
   ...STATIC.map((path): Entry => ({ path, priority: 0.3, changeFrequency: "yearly"  })),
@@ -131,6 +135,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       : path === "/" ? { lastModified: "2026-11-07" }
       : ["/privacy-policy", "/terms-of-service"].includes(path) ? { lastModified: "2026-11-07" }
       : path === "/blog" ? { lastModified: "2026-11-06" }
+      : path.startsWith("/free/") ? { lastModified: "2026-11-09" }
       : expansionArticles.some(a => path === "/blog/" + a.slug)
         ? { lastModified: "2026-11-06" }
       : path.startsWith("/blog/") ? { lastModified: "2026-11-06" }

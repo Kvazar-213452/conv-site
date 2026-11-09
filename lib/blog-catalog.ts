@@ -17,19 +17,19 @@ const legacy = [
 ];
 export function blogVisual(slug:string):{topic:BlogTopic;image:string;alt:string}{
   let topic:BlogTopic='Data & APIs';
-  if(/merge-pdf|compress-pdf|convert-pdf|split-pdf|pdf-|image-to|heic|webp|resize-image/.test(slug)) topic='Files & media';
-  else if(/budget|salary|tax|loan|mortgage|invest|savings|compound|interest|inflation|roi|percentage|tip-|gpa|hourly/.test(slug)) topic='Money & finance';
-  else if(/seo|keyword|meta-description|sitemap|schema|serp|backlink|rank|index|crawl|canonical|hreflang|structured-data|open-graph|utm-links|robots-txt/.test(slug)) topic='SEO & marketing';
-  else if(/calorie|bmi|workout|macro|body-fat|water-intake|sleep|pregnancy/.test(slug)) topic='Health & fitness';
-  else if(/recipe|cooking|meal|ingredient|kitchen/.test(slug)) topic='Home & cooking';
+  if(/merge-pdf|compress-pdf|convert-pdf|split-pdf|pdf-|image-to|image-upscale|photo-collage|heic|webp|resize-image|png-to-svg|gif-to-mp4|jpg-to-pdf-on-phone/.test(slug)) topic='Files & media';
+  else if(/budget|salary|tax|loan|mortgage|invest|savings|compound|interest|inflation|roi|percentage|tip-|gpa|hourly|paycheck|retirement|debt|auto-loan|square-footage|invoice/.test(slug)) topic='Money & finance';
+  else if(/seo|keyword|meta-description|sitemap|schema|serp|backlink|rank|index|crawl|canonical|hreflang|structured-data|open-graph|utm-links|robots-txt|website-speed|domain-|ssl-certificate|google-cache|page-size|email-deliverability|amazon-listing/.test(slug)) topic='SEO & marketing';
+  else if(/calorie|bmi|workout|macro|body-fat|water-intake|sleep|pregnancy|ovulation|ideal-body-weight|blood-pressure/.test(slug)) topic='Health & fitness';
+  else if(/recipe|cooking|meal|ingredient|kitchen|square-footage/.test(slug)) topic='Home & cooking';
   else if(/resume|cover-letter|interview|job|linkedin|career|resignation/.test(slug)) topic='Career & jobs';
-  else if(/email|writing|grammar|tone|readability|headline|blog-post|meeting-agenda/.test(slug)) topic='Writing & content';
+  else if(/email|writing|grammar|tone|readability|headline|blog-post|meeting-agenda|paraphras|plagiarism|paragraph|sentence|article-rewriter|facebook-post|tiktok-caption|youtube-thumbnail|meme|business-card|receipt|signature-generator|invoice-template/.test(slug)) topic='Writing & content';
   else if(/qr-code|barcode|wifi|vcard|uuid|password|gradient/.test(slug)) topic='Generators';
   else if(/fraction|binomial|unix-seconds/.test(slug)) topic='Math & time';
   else if(/har-network|cache-control|robots|url-encoding|html-textcontent|html-to-plain/.test(slug)) topic='Web & performance';
   else if(/jwt|hash|md5|sha256|xss|auth|sri|integrity|checksum|email-received/.test(slug)) topic='Security';
   else if(/css|color|contrast|px-|responsive-type|png-jpeg/.test(slug)) topic='CSS & design';
-  else if(/markdown|chmod|regex|sql-|bulk-slug|duplicate-url/.test(slug)) topic='Developer workflow';
+  else if(/markdown|chmod|regex|sql-|bulk-slug|duplicate-url|html-to-pdf|css-to-tailwind|fake-data|remove-duplicate|barcode/.test(slug)) topic='Developer workflow';
   const label=slug.split('-').map(part=>part[0]?.toUpperCase()+part.slice(1)).join(' ');
   return {topic,image:'/images/blog/'+slug+'-photo.webp',alt:`Photorealistic editorial photo for ${label}`};
 }

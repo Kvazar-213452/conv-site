@@ -1,6 +1,6 @@
 import { POPULAR_SLUGS, convertPopular, examplePopular } from './popular-conversions.mjs';
 import { PROTOCOL_SLUGS, PROTOCOL_TEXT_SLUGS, convertProtocol, exampleProtocol } from './protocol-conversions.mjs';
-import { EXTENDED_SLUGS, EXTENDED_TEXT_SLUGS, EXTENDED_MULTI_SLUGS, convertExtended, exampleExtended } from './extended-conversions.mjs';
+import { EXTENDED_SLUGS, EXTENDED_TEXT_SLUGS, EXTENDED_MULTI_SLUGS, convertExtended, exampleExtended, openRenderedPdf } from './extended-conversions.mjs';
 import ExcelJS from 'exceljs';
 import { parse as parseCsv } from 'csv-parse/sync';
 import { parseDocument } from 'htmlparser2';
@@ -15,10 +15,11 @@ import { stringify as stringifyToml } from 'smol-toml';
 import iconv from 'iconv-lite';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import yauzl from 'yauzl';
+import JSZip from 'jszip';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const SERVER_SLUGS = ['xlsx-to-csv','json-to-xlsx','xlsx-to-json','csv-to-xlsx','html-table-to-xlsx','docx-converter','pdf-merger','pdf-page-extractor','pdf-rotate','pdf-metadata-remover','pdf-resize','text-to-pdf','pdf-watermark','pdf-page-numbers','image-to-avif','tiff-to-image','gif-sprite-sheet','json5-to-json','json-to-toml','text-encoding-converter','text-to-docx','stereo-to-mono-wav',...EXTENDED_SLUGS,...PROTOCOL_SLUGS,...POPULAR_SLUGS];
+export const SERVER_SLUGS = ['xlsx-to-csv','json-to-xlsx','xlsx-to-json','csv-to-xlsx','html-table-to-xlsx','docx-converter','pdf-merger','pdf-page-extractor','pdf-rotate','pdf-metadata-remover','pdf-resize','text-to-pdf','pdf-watermark','pdf-page-numbers','image-to-avif','tiff-to-image','gif-sprite-sheet','json5-to-json','json-to-toml','text-encoding-converter','text-to-docx','stereo-to-mono-wav','word-to-pdf','pdf-to-excel','jpg-to-pdf','png-to-svg','ppt-to-pdf',...EXTENDED_SLUGS,...PROTOCOL_SLUGS,...POPULAR_SLUGS];
 export const MAX_FILE_BYTES = 4 * 1024 * 1024;
 const MAX_PIXELS = 16000000;
 export class InputError extends Error { constructor(message,status=400){super(message);this.status=status;} }
@@ -137,6 +138,46 @@ async function textPdf(text,values) {
   for(const paragraph of text.split('\n')){let line='';for(const character of paragraph){if(line&&font.widthOfTextAtSize(line+character,size)>width){draw(line);line='';}line+=character;}draw(line);}
   return binaryResult(await doc.save(),'text.pdf','application/pdf');
 }
+function decodeXmlText(value) {
+  return value.replace(/&#x([\da-f]+);/gi,(_,code)=>String.fromCodePoint(parseInt(code,16))).replace(/&#(\d+);/g,(_,code)=>String.fromCodePoint(Number(code))).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&');
+}
+async function powerpointToPdf(bytes,values) {
+  await validateOfficeZip(bytes,'pptx');
+  const archive=await JSZip.loadAsync(Buffer.from(bytes),{checkCRC32:true,createFolders:false});
+  const slides=Object.keys(archive.files).filter(name=>/^ppt\/slides\/slide\d+\.xml$/.test(name)).sort((a,b)=>Number(/slide(\d+)/.exec(a)?.[1])-Number(/slide(\d+)/.exec(b)?.[1]));
+  ensure(slides.length>0&&slides.length<=50,'Use a presentation with 1–50 slides.');
+  const blocks=[];
+  for(let i=0;i<slides.length;i++){
+    const xml=await archive.file(slides[i]).async('string');
+    const paragraphs=[...xml.matchAll(/<a:p(?:\s[^>]*)?>([\s\S]*?)<\/a:p>/g)].map(match=>[...match[1].matchAll(/<a:t(?:\s[^>]*)?>([\s\S]*?)<\/a:t>/g)].map(item=>decodeXmlText(item[1])).join('').trim()).filter(Boolean);
+    blocks.push(`Slide ${i+1}${paragraphs.length?'\n'+paragraphs.join('\n'): '\n[No selectable text on this slide]'}`);
+  }
+  const result=await textPdf(blocks.join('\n\n'),values);result.name='presentation.pdf';return result;
+}
+async function convertRequestedFile(slug,bytes,values) {
+  if(slug==='word-to-pdf'){
+    await validateOfficeZip(bytes,'docx');const extracted=await mammoth.extractRawText({buffer:Buffer.from(bytes)},{externalFileAccess:false});
+    ensure(!extracted.messages.some(m=>m.type==='error'),'Could not safely read the Word document.');
+    const result=await textPdf(extracted.value,values);result.name='document.pdf';return result;
+  }
+  if(slug==='ppt-to-pdf')return powerpointToPdf(bytes,values);
+  if(slug==='pdf-to-excel'){
+    const pdf=await openRenderedPdf(bytes,sharedHelpers());
+    const pageLimit=integer(values,'sheet',1,50);ensure(pdf.numPages<=pageLimit,'PDF has more pages than the selected page limit.');const extracted=[];
+    for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i),content=await page.getTextContent(),items=content.items.filter(item=>typeof item.str==='string'&&item.str.trim()).map(item=>({text:item.str.trim(),x:Number(item.transform?.[4]??0),y:Number(item.transform?.[5]??0),width:Number(item.width??0)})).sort((a,b)=>Math.abs(a.y-b.y)>3?b.y-a.y:a.x-b.x);const lines=[];for(const item of items){let line=lines.find(row=>Math.abs(row.y-item.y)<=3);if(!line){line={y:item.y,items:[]};lines.push(line);}line.items.push(item);}for(const line of lines){line.items.sort((a,b)=>a.x-b.x);const cells=[];let value='',right=-Infinity;for(const item of line.items){const gap=item.x-right;if(value&&gap>18){cells.push(value.trim());value=item.text;}else value+=(value&&gap>1?' ':'')+item.text;right=item.x+item.width;}if(value.trim())cells.push(value.trim());if(cells.length)extracted.push({page:i,cells});}page.cleanup();}
+    await pdf.destroy();ensure(extracted.length>0,'No selectable text found. Scanned pages need OCR before conversion.');const columns=Math.min(30,Math.max(...extracted.map(row=>row.cells.length))),workbook=new ExcelJS.Workbook(),sheet=workbook.addWorksheet('Extracted tables');sheet.addRow(['Page','Row',...Array.from({length:columns},(_,i)=>`Column ${i+1}`)]);let rowNumber=0,lastPage=0;for(const row of extracted){if(row.page!==lastPage){lastPage=row.page;rowNumber=0;}sheet.addRow([row.page,++rowNumber,...Array.from({length:columns},(_,i)=>row.cells[i]??'')]);}sheet.getRow(1).font={bold:true};sheet.views=[{state:'frozen',ySplit:1,xSplit:2}];sheet.columns=[{width:9},{width:9},...Array.from({length:columns},()=>({width:22}))];return binaryResult(await workbook.xlsx.writeBuffer(),'pdf-tables.xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  }
+  if(slug==='jpg-to-pdf'){
+    const meta=await sharp(bytes,{limitInputPixels:MAX_PIXELS}).metadata();ensure(['jpeg','png'].includes(meta.format),'Choose a JPG or PNG image.');const normalized=await sharp(bytes,{limitInputPixels:MAX_PIXELS}).rotate().png().toBuffer(),image=await PDFDocument.create(),embedded=await image.embedPng(normalized);ensure(embedded.width*embedded.height<=MAX_PIXELS,'Image is too large to place in a PDF.');const page=image.addPage([embedded.width,embedded.height]);page.drawImage(embedded,{x:0,y:0,width:embedded.width,height:embedded.height});return binaryResult(await image.save(),'image.pdf','application/pdf');
+  }
+  if(slug==='png-to-svg'){
+    const meta=await sharp(bytes,{limitInputPixels:MAX_PIXELS}).metadata();ensure(meta.format==='png','Choose a PNG image.');const side=integer(values,'resolution',8,128),maxColors=integer(values,'colors',2,16),scale=Math.min(1,side/Math.max(meta.width,meta.height)),width=Math.max(1,Math.round(meta.width*scale)),height=Math.max(1,Math.round(meta.height*scale));
+    const {data}=await sharp(bytes,{limitInputPixels:MAX_PIXELS}).resize(width,height,{kernel:'nearest'}).ensureAlpha().raw().toBuffer({resolveWithObject:true});const histogram=new Map();for(let i=0;i<data.length;i+=4){if(data[i+3]<16)continue;const key=`${data[i]},${data[i+1]},${data[i+2]}`;histogram.set(key,(histogram.get(key)??0)+1);}const palette=[...histogram].sort((a,b)=>b[1]-a[1]).slice(0,maxColors).map(([key])=>key.split(',').map(Number));ensure(palette.length,'The PNG has no visible pixels.');const colorFor=(r,g,b)=>{let best=palette[0],distance=Infinity;for(const color of palette){const d=(r-color[0])**2+(g-color[1])**2+(b-color[2])**2;if(d<distance){distance=d;best=color;}}return `#${best.map(n=>n.toString(16).padStart(2,'0')).join('')}`;};const mapped=new Map();let rects='';
+    for(let y=0;y<height;y++){let x=0;while(x<width){const at=(y*width+x)*4,alpha=data[at+3];if(alpha<16){x++;continue;}const raw=`${data[at]},${data[at+1]},${data[at+2]}`,color=mapped.get(raw)??colorFor(data[at],data[at+1],data[at+2]);mapped.set(raw,color);let end=x+1;while(end<width){const p=(y*width+end)*4;if(data[p+3]<16)break;const nextRaw=`${data[p]},${data[p+1]},${data[p+2]}`,next=mapped.get(nextRaw)??colorFor(data[p],data[p+1],data[p+2]);mapped.set(nextRaw,next);if(next!==color)break;end++;}rects+=`<rect x="${x}" y="${y}" width="${end-x}" height="1" fill="${color}"/>`;x=end;}}
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" shape-rendering="crispEdges">${rects}</svg>`;return textResult(svg,'traced-image.svg','image/svg+xml;charset=utf-8');
+  }
+  throw new InputError('Unsupported file tool.');
+}
 async function transformPdf(slug,files,values) {
   if(slug==='pdf-merger'){ensure(files.length>=2&&files.length<=8,'Choose between two and eight PDFs.');const output=await PDFDocument.create();let total=0;for(const file of files){const input=await loadPdf(file.bytes);total+=input.getPageCount();ensure(total<=200,'Merged PDFs must contain at most 200 pages.');for(const page of await output.copyPages(input,input.getPageIndices()))output.addPage(page);}return binaryResult(await output.save(),'merged.pdf','application/pdf');}
   const input=await loadPdf(files[0].bytes);
@@ -198,13 +239,21 @@ async function textDocx(text) {
   const children=text.replace(/\r\n?/g,'\n').split(/\n\n+/).map(paragraph=>new Paragraph({children:paragraph.split('\n').map((line,index)=>new TextRun({text:line,...(index?{break:1}:{})}))}));
   return binaryResult(await Packer.toBuffer(new Document({sections:[{children}]})),'document.docx','application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 }
+async function examplePptx() {
+  const zip=new JSZip();
+  zip.file('[Content_Types].xml','<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/><Override PartName="/ppt/slides/slide1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/></Types>');
+  zip.file('ppt/presentation.xml','<?xml version="1.0" encoding="UTF-8"?><p:presentation xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><p:sldIdLst><p:sldId id="256" r:id="rId1" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"/></p:sldIdLst></p:presentation>');
+  zip.file('ppt/slides/slide1.xml','<?xml version="1.0" encoding="UTF-8"?><p:sld xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><p:cSld><p:spTree><p:sp><p:txBody><a:p><a:r><a:t>Example presentation slide</a:t></a:r></a:p><a:p><a:r><a:t>Text extracted to a PDF outline.</a:t></a:r></a:p></p:txBody></p:sp></p:spTree></p:cSld></p:sld>');
+  return zip.generateAsync({type:'nodebuffer',compression:'DEFLATE'});
+}
 export async function convert(slug,files=[],text='',values={},second='',runtime) {
   ensure(SERVER_SLUGS.includes(slug),'Unknown conversion.');ensure(typeof text==='string'&&typeof second==='string'&&text.length+second.length<=2*1024*1024,'Use at most 2 MiB of input text.');
   ensure(Array.isArray(files)&&files.length<=8&&files.reduce((n,f)=>n+f.bytes.length,0)<=MAX_FILE_BYTES,'Use at most eight files and 4 MiB combined input.');
   const textSlugs=['json-to-xlsx','csv-to-xlsx','html-table-to-xlsx','text-to-pdf','json5-to-json','json-to-toml','text-to-docx',...EXTENDED_TEXT_SLUGS,...PROTOCOL_TEXT_SLUGS];
   ensure(textSlugs.includes(slug)?files.length===0:['pdf-merger',...EXTENDED_MULTI_SLUGS].includes(slug)?files.length>=2:files.length===1,'Choose the required input files.');
   let result;
-  if(POPULAR_SLUGS.includes(slug))result=await convertPopular(slug,files,text,values,sharedHelpers());
+  if(['word-to-pdf','pdf-to-excel','jpg-to-pdf','png-to-svg','ppt-to-pdf'].includes(slug))result=await convertRequestedFile(slug,files[0].bytes,values);
+  else if(POPULAR_SLUGS.includes(slug))result=await convertPopular(slug,files,text,values,sharedHelpers());
   else if(PROTOCOL_SLUGS.includes(slug))result=await convertProtocol(slug,files,text,values,{...sharedHelpers(),second});
   else if(EXTENDED_SLUGS.includes(slug))result=await convertExtended(slug,files,text,values,sharedHelpers());
   else if(slug==='json-to-xlsx')result=await jsonWorkbook(text);
@@ -240,6 +289,11 @@ export async function example(slug,runtime) {
   if(POPULAR_SLUGS.includes(slug))return examplePopular(slug,{...sharedHelpers(),defaultPdf:()=>example('pdf-merger'),defaultExcel:()=>example('xlsx-to-csv')});
   if(PROTOCOL_SLUGS.includes(slug))return exampleProtocol(slug,sharedHelpers());
   if(EXTENDED_SLUGS.includes(slug))return exampleExtended(slug,{...sharedHelpers(),defaultPdf:()=>example('pdf-merger'),defaultWav:()=>example('stereo-to-mono-wav')});
+  if(slug==='word-to-pdf'){const doc=new Document({sections:[{children:[new Paragraph({children:[new TextRun('Example Word document')]}),new Paragraph({children:[new TextRun('This sample converts to a text PDF.')]} )]}]});return binaryResult(await Packer.toBuffer(doc),'example.docx','application/vnd.openxmlformats-officedocument.wordprocessingml.document');}
+  if(slug==='ppt-to-pdf')return binaryResult(await examplePptx(),'example.pptx','application/vnd.openxmlformats-officedocument.presentationml.presentation');
+  if(slug==='pdf-to-excel'){const doc=await PDFDocument.create();const page=doc.addPage([320,200]);page.drawText('Example PDF text',{x:24,y:150,size:20});return binaryResult(await doc.save(),'example.pdf','application/pdf');}
+  if(slug==='jpg-to-pdf')return binaryResult(await sharp({create:{width:320,height:200,channels:3,background:'#dfede4'}}).jpeg().toBuffer(),'example.jpg','image/jpeg');
+  if(slug==='png-to-svg')return binaryResult(await sharp({create:{width:24,height:24,channels:4,background:'#2878a5'}}).png().toBuffer(),'example.png','image/png');
   if(slug.startsWith('xlsx-')){const result=await jsonWorkbook('[{"id":"001","name":"Ada","score":95},{"id":"002","name":"Grace","score":98}]');return {...result,name:'example.xlsx'};}
   if(slug==='docx-converter')return {...await textDocx('Example document\n\nHello, world!\nВітаємо з Word.'),name:'example.docx'};
   if(slug.startsWith('pdf-')){const doc=await PDFDocument.create();doc.setTitle('Example title');doc.setAuthor('Example author');for(let i=1;i<=2;i++){const page=doc.addPage([300,400]);page.drawText('Example page '+i,{x:30,y:340,size:18});page.drawRectangle({x:30,y:40,width:80,height:50,color:rgb(i===1?1:0,0,i===2?1:0)});}return binaryResult(await doc.save(),'example.pdf','application/pdf');}

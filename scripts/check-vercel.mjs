@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { readRegistry } from './content-registry.mjs';
+import { SERVER_SLUGS } from '../server/conversions.mjs';
 const filename = '.next/server/app/api/convert/[slug]/route.js.nft.json';
 const entries = JSON.parse(fs.readFileSync(filename, 'utf8')).files;
 const files = entries.map(file => path.resolve(path.dirname(filename), file));
@@ -19,7 +20,10 @@ for (const asset of ['server/conversion-worker.mjs', 'server/conversions.mjs', '
 }
 const tools = readRegistry('lib/growth-tools.ts');
 const pages = JSON.parse(fs.readFileSync('.next/server/app-paths-manifest.json', 'utf8'));
-for (const slug of ['word-to-pdf', 'background-remover', 'mp4-to-mp3', 'pdf-unlock']) assert.ok(!pages[`/tools/${slug}/page`], 'Removed page still deployed: ' + slug);
+for (const slug of ['background-remover', 'mp4-to-mp3']) assert.ok(!pages[`/tools/${slug}/page`], 'Removed page still deployed: ' + slug);
 assert.ok(!pages['/api/user/route'], 'SQLite account API still deployed');
-assert.equal(tools.filter(t => t.server).length, 69);
-console.log(`Vercel artifact checks passed: ${unique.size} traced files, ${(bytes / 1048576).toFixed(2)} MiB dependencies, 69 server tools; no system engines or SQLite API.`);
+const serverTools = tools.filter(t => t.server);
+assert.equal(serverTools.length, SERVER_SLUGS.length, 'Server tool metadata and conversion registry differ in size.');
+for (const tool of serverTools) assert.ok(SERVER_SLUGS.includes(tool.slug), 'Server tool is missing its conversion handler: ' + tool.slug);
+for (const slug of SERVER_SLUGS) assert.ok(serverTools.some(tool => tool.slug === slug), 'Server conversion has no tool page metadata: ' + slug);
+console.log(`Vercel artifact checks passed: ${unique.size} traced files, ${(bytes / 1048576).toFixed(2)} MiB dependencies, ${serverTools.length} server tools; no system engines or SQLite API.`);

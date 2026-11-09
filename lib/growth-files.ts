@@ -45,14 +45,14 @@ export type ImageResult = { blob: Blob; width: number; height: number; originalW
 export async function processImage(file: File, slug: string, values: ToolValues): Promise<ImageResult> {
   if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw new Error('Select a PNG, JPEG or WebP file.');
   if (file.size > MAX_BINARY_BYTES) throw new Error('Image files must be at most 20 MiB.');
-  if (!['image-resizer', 'image-compressor', 'image-format-converter', 'image-cropper', 'image-rotate-flip', 'image-grayscale', 'image-watermark', 'jpg-to-png', 'png-to-jpg', 'webp-to-png', 'webp-to-jpg', 'png-to-webp', 'jpg-to-webp'].includes(slug)) throw new Error('Unknown image operation.');
+  if (!['image-resizer', 'image-compressor', 'image-format-converter', 'image-cropper', 'image-rotate-flip', 'image-grayscale', 'image-watermark', 'jpg-to-png', 'png-to-jpg', 'webp-to-png', 'webp-to-jpg', 'png-to-webp', 'jpg-to-webp', 'image-upscaler'].includes(slug)) throw new Error('Unknown image operation.');
   const bitmap = await createImageBitmap(file);
   try {
     if (bitmap.width * bitmap.height > MAX_IMAGE_PIXELS) throw new Error('Decoded image exceeds the 40-million-pixel limit.');
     if (slug === 'image-grayscale' && bitmap.width * bitmap.height > 20_000_000) throw new Error('Grayscale conversion is limited to 20 million pixels.');
     const crop = slug === 'image-cropper' ? cropRectangle(bitmap.width, bitmap.height, values) : null;
     const rotation = slug === 'image-rotate-flip' ? rotationSettings(bitmap.width, bitmap.height, values) : null;
-    const dimensions = crop ? { width: crop.width, height: crop.height } : rotation ? { width: rotation.width, height: rotation.height } : slug === 'image-resizer' ? resizeDimensions(bitmap.width, bitmap.height, Number(values.width), Number(values.height), values.lock === 'true') : { width: bitmap.width, height: bitmap.height };
+    const dimensions = crop ? { width: crop.width, height: crop.height } : rotation ? { width: rotation.width, height: rotation.height } : slug === 'image-resizer' ? resizeDimensions(bitmap.width, bitmap.height, Number(values.width), Number(values.height), values.lock === 'true') : slug === 'image-upscaler' ? resizeDimensions(bitmap.width, bitmap.height, bitmap.width * Number(values.scale), bitmap.height * Number(values.scale), false) : { width: bitmap.width, height: bitmap.height };
     const fixedFormats: Record<string, string> = { 'jpg-to-png': 'image/png', 'png-to-jpg': 'image/jpeg', 'webp-to-png': 'image/png', 'webp-to-jpg': 'image/jpeg', 'png-to-webp': 'image/webp', 'jpg-to-webp': 'image/webp' };
     const format = fixedFormats[slug] ?? (['image-resizer', 'image-cropper', 'image-rotate-flip', 'image-grayscale', 'image-watermark'].includes(slug) ? 'image/png' : values.format);
     if (!['image/png', 'image/jpeg', 'image/webp'].includes(format)) throw new Error('Select PNG, JPEG or WebP as the output format.');

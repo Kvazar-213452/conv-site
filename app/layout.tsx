@@ -25,7 +25,10 @@ export const metadata: Metadata = {
   authors: [{ name: NAME_MAKE }],
   creator: NAME_MAKE,
 
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    types: { 'application/rss+xml': '/feed.xml' },
+  },
 
   robots: {
     index: true,
@@ -71,8 +74,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#0f172a" />
       </head>
       <body>
         {/* Google AdSense */}

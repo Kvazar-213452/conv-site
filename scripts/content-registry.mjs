@@ -16,9 +16,14 @@ export function readRegistry(path) {
   if (path === 'lib/expansion-articles.ts') {
     const start = source.indexOf(' = ', source.indexOf('export const expansionArticles'));
     const spread = source.indexOf('...growthArticlesForBlog');
+    const growth2Spread = source.indexOf('...growthArticles2');
     if (start < 0 || spread < 0) throw new Error('Expansion article registry is missing its generated entries.');
     const base = JSON.parse(source.slice(start + 3, spread).trimEnd().replace(/,\s*$/, '') + '\n]');
-    return [...base, ...loadRegistryModule('lib/expansion-articles-growth.ts', 'growthArticlesForBlog')];
+    return [
+      ...base,
+      ...loadRegistryModule('lib/expansion-articles-growth.ts', 'growthArticlesForBlog'),
+      ...(growth2Spread >= 0 ? loadRegistryModule('lib/expansion-articles-growth-2.ts', 'growthArticles2') : []),
+    ];
   }
   if (path.endsWith('/growth-tools.ts') || path === 'lib/growth-tools.ts') {
     const start = source.indexOf(' = ', source.indexOf('export const growthTools'));

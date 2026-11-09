@@ -1,4 +1,5 @@
 import { growthArticlesForBlog } from './expansion-articles-growth';
+import { growthArticles2 } from './expansion-articles-growth-2';
 
 export const expansionArticles = [
   {
@@ -1041,6 +1042,7 @@ export const expansionArticles = [
     "tool": "binomial-probability-calculator",
     "date": "2026-11-06"
   },
-  ...growthArticlesForBlog
+  ...growthArticlesForBlog,
+  ...growthArticles2
 ] as const;
 export type ExpansionArticle = (typeof expansionArticles)[number];

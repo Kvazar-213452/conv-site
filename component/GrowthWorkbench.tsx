@@ -27,6 +27,38 @@ export default function GrowthWorkbench({ slug }: { slug: string }) {
         try { const response = await fetch(target, { method: 'GET', mode: 'cors', cache: 'no-store' }); const elapsed = performance.now() - start; const body = await response.text(); setResult({ text: `URL: ${target.href}\nStatus: ${response.status} ${response.statusText}\nBrowser-observed response time: ${elapsed.toFixed(0)} ms\nResponse body read: ${new Blob([body]).size.toLocaleString()} bytes\n\nThis measurement is from your browser and includes network conditions. CORS restrictions may prevent reading some endpoints; it is not a server-side uptime monitor.` }); return; }
         catch (error) { throw new Error(error instanceof Error ? `Request could not be read by this browser (often due to CORS): ${error.message}` : 'Request failed or was blocked by CORS.'); }
       }
+      if (slug === 'website-speed-test' || slug === 'ssl-certificate-checker') {
+        const target = new URL(input.trim());
+        if (!['https:', 'http:'].includes(target.protocol)) throw new Error('Enter an HTTP or HTTPS URL.');
+        const start = performance.now();
+        try {
+          const response = await fetch(target.href, { mode: 'cors', cache: 'no-store' });
+          const elapsed = performance.now() - start;
+          const bytes = new Blob([await response.arrayBuffer()]).size;
+          setResult({ text: `${slug === 'website-speed-test' ? 'Browser-observed response test' : 'HTTPS connection check'}\nURL: ${target.href}\nStatus: ${response.status} ${response.statusText}\nResponse time: ${elapsed.toFixed(0)} ms\nReadable response bytes: ${bytes.toLocaleString()}\n\nThis browser measurement depends on your connection and CORS access. It is not a Lighthouse/PageSpeed score or a complete certificate-chain and expiry audit.${slug === 'ssl-certificate-checker' && target.protocol !== 'https:' ? '\nWarning: this URL uses HTTP, not HTTPS.' : ''}` }); return;
+        } catch (reason) { throw new Error(reason instanceof Error ? `The browser could not read this URL (often due to CORS): ${reason.message}` : 'The request failed or was blocked by browser security.'); }
+      }
+      if (slug === 'domain-age-checker') {
+        const domain = input.trim().replace(/^https?:\/\//i, '').split(/[/?#:]/)[0].toLowerCase();
+        if (!/^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(domain)) throw new Error('Enter a valid domain name, such as example.com.');
+        const response = await fetch(`https://rdap.org/domain/${encodeURIComponent(domain)}`, { headers: { Accept: 'application/rdap+json, application/json' } });
+        if (!response.ok) throw new Error(`The public RDAP lookup returned ${response.status}. Some registries do not publish a creation date.`);
+        const record = await response.json();
+        const created = record.events?.find((event: { eventAction?: string }) => event.eventAction === 'registration')?.eventDate;
+        if (!created) throw new Error('This registry did not return a registration date.');
+        const date = new Date(created), age = Math.max(0, (Date.now() - +date) / 86400000 / 365.2425);
+        setResult({ text: `Domain: ${domain}\nRegistration date (RDAP): ${date.toLocaleDateString()}\nApproximate age: ${age.toFixed(1)} years\n\nThis is the registry's registration date where available. It does not show when a website first launched or whether ownership changed.` }); return;
+      }
+      if (slug === 'email-deliverability-checker') {
+        const domain = input.trim().toLowerCase().replace(/^@/, '');
+        if (!/^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(domain)) throw new Error('Enter a domain such as example.com.');
+        const lookup = async (name: string, type: string) => { const url = new URL('https://dns.google/resolve');url.searchParams.set('name',name);url.searchParams.set('type',type);const response=await fetch(url);if(!response.ok)throw new Error('DNS-over-HTTPS lookup failed.');return response.json(); };
+        const [mx, spf, dmarc] = await Promise.all([lookup(domain,'MX'),lookup(domain,'TXT'),lookup(`_dmarc.${domain}`,'TXT')]);
+        const txt=(x: {Answer?:{data:string}[]})=>(x.Answer??[]).map(a=>a.data.replace(/^"|"$/g,''));
+        const spfRecords=txt(spf).filter((x:string)=>x.startsWith('v=spf1'));
+        const dmarcRecords=txt(dmarc).filter((x:string)=>x.toLowerCase().startsWith('v=dmarc1'));
+        setResult({ text: `Domain: ${domain}\nMX records: ${(mx.Answer??[]).map((x:{data:string})=>x.data).join('\n')||'None found'}\nSPF TXT: ${spfRecords.join('\n')||'No SPF record found'}\nDMARC TXT: ${dmarcRecords.join('\n')||'No DMARC record found'}\n\nDNS presence checks only. This does not send mail or test inbox placement, IP reputation, DKIM signing or provider-specific policy.` }); return;
+      }
       setResult(calculateGrowth(slug, input, values, second));
     } catch (e) { setError(e instanceof Error ? e.message : 'Unable to process this input.'); }
   }
@@ -44,11 +76,12 @@ export default function GrowthWorkbench({ slug }: { slug: string }) {
         <ToolStepHeading number={hasInput && tool.fields.length > 0 ? 3 : 2} title="Your result is ready" description="Review the result below, then copy or download it." />
         {result.notice && <p role="status">{result.notice}</p>}
         <DesignPreviews result={result} />
+        {['business-card-maker','barcode-generator'].includes(slug) && <iframe title={`${tool.title} preview`} sandbox="" srcDoc={result.text} style={{ width: '100%', minHeight: 260, border: '1px solid var(--border, #d9ded8)', borderRadius: 12, background: '#fff' }} />}
         {result.grid && <div className="css-grid-preview" aria-label="Generated CSS Grid preview" style={{ display: 'grid', gridTemplateColumns: result.grid.template, gap: result.grid.gap }}>{Array.from({ length: result.grid.items }, (_, i) => <div key={i}>{i + 1}</div>)}</div>}
         {result.preview && <div className="growth-preview-stage" aria-label="Generated CSS preview"><div className={'growth-design-preview ' + (slug === 'css-gradient-generator' ? 'growth-gradient-preview' : slug === 'css-text-shadow-generator' ? 'growth-shadow-preview' : '')} style={result.preview}><span>Preview</span></div></div>}
         <div className="panel"><div className="panel-header"><label className="panel-title" htmlFor="growth-result">Result</label></div><textarea id="growth-result" readOnly spellCheck={false} value={result.text} /></div>
         {!result.text && <p role="status">{slug.includes('extractor') ? 'No matching candidates found.' : 'The result is empty.'}</p>}
-        <div className="actions"><button className="btn-secondary" onClick={async () => { try { await navigator.clipboard.writeText(result.text); setCopied(true); } catch { setError('Clipboard unavailable. Select and copy the result manually.'); } }}>{copied ? 'Copied' : 'Copy result'}</button><button className="btn-secondary" onClick={() => downloadBlob(new Blob([result.text], { type: slug === 'ean13-barcode-generator' ? 'image/svg+xml' : 'text/plain;charset=utf-8' }), `${slug}.${slug === 'srt-to-vtt' ? (values.direction === 'srt-vtt' ? 'vtt' : 'srt') : slug === 'subtitle-time-shifter' ? values.format : tool.extension}`)}>Download result</button></div>
+        <div className="actions"><button className="btn-secondary" onClick={async () => { try { await navigator.clipboard.writeText(result.text); setCopied(true); } catch { setError('Clipboard unavailable. Select and copy the result manually.'); } }}>{copied ? 'Copied' : 'Copy result'}</button><button className="btn-secondary" onClick={() => downloadBlob(new Blob([result.text], { type: ['ean13-barcode-generator','barcode-generator','business-card-maker'].includes(slug) ? 'image/svg+xml;charset=utf-8' : 'text/plain;charset=utf-8' }), `${slug}.${slug === 'srt-to-vtt' ? (values.direction === 'srt-vtt' ? 'vtt' : 'srt') : slug === 'subtitle-time-shifter' ? values.format : tool.extension}`)}>Download result</button></div>
       </div>}
     </section>
   </>;

@@ -6,27 +6,49 @@ import { type ExpansionTool } from '@/lib/expansion-tools';
 import '@/style/main.css';
 import Image from 'next/image';
 import { blogVisual, blogDate, articleMinutes } from '@/lib/blog-catalog';
+import { growthTools } from '@/lib/growth-tools';
 export function pageMetadata(title: string, description: string, path: string, article = false): Metadata {
   const post = article ? expansionArticles.find(a => path === '/blog/' + a.slug) : undefined;
   const visual = article ? blogVisual(path.split('/').pop()!) : undefined;
   const image = visual?.image ?? '/og-image.png';
+  const hasGeneratedOgImage = path.startsWith('/tools/') || (article && path.startsWith('/blog/'));
+  const socialImage = hasGeneratedOgImage ? MAIN_DOMEN_NO + path + '/opengraph-image' : image;
   return {
-    title, description, alternates: { canonical: path },
+    title, description, alternates: { canonical: MAIN_DOMEN_NO + path, types: { 'application/rss+xml': MAIN_DOMEN_NO + '/feed.xml' } },
     robots: { index: true, follow: true },
-    openGraph: { title, description, url: MAIN_DOMEN_NO + path, type: article ? 'article' : 'website', images: [{ url: image, width: article ? 1440 : 1024, height: article ? 900 : 1024, alt: visual?.alt ?? title }], ...(post ? { publishedTime: post.date + 'T00:00:00Z', modifiedTime: post.date + 'T00:00:00Z' } : {}) },
-    twitter: { card: 'summary_large_image', title, description, images: [image] },
+    openGraph: { title, description, url: MAIN_DOMEN_NO + path, type: article ? 'article' : 'website', images: [{ url: socialImage, width: hasGeneratedOgImage ? 1200 : article ? 1440 : 1024, height: hasGeneratedOgImage ? 630 : article ? 900 : 1024, alt: hasGeneratedOgImage ? title : visual?.alt ?? title }], ...(post ? { publishedTime: post.date + 'T00:00:00Z', modifiedTime: post.date + 'T00:00:00Z' } : {}) },
+    twitter: { card: 'summary_large_image', title, description, images: [socialImage] },
   };
 }
-export function PageSchema({ title, description, path, kind, date, faq }: { title: string; description: string; path: string; kind: 'article' | 'tool'; date?: string; faq?: { question: string; answer: string } }) {
+export function PageSchema({ title, description, path, kind, date, faq }: { title: string; description: string; path: string; kind: 'article' | 'tool' | 'webpage'; date?: string; faq?: { question: string; answer: string } }) {
   const url = MAIN_DOMEN_NO + path;
   const organization = { '@type': 'Organization', name: NAME_MAKE, url: MAIN_DOMEN_NO };
-  const section = kind === 'tool' ? { name: 'Developer tools', path: '/' } : { name: 'Developer blog', path: '/blog' };
+  const section = kind === 'tool' ? { name: 'Developer tools', path: '/' } : kind === 'article' ? { name: 'Developer blog', path: '/blog' } : { name: 'Comparisons', path: '/compare' };
   const graph: Record<string, unknown>[] = [
-    kind === 'tool' ? { '@type': 'WebApplication', '@id': url + '#app', name: title, description, url, ...(date ? { dateModified: date } : {}), applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires JavaScript and a modern browser', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } } : { '@type': 'BlogPosting', '@id': url + '#article', headline: title, description, url, mainEntityOfPage: url, image: MAIN_DOMEN_NO + blogVisual(path.split('/').pop()!).image, datePublished: date, dateModified: date, author: organization, publisher: organization, inLanguage: 'en' },
+    kind === 'tool' ? { '@type': 'WebApplication', '@id': url + '#app', name: title, description, url, ...(date ? { dateModified: date } : {}), applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', browserRequirements: 'Requires JavaScript and a modern browser', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }
+      : kind === 'article' ? { '@type': 'BlogPosting', '@id': url + '#article', headline: title, description, url, mainEntityOfPage: url, image: MAIN_DOMEN_NO + blogVisual(path.split('/').pop()!).image, datePublished: date, dateModified: date, author: organization, publisher: organization, inLanguage: 'en' }
+      : { '@type': 'WebPage', '@id': url + '#webpage', name: title, description, url, inLanguage: 'en' },
     { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: section.name, item: MAIN_DOMEN_NO + section.path }, { '@type': 'ListItem', position: 2, name: title, item: url }] },
   ];
   if (faq) {
     graph.push({ '@type': 'FAQPage', '@id': url + '#faq', mainEntity: [{ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } }] });
+  }
+  if (kind === 'article' && title.toLowerCase().startsWith('how to')) {
+    const article = expansionArticles.find(item => path.endsWith(item.slug));
+    if (article) {
+      graph.push({
+        '@type': 'HowTo',
+        '@id': url + '#howto',
+        name: title,
+        description,
+        step: article.sections.map((section, index) => ({
+          '@type': 'HowToStep',
+          position: index + 1,
+          name: section.heading,
+          text: section.body,
+        })),
+      });
+    }
   }
   const data = { '@context': 'https://schema.org', '@graph': graph };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, '\\u003c') }} />;
@@ -45,6 +67,7 @@ export function ToolGuide({ tool }: { tool: ExpansionTool }) {
 }
 export function ArticleContent({ article }: { article: ExpansionArticle }) {
   const related = expansionArticles.filter(a => a.slug !== article.slug).map(a=>({article:a,score:(a.tool===article.tool?2:0)+(blogVisual(a.slug).topic===blogVisual(article.slug).topic?1:0)})).sort((a,b)=>b.score-a.score).slice(0,3).map(a=>a.article);
+  const matchingTool = growthTools.find(tool => tool.slug === article.tool);
   const visual=blogVisual(article.slug);
   return <article className="journal-article">
     <nav className="journal-breadcrumb" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><Link href="/blog">Journal</Link><span>/</span><span>{visual.topic}</span></nav>
@@ -54,7 +77,9 @@ export function ArticleContent({ article }: { article: ExpansionArticle }) {
     <div className="journal-prose"><p className="journal-lead">{article.intro}</p>{article.sections.map((section,i)=><section key={section.heading} aria-labelledby={'section-'+i}><h2 id={'section-'+i}>{section.heading}</h2><p>{section.body}</p></section>)}
     <section aria-labelledby="worked-example"><h2 id="worked-example">Worked example</h2><div className="journal-code"><div>EXAMPLE</div><pre tabIndex={0}><code>{article.example}</code></pre></div></section>
     <aside className="journal-callout"><span>PUT IT INTO PRACTICE</span><h3>See the result with your own data.</h3><p>Open the matching tool, load its example, then try a small sample.</p><Link href={'/tools/'+article.tool}>Open the tool <span aria-hidden="true">↗</span></Link></aside>
-    <section aria-labelledby="common-question"><h2 id="common-question">{article.question}</h2><p>{article.answer}</p></section><section><h2>Reference and further reading</h2><p><a href={article.source} target="_blank" rel="noopener noreferrer">Read the official documentation ↗</a></p></section></div></div>
+    <section aria-labelledby="common-question"><h2 id="common-question">{article.question}</h2><p>{article.answer}</p></section>
+    {matchingTool&&<aside className="journal-callout journal-tool-cta"><p className="journal-kicker">TRY IT NOW</p><h3>{matchingTool.title}</h3><p>{matchingTool.description}</p><Link href={`/tools/${matchingTool.slug}`}>Open {matchingTool.title} <span aria-hidden="true">↗</span></Link></aside>}
+    <section><h2>Reference and further reading</h2><p><a href={article.source} target="_blank" rel="noopener noreferrer">Read the official documentation ↗</a></p></section></div></div>
     <section className="journal-related"><p className="journal-kicker">KEEP EXPLORING</p><h2>Another useful idea.</h2><div className="journal-grid">{related.map(a=>{const v=blogVisual(a.slug);return <Link className="journal-card" key={a.slug} href={'/blog/'+a.slug}><div className="journal-card-image"><Image src={v.image} alt={v.alt} width={720} height={450} sizes="(max-width: 640px) 100vw, 33vw"/></div><div className="journal-card-copy"><span className="journal-topic">{v.topic}</span><h3>{a.title}</h3><p>{a.description}</p></div></Link>;})}</div></section>
     <footer className="journal-article-footer"><Link href="/blog">← Explore all guides</Link><span>AI-generated editorial photo</span></footer>
   </article>;

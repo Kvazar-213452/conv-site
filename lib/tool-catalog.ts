@@ -46,7 +46,8 @@ function categoryFor(slug: string): ToolCategory {
   if (requested) return requested as ToolCategory;
   return 'data';
 }
-export const toolCatalog: CatalogTool[] = [...legacyTools, ...expansionTools, ...growthTools].map(tool => ({
+const uniqueCatalogTools = [...new Map([...legacyTools, ...expansionTools, ...growthTools].map(tool => [tool.slug, tool] as const)).values()];
+export const toolCatalog: CatalogTool[] = uniqueCatalogTools.map(tool => ({
   slug: tool.slug, title: tool.title, description: tool.description, category: categoryFor(tool.slug), recent: recent.has(tool.slug), href: '/tools/' + tool.slug,
 }));
 export const quickPickSlugs = ['pdf-merger','pdf-compressor','heic-to-jpg','image-to-text','image-resizer','stopwatch-timer'];
