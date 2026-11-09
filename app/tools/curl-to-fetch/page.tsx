@@ -8,8 +8,8 @@ import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 const PAGE_URL = `${MAIN_DOMEN}tools/curl-to-fetch`;
 
 export const metadata: Metadata = {
-  title: "cURL to Fetch – Convert cURL Commands to JavaScript",
-  description: "Paste any cURL command and get idiomatic JavaScript — fetch, axios, or XMLHttpRequest. Handles headers, methods, JSON bodies, Basic auth, multi-line commands. 100% client-side.",
+  title: "Convert cURL to JavaScript — Fetch, Axios & XHR Online",
+  description: "Convert a copied cURL HTTP request into JavaScript fetch, Axios, or XMLHttpRequest. Preserve supported methods, headers, query strings, and request bodies; parsing runs locally and never executes the command.",
   keywords: [
     "curl to fetch",
     "curl to javascript",
@@ -30,16 +30,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/tools/curl-to-fetch" },
   robots: { index: true, follow: true },
   openGraph: {
-    title: "cURL to Fetch Online",
-    description: "Convert cURL commands to JavaScript fetch, axios, or XMLHttpRequest.",
+    title: "Convert cURL to JavaScript — Fetch, Axios & XHR",
+    description: "Turn a copied cURL request into browser JavaScript without executing or uploading the command.",
     url: PAGE_URL,
     type: "website",
-    images: [{ url: `${MAIN_DOMEN}og-image.png`, width: 1024, height: 1024, alt: "cURL to Fetch" }],
+    images: [{ url: `${PAGE_URL}/opengraph-image`, width: 1200, height: 630, alt: "cURL to JavaScript converter" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "cURL to Fetch Online",
-    description: "cURL → fetch / axios / XHR, right in your browser.",
+    title: "cURL to JavaScript Converter",
+    description: "Convert copied cURL commands to fetch, Axios, or XHR locally in your browser."
   },
 };
 

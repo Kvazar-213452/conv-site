@@ -5,11 +5,11 @@ import UrlEncodeDecode from "./UrlEncodeDecode";
 import { MAIN_DOMEN, NAME_MAKE } from "@/lib/config";
 
 export const metadata: Metadata = {
-  title: "URL Encoder & Decoder – Free Online Tool",
-  description: "Encode or decode URLs, query parameters, and form data instantly. Supports encodeURIComponent, encodeURI, and form-urlencoded. Handles full Unicode including Cyrillic, emoji, and special characters. Client-side and private.",
+  title: "URL Decoder Online — Decode Percent-Encoding and Query Strings",
+  description: "Decode percent-encoded URL text and query strings into readable Unicode. Handles standard %XX sequences and form-encoded plus signs; processing stays in your browser.",
   keywords: [
-    "url encode or decode",
-    "URL encoder",
+    "URL decoder",
+    "decode URL online",
     "URL decoder",
     "percent-encode",
     "decode URL",
@@ -28,23 +28,23 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   openGraph: {
-    title: "URL Encoder & Decoder Online",
-    description: "Convert plain URLs, query strings, or form data to percent-encoded format and decode them back instantly. Supports full Unicode and batch processing. Runs entirely in your browser.",
+    title: "URL Decoder Online — Decode Percent-Encoding and Query Strings",
+    description: "Decode encoded URL components and form query values, including Unicode and plus-as-space data, in your browser.",
     url: `${MAIN_DOMEN}tools/url-decode`,
     type: "website",
     images: [
       {
-        url: `${MAIN_DOMEN}og-image.png`,
-        width: 1024,
-        height: 1024,
-        alt: "URL Encoder & Decoder"
+        url: `${MAIN_DOMEN}tools/url-decode/opengraph-image`,
+        width: 1200,
+        height: 630,
+        alt: "URL Decoder Online"
       }
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "URL Encoder & Decoder Online",
-    description: "Instantly encode URLs and decode percent-encoded strings with full Unicode support. Choose between encodeURIComponent, encodeURI, or form-urlencoded."
+    title: "URL Decoder Online",
+    description: "Decode percent-encoded strings and query values with Unicode support."
   },
 };
 
