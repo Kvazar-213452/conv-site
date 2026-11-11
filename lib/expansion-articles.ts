@@ -1,5 +1,6 @@
 import { growthArticlesForBlog } from './expansion-articles-growth';
 import { growthArticles2 } from './expansion-articles-growth-2';
+import { growthArticles3 } from './expansion-articles-growth-3';
 
 export const expansionArticles = [
   {
@@ -1043,6 +1044,7 @@ export const expansionArticles = [
     "date": "2026-11-06"
   },
   ...growthArticlesForBlog,
-  ...growthArticles2
+  ...growthArticles2,
+  ...growthArticles3
 ] as const;
 export type ExpansionArticle = (typeof expansionArticles)[number];

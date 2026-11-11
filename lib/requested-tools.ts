@@ -240,7 +240,14 @@ const make = ([slug, category, description, example = 'Enter the text or values 
     'png-to-svg': { input: 'files', accept: '.png' },
     'ppt-to-pdf': { input: 'files', accept: '.pptx' },
   };
-  return { slug, title, description, kind: isImage || slug === 'image-upscaler' || slug === 'photo-collage-maker' ? 'image' : 'text', example: slug==='tip-split-calculator'?'Individual meal subtotals are entered in the second box.':example, ...(slug==='tip-split-calculator'?{exampleB:'Alex,30\nSam,45\nJordan,25',secondInputLabel:'Optional meal subtotal per person (name, amount)'}:{}), ...(server[slug]?{server:server[slug]}:{}), ...(ai?{ai:true,aiPrompt:ai.prompt,aiPlaceholder:ai.placeholder}:{ }), action: `Run ${title}`, extension: ['pdf-password-protector','jpg-to-pdf','word-to-pdf','ppt-to-pdf'].includes(slug)?'pdf':slug==='png-to-svg'||slug==='barcode-generator'||slug==='business-card-maker'?'svg':slug.includes('sitemap')?'xml':slug.includes('generator')?'txt':'txt', inputLabel: slug==='regex-generator'?'Sample text to test':description.split(/[.;]/)[0], fields, steps: [`Enter the information requested for ${title.toLowerCase()}.`, 'Review inputs and units, then run the tool.', 'Check the result and copy or download it for your workflow.'], sections: [{ heading: `How ${title} works`, body: `${description} Results are based only on the inputs you provide. This tool does not access or verify private account, search ranking or analytics data.` }, { heading: 'Use the result carefully', body: 'Check output against the source data and destination platform requirements. Estimates and previews are not official measurements or professional advice. For regulated, financial, health or safety decisions, confirm assumptions with an appropriate qualified source.' }], faq: { question: `How do I use the ${title.toLowerCase()}?`, answer: `Enter the relevant inputs and select Run. ${description}` }, related: [], modified: '2026-11-08' };
+  const lc = title.toLowerCase();
+  const isServer = !!server[slug];
+  const privacy = isServer
+    ? 'Files are processed on our server and deleted immediately after conversion. Nothing is stored or shared.'
+    : 'All processing happens in your browser. Your data never leaves your device.';
+  const catLabel: Record<string, string> = { files: 'file tool', numbers: 'calculator', data: 'data tool', code: 'developer tool', text: 'text tool', encoding: 'encoding tool', security: 'security tool', web: 'SEO tool', live: 'lookup tool', ai: 'AI writing tool', css: 'design tool' };
+  const kind = catLabel[category] ?? 'tool';
+  return { slug, title, description, kind: isImage || slug === 'image-upscaler' || slug === 'photo-collage-maker' ? 'image' : 'text', example: slug==='tip-split-calculator'?'Individual meal subtotals are entered in the second box.':example, ...(slug==='tip-split-calculator'?{exampleB:'Alex,30\nSam,45\nJordan,25',secondInputLabel:'Optional meal subtotal per person (name, amount)'}:{}), ...(server[slug]?{server:server[slug]}:{}), ...(ai?{ai:true,aiPrompt:ai.prompt,aiPlaceholder:ai.placeholder}:{ }), action: `Run ${title}`, extension: ['pdf-password-protector','jpg-to-pdf','word-to-pdf','ppt-to-pdf'].includes(slug)?'pdf':slug==='png-to-svg'||slug==='barcode-generator'||slug==='business-card-maker'?'svg':slug.includes('sitemap')?'xml':slug.includes('generator')?'txt':'txt', inputLabel: slug==='regex-generator'?'Sample text to test':description.split(/[.;]/)[0], fields, steps: [`Open the free ${lc} above — no sign-up needed.`, fields.length ? `Fill in the required fields: ${fields.slice(0, 3).map(f => f.label.toLowerCase()).join(', ')}.` : `Paste or enter your input in the text area.`, `Click "Run ${title}" to get your result instantly.`, 'Copy the output, download it, or adjust your input and run again.'], sections: [{ heading: `What is ${title}?`, body: `${title} is a free online ${kind} that lets you ${description.toLowerCase().replace(/\.$/, '')}. It works directly in your browser with no installation, no account and no file-size surprises. Whether you are a student, freelancer or professional, this ${kind} saves you time on a task you would otherwise need desktop software for.` }, { heading: `How to use ${title} step by step`, body: `Using this ${kind} takes seconds. ${fields.length ? `Enter values for ${fields.slice(0, 3).map(f => f.label.toLowerCase()).join(', ')} in the fields provided.` : 'Paste or type your input in the text area.'} Click the Run button and your result appears immediately. You can copy it to the clipboard, download it as a file, or tweak your input and run again. No waiting, no watermarks, no limits on how many times you use it.` }, { heading: 'Is this tool really free?', body: `Yes — ${title} is 100% free with no hidden fees, no premium tier and no credit card required. We keep it free because Utilixio is supported by lightweight, non-intrusive ads. You get unlimited use of every tool on the site.` }, { heading: `Privacy and security`, body: `Your privacy matters. ${privacy} We do not track what you convert, calculate or generate. There are no analytics on your input data and no third-party processors involved.` }], faq: { question: `Is ${title} free and safe to use?`, answer: `Yes. ${title} is completely free, requires no sign-up, and ${isServer ? 'deletes uploaded files immediately after processing' : 'processes everything in your browser so your data never leaves your device'}. There are no usage limits.` }, related: [], modified: '2026-11-08' };
 };
 const aiPrompts: Record<string,{prompt:string;placeholder:string}> = {
  'paraphrasing-tool':{prompt:'Paraphrase the user-provided text in the requested style while preserving meaning, attribution, and factual claims. Do not help conceal plagiarism or remove required citations.',placeholder:'Paste text and describe the requested style…'},
@@ -254,6 +261,20 @@ const aiOwned = new Set(['grammar-fixer','tone-analyzer','headline-analyzer','en
 const built = entries.filter(([slug]) => !aiOwned.has(slug) && slug!=='core-web-vitals-checker').map(make);
 const byCategory = new Map<string, string[]>();
 for (const t of built) { const cat = entries.find(e => e[0] === t.slug)?.[1] ?? ''; const arr = byCategory.get(cat) ?? []; arr.push(t.slug); byCategory.set(cat, arr); }
-for (const t of built) { const cat = entries.find(e => e[0] === t.slug)?.[1] ?? ''; const siblings = (byCategory.get(cat) ?? []).filter(s => s !== t.slug); t.related = siblings.slice(0, 4); }
+for (const t of built) {
+  const cat = entries.find(e => e[0] === t.slug)?.[1] ?? '';
+  const words = new Set(t.slug.split('-'));
+  const scored = built.filter(s => s.slug !== t.slug).map(s => {
+    const sCat = entries.find(e => e[0] === s.slug)?.[1] ?? '';
+    let score = sCat === cat ? 2 : 0;
+    for (const w of s.slug.split('-')) if (words.has(w) && w.length > 2) score += 3;
+    return { slug: s.slug, score };
+  }).sort((a, b) => b.score - a.score);
+  t.related = scored.slice(0, 4).filter(s => s.score > 0).map(s => s.slug);
+  if (t.related.length < 4) {
+    const siblings = (byCategory.get(cat) ?? []).filter(s => s !== t.slug && !t.related.includes(s));
+    t.related.push(...siblings.slice(0, 4 - t.related.length));
+  }
+}
 export const requestedTools: GrowthTool[] = built;
 export const requestedToolCategories = Object.fromEntries(entries.map(([slug, category]) => [slug, category])) as Record<string, string>;

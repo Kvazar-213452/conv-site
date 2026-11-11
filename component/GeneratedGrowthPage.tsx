@@ -17,7 +17,9 @@ const PhotoCollageWorkbench = dynamic(() => import('./PhotoCollageWorkbench'));
 export function generatedGrowthMetadata(slug: string): Metadata {
   const tool = growthTools.find(item => item.slug === slug);
   if (!tool) throw new Error(`Unknown generated tool route: ${slug}`);
-  return pageMetadata(`${tool.title} Online`, tool.description, `/tools/${slug}`);
+  const metaTitle = `Free ${tool.title} Online — No Sign-Up`;
+  const metaDesc = `Use ${tool.title} for free online. ${tool.description} No download or registration required.`.slice(0, 160);
+  return pageMetadata(metaTitle, metaDesc, `/tools/${slug}`);
 }
 
 export default function GeneratedGrowthPage({ slug }: { slug: string }) {
