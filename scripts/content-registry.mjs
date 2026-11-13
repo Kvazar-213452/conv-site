@@ -17,12 +17,15 @@ export function readRegistry(path) {
     const start = source.indexOf(' = ', source.indexOf('export const expansionArticles'));
     const spread = source.indexOf('...growthArticlesForBlog');
     const growth2Spread = source.indexOf('...growthArticles2');
+    const growth3Spread = source.indexOf('...growthArticles3');
     if (start < 0 || spread < 0) throw new Error('Expansion article registry is missing its generated entries.');
     const base = JSON.parse(source.slice(start + 3, spread).trimEnd().replace(/,\s*$/, '') + '\n]');
     return [
       ...base,
       ...loadRegistryModule('lib/expansion-articles-growth.ts', 'growthArticlesForBlog'),
       ...(growth2Spread >= 0 ? loadRegistryModule('lib/expansion-articles-growth-2.ts', 'growthArticles2') : []),
+      ...(growth3Spread >= 0 ? loadRegistryModule('lib/expansion-articles-growth-3.ts', 'growthArticles3') : []),
+      ...loadRegistryModule('lib/expansion-articles-growth-4.ts', 'growthArticles4'),
     ];
   }
   if (path.endsWith('/growth-tools.ts') || path === 'lib/growth-tools.ts') {
@@ -40,6 +43,8 @@ export function readRegistry(path) {
       ...loadRegistryModule('lib/api-tools.ts', 'apiTools'),
       ...loadRegistryModule('lib/deepseek-tools.ts', 'aiTools'),
       ...loadRegistryModule('lib/requested-tools.ts', 'requestedTools'),
+      ...loadRegistryModule('lib/file-conversion-tools.ts', 'fileConversionTools'),
+      ...loadRegistryModule('lib/file-conversion-tools-more.ts', 'fileConversionToolsMore'),
     ];
   }
   const start = source.indexOf(' = ', source.indexOf('export const '));

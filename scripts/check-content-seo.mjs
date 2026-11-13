@@ -9,7 +9,7 @@ const allTools = [...readRegistry('lib/legacy-tools.ts'), ...readRegistry('lib/e
 assert.equal(new Set(allTools.map(t=>t.slug)).size, allTools.length, 'Tool slugs must be unique across every registry');
 assert.equal(new Set(allTools.map(t=>t.title)).size, allTools.length, 'Tool titles must be unique across every registry');
 const tools = registry('tools'), articles = registry('articles');
-assert.equal(tools.length, 10); assert.equal(articles.length, 140);
+assert.equal(tools.length, 10); assert.equal(articles.length, 212);
 const sitemap = read('app/sitemap.ts');
 const listed = [...sitemap.matchAll(/"(\/(?:tools|blog)\/[^"]+)"/g)].map(m => m[1]).filter(path => !path.endsWith('/category/'));
 listed.push(...growth.map(t => '/tools/' + t.slug), ...tools.map(t => '/tools/' + t.slug), ...articles.map(a => '/blog/' + a.slug));

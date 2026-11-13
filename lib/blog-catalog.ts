@@ -17,13 +17,13 @@ const legacy = [
 ];
 export function blogVisual(slug:string):{topic:BlogTopic;image:string;alt:string}{
   let topic:BlogTopic='Data & APIs';
-  if(/merge-pdf|compress-pdf|convert-pdf|split-pdf|pdf-|image-to|image-upscale|photo-collage|heic|webp|resize-image|png-to-svg|gif-to-mp4|jpg-to-pdf-on-phone/.test(slug)) topic='Files & media';
+  if(/merge-pdf|compress-pdf|convert-pdf|split-pdf|pdf-|image-to|image-upscale|photo-collage|heic|webp|resize-image|png-to-svg|gif-to-mp4|jpg-to-pdf|word-to-pdf|pdf-to-word|pdf-to-jpg|compress-images|resize-images|remove-background|favicon-from-image|extract-pages-from-pdf|create-pdf-from|image-format|image-dpi|transparent-png/.test(slug)) topic='Files & media';
   else if(/budget|salary|tax|loan|mortgage|invest|savings|compound|interest|inflation|roi|percentage|tip-|gpa|hourly|paycheck|retirement|debt|auto-loan|square-footage|invoice/.test(slug)) topic='Money & finance';
   else if(/seo|keyword|meta-description|sitemap|schema|serp|backlink|rank|index|crawl|canonical|hreflang|structured-data|open-graph|utm-links|robots-txt|website-speed|domain-|ssl-certificate|google-cache|page-size|email-deliverability|amazon-listing/.test(slug)) topic='SEO & marketing';
   else if(/calorie|bmi|workout|macro|body-fat|water-intake|sleep|pregnancy|ovulation|ideal-body-weight|blood-pressure/.test(slug)) topic='Health & fitness';
-  else if(/recipe|cooking|meal|ingredient|kitchen|square-footage/.test(slug)) topic='Home & cooking';
+  else if(/recipe|cooking|meal|ingredient|kitchen|square-footage|flooring|paint-for|concrete-for|plant-watering|wallpaper|grocery-list/.test(slug)) topic='Home & cooking';
   else if(/resume|cover-letter|interview|job|linkedin|career|resignation/.test(slug)) topic='Career & jobs';
-  else if(/email|writing|grammar|tone|readability|headline|blog-post|meeting-agenda|paraphras|plagiarism|paragraph|sentence|article-rewriter|facebook-post|tiktok-caption|youtube-thumbnail|meme|business-card|receipt|signature-generator|invoice-template/.test(slug)) topic='Writing & content';
+  else if(/email|writing|grammar|tone|readability|headline|blog-post|meeting-agenda|paraphras|plagiarism|paragraph|sentence|article-rewriter|facebook-post|tiktok-caption|youtube-thumbnail|meme|business-card|receipt|signature-generator|invoice-template|product-descriptions|customer-support|follow-up/.test(slug)) topic='Writing & content';
   else if(/qr-code|barcode|wifi|vcard|uuid|password|gradient/.test(slug)) topic='Generators';
   else if(/fraction|binomial|unix-seconds/.test(slug)) topic='Math & time';
   else if(/har-network|cache-control|robots|url-encoding|html-textcontent|html-to-plain/.test(slug)) topic='Web & performance';

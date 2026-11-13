@@ -1,6 +1,7 @@
 import { growthArticlesForBlog } from './expansion-articles-growth';
 import { growthArticles2 } from './expansion-articles-growth-2';
 import { growthArticles3 } from './expansion-articles-growth-3';
+import { growthArticles4 } from './expansion-articles-growth-4';
 
 export const expansionArticles = [
   {
@@ -1045,6 +1046,7 @@ export const expansionArticles = [
   },
   ...growthArticlesForBlog,
   ...growthArticles2,
-  ...growthArticles3
+  ...growthArticles3,
+  ...growthArticles4
 ] as const;
 export type ExpansionArticle = (typeof expansionArticles)[number];

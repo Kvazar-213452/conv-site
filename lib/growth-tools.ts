@@ -5,6 +5,8 @@ import { workflowTools } from './workflow-tools';
 import { apiTools } from './api-tools';
 import { aiTools } from './deepseek-tools';
 import { requestedTools } from './requested-tools';
+import { fileConversionTools } from './file-conversion-tools';
+import { fileConversionToolsMore } from './file-conversion-tools-more';
 
 export type GrowthField = {
   key: string; label: string; default: string;
@@ -11859,5 +11861,7 @@ export const growthTools: GrowthTool[] = [
   ...workflowTools,
   ...apiTools,
   ...aiTools,
-  ...requestedTools
+  ...requestedTools,
+  ...fileConversionTools,
+  ...fileConversionToolsMore
 ];

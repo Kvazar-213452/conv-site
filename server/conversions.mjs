@@ -1,4 +1,6 @@
 import { POPULAR_SLUGS, convertPopular, examplePopular } from './popular-conversions.mjs';
+import { FILE_CONVERSION_SLUGS, FILE_TEXT_SLUGS, convertFile, exampleFile } from './file-conversions.mjs';
+import { MORE_FILE_SLUGS, MORE_FILE_TEXT_SLUGS, convertMore, exampleMore } from './file-conversions-more.mjs';
 import { PROTOCOL_SLUGS, PROTOCOL_TEXT_SLUGS, convertProtocol, exampleProtocol } from './protocol-conversions.mjs';
 import { EXTENDED_SLUGS, EXTENDED_TEXT_SLUGS, EXTENDED_MULTI_SLUGS, convertExtended, exampleExtended, openRenderedPdf } from './extended-conversions.mjs';
 import ExcelJS from 'exceljs';
@@ -19,7 +21,7 @@ import JSZip from 'jszip';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const SERVER_SLUGS = ['xlsx-to-csv','json-to-xlsx','xlsx-to-json','csv-to-xlsx','html-table-to-xlsx','docx-converter','pdf-merger','pdf-page-extractor','pdf-rotate','pdf-metadata-remover','pdf-resize','text-to-pdf','pdf-watermark','pdf-page-numbers','image-to-avif','tiff-to-image','gif-sprite-sheet','json5-to-json','json-to-toml','text-encoding-converter','text-to-docx','stereo-to-mono-wav','word-to-pdf','pdf-to-excel','jpg-to-pdf','png-to-svg','ppt-to-pdf',...EXTENDED_SLUGS,...PROTOCOL_SLUGS,...POPULAR_SLUGS];
+export const SERVER_SLUGS = ['xlsx-to-csv','json-to-xlsx','xlsx-to-json','csv-to-xlsx','html-table-to-xlsx','docx-converter','pdf-merger','pdf-page-extractor','pdf-rotate','pdf-metadata-remover','pdf-resize','text-to-pdf','pdf-watermark','pdf-page-numbers','image-to-avif','tiff-to-image','gif-sprite-sheet','json5-to-json','json-to-toml','text-encoding-converter','text-to-docx','stereo-to-mono-wav','word-to-pdf','pdf-to-excel','jpg-to-pdf','png-to-svg','ppt-to-pdf',...EXTENDED_SLUGS,...PROTOCOL_SLUGS,...POPULAR_SLUGS,...FILE_CONVERSION_SLUGS,...MORE_FILE_SLUGS];
 export const MAX_FILE_BYTES = 4 * 1024 * 1024;
 const MAX_PIXELS = 16000000;
 export class InputError extends Error { constructor(message,status=400){super(message);this.status=status;} }
@@ -249,13 +251,15 @@ async function examplePptx() {
 export async function convert(slug,files=[],text='',values={},second='',runtime) {
   ensure(SERVER_SLUGS.includes(slug),'Unknown conversion.');ensure(typeof text==='string'&&typeof second==='string'&&text.length+second.length<=2*1024*1024,'Use at most 2 MiB of input text.');
   ensure(Array.isArray(files)&&files.length<=8&&files.reduce((n,f)=>n+f.bytes.length,0)<=MAX_FILE_BYTES,'Use at most eight files and 4 MiB combined input.');
-  const textSlugs=['json-to-xlsx','csv-to-xlsx','html-table-to-xlsx','text-to-pdf','json5-to-json','json-to-toml','text-to-docx',...EXTENDED_TEXT_SLUGS,...PROTOCOL_TEXT_SLUGS];
+  const textSlugs=['json-to-xlsx','csv-to-xlsx','html-table-to-xlsx','text-to-pdf','json5-to-json','json-to-toml','text-to-docx',...EXTENDED_TEXT_SLUGS,...PROTOCOL_TEXT_SLUGS,...FILE_TEXT_SLUGS,...MORE_FILE_TEXT_SLUGS];
   ensure(textSlugs.includes(slug)?files.length===0:['pdf-merger',...EXTENDED_MULTI_SLUGS].includes(slug)?files.length>=2:files.length===1,'Choose the required input files.');
   let result;
   if(['word-to-pdf','pdf-to-excel','jpg-to-pdf','png-to-svg','ppt-to-pdf'].includes(slug))result=await convertRequestedFile(slug,files[0].bytes,values);
   else if(POPULAR_SLUGS.includes(slug))result=await convertPopular(slug,files,text,values,sharedHelpers());
   else if(PROTOCOL_SLUGS.includes(slug))result=await convertProtocol(slug,files,text,values,{...sharedHelpers(),second});
   else if(EXTENDED_SLUGS.includes(slug))result=await convertExtended(slug,files,text,values,sharedHelpers());
+  else if(FILE_CONVERSION_SLUGS.includes(slug))result=await convertFile(slug,files,text,values,sharedHelpers());
+  else if(MORE_FILE_SLUGS.includes(slug))result=await convertMore(slug,files,text,values,sharedHelpers());
   else if(slug==='json-to-xlsx')result=await jsonWorkbook(text);
   else if(slug==='csv-to-xlsx')result=await csvWorkbook(text);
   else if(slug==='html-table-to-xlsx')result=await csvWorkbook(htmlTableCsv(text));
@@ -289,6 +293,8 @@ export async function example(slug,runtime) {
   if(POPULAR_SLUGS.includes(slug))return examplePopular(slug,{...sharedHelpers(),defaultPdf:()=>example('pdf-merger'),defaultExcel:()=>example('xlsx-to-csv')});
   if(PROTOCOL_SLUGS.includes(slug))return exampleProtocol(slug,sharedHelpers());
   if(EXTENDED_SLUGS.includes(slug))return exampleExtended(slug,{...sharedHelpers(),defaultPdf:()=>example('pdf-merger'),defaultWav:()=>example('stereo-to-mono-wav')});
+  if(FILE_CONVERSION_SLUGS.includes(slug))return exampleFile(slug,sharedHelpers());
+  if(MORE_FILE_SLUGS.includes(slug))return exampleMore(slug,sharedHelpers());
   if(slug==='word-to-pdf'){const doc=new Document({sections:[{children:[new Paragraph({children:[new TextRun('Example Word document')]}),new Paragraph({children:[new TextRun('This sample converts to a text PDF.')]} )]}]});return binaryResult(await Packer.toBuffer(doc),'example.docx','application/vnd.openxmlformats-officedocument.wordprocessingml.document');}
   if(slug==='ppt-to-pdf')return binaryResult(await examplePptx(),'example.pptx','application/vnd.openxmlformats-officedocument.presentationml.presentation');
   if(slug==='pdf-to-excel'){const doc=await PDFDocument.create();const page=doc.addPage([320,200]);page.drawText('Example PDF text',{x:24,y:150,size:20});return binaryResult(await doc.save(),'example.pdf','application/pdf');}
